@@ -5,19 +5,19 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
+
 
 export default function Hero() {
+  const {toast} = useToast()
   const [email, setEmail] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically send the email to your backend
-    console.log("Submitted email:", email)
-    toast({
-      title: "Terima kasih telah mendaftar!",
-      description: "Kami akan menghubungi Anda segera dengan informasi lebih lanjut.",
-    })
+     toast({
+      title: "Terima kasih!",
+      description: "Kami akan mengirimkan informasi lebih lanjut ke email Anda.",
+     })
     setEmail("")
   }
 
