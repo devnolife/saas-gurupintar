@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 interface TopNavigationBarProps {
   onToggleSidebar: () => void
@@ -36,6 +37,17 @@ export default function TopNavigationBar({
         <button onClick={onToggleSidebar} className="text-gray-500 hover:text-gray-600">
           {isSidebarOpen ? <ChevronLeft /> : <ChevronRight />}
         </button>
+        <nav className="flex space-x-4">
+          <Link href="/" className="text-gray-500 hover:text-gray-600">
+            Home
+          </Link>
+          <Link href="/about" className="text-gray-500 hover:text-gray-600">
+            About
+          </Link>
+          <Link href="/contact" className="text-gray-500 hover:text-gray-600">
+            Contact
+          </Link>
+        </nav>
         <div className="flex items-center">
           <motion.button
             whileHover={{ scale: 1.1 }}
