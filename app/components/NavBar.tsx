@@ -9,10 +9,10 @@ import { Button } from "@/components/ui/button"
 
 const navItems = [
   { name: "Beranda", href: "/" },
-  { name: "Fitur", href: "/fitur" },
-  { name: "Harga", href: "/harga" },
-  { name: "Testimoni", href: "/testimoni" },
-  { name: "Hubungi Kami", href: "/kontak" },
+  { name: "Fitur", href: "/features" },
+  { name: "Harga", href: "/pricing" },
+  { name: "Testimoni", href: "/testimonials" },
+  { name: "Hubungi Kami", href: "/contact" },
 ]
 
 export default function NavBar() {
@@ -30,7 +30,7 @@ export default function NavBar() {
   }, [])
 
   const handleJoinNow = () => {
-    router.push("/daftar")
+    router.push("/join")
   }
 
   const handleLogin = () => {
@@ -131,4 +131,3 @@ export default function NavBar() {
     </motion.nav>
   )
 }
-

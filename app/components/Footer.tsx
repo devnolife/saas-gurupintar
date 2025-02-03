@@ -35,9 +35,9 @@ const footerLinks = [
 ]
 
 const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "LinkedIn", icon: Linkedin, href: "#" },
+  { name: "Facebook", icon: Facebook, href: "https://www.facebook.com" },
+  { name: "Instagram", icon: Instagram, href: "https://www.instagram.com" },
+  { name: "LinkedIn", icon: Linkedin, href: "https://www.linkedin.com" },
 ]
 
 export default function Footer() {
@@ -106,4 +106,3 @@ export default function Footer() {
     </footer>
   )
 }
-
