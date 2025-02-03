@@ -5,7 +5,6 @@ import Testimonials from "./components/Testimonials"
 import HowItWorks from "./components/HowItWorks"
 import Pricing from "./components/Pricing"
 import FAQ from "./components/FAQ"
-import Footer from "./components/Footer"
 
 export default function Home() {
   return (
@@ -17,7 +16,6 @@ export default function Home() {
       <HowItWorks />
       <Pricing />
       <FAQ />
-      <Footer />
     </main>
   )
 }
