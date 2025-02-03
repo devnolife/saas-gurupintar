@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Andi Pratama",
+    "email": "andi@student.com",
+    "password": "student123",
+    "class": "12A",
+    "school": "SMA Negeri 1 Jakarta"
+  },
+  {
+    "id": 2,
+    "name": "Dewi Lestari",
+    "email": "dewi@student.com",
+    "password": "student456",
+    "class": "11B",
+    "school": "SMA Negeri 2 Surabaya"
+  },
+  {
+    "id": 3,
+    "name": "Fajar Ramadhan",
+    "email": "fajar@student.com",
+    "password": "student789",
+    "class": "10C",
+    "school": "SMA Negeri 3 Bandung"
+  }
+]
+

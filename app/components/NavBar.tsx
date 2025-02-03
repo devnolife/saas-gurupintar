@@ -30,11 +30,11 @@ export default function NavBar() {
   }, [])
 
   const handleJoinNow = () => {
-    router.push("/daftar")
+    router.push("/auth/register")
   }
 
   const handleLogin = () => {
-    router.push("/login")
+    router.push("/auth/login")
   }
 
   return (
@@ -49,7 +49,6 @@ export default function NavBar() {
         <div className="flex justify-between h-20">
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0">
-              {/* <img className="h-10 w-auto" src="/logo.png" alt="Guru Pintar" /> */}
               <h4 className="text-2xl font-bold text-primary">Guru Pintar</h4>
             </Link>
           </div>
@@ -77,7 +76,7 @@ export default function NavBar() {
             </Button>
             <Button
               onClick={handleJoinNow}
-              className="bg-primary text-white hover:bg-dark transition-colors duration-200"
+              className="bg-primary text-white hover:bg-dark transition-colors duration-200 rounded-2xl px-6 py-3"
             >
               Bergabung Sekarang
             </Button>
@@ -121,7 +120,7 @@ export default function NavBar() {
               <Button onClick={handleLogin} variant="outline" className="w-full">
                 Masuk
               </Button>
-              <Button onClick={handleJoinNow} className="w-full bg-primary text-white hover:bg-dark">
+              <Button onClick={handleJoinNow} className="w-full bg-primary text-white hover:bg-dark rounded-2xl px-6 py-3">
                 Bergabung Sekarang
               </Button>
             </div>
@@ -131,4 +130,3 @@ export default function NavBar() {
     </motion.nav>
   )
 }
-
