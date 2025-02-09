@@ -46,9 +46,9 @@ export default function LoginPage() {
               <Input
                 id="email"
                 type="email"
-                placeholder="nama@sekolah.com"
+                placeholder=""
                 required
-                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition"
+                className="w-full p-3 r ounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition"
               />
             </div>
             <div className="space-y-2">
