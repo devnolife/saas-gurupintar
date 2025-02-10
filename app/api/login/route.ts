@@ -1,40 +1,19 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server"
-import teachers from "../../data/users.json"
-import students from "../../data/students.json"
+import users from "../../data/users.json"
 
 export async function POST(request: Request) {
-  const { email, password } = await request.json()
+  const { username, password } = await request.json()
 
-  
-  const teacher = teachers.find((u) => u.email === email)
-  if (teacher && teacher.password === password) {
+  const user = users.find((u) => u.name === username)
+  if (user && user.password === password) {
+    const { password, ...userWithoutPassword } = user
     return NextResponse.json({
       success: true,
-      user: {
-        id: teacher.id,
-        name: teacher.name,
-        email: teacher.email,
-        role: "teacher",
-      },
+      user: userWithoutPassword,
     })
   }
 
-  
-  const student = students.find((u) => u.email === email)
-  if (student && student.password === password) {
-    return NextResponse.json({
-      success: true,
-      user: {
-        id: student.id,
-        name: student.name,
-        email: student.email,
-        role: "student",
-        class: student.class,
-        school: student.school,
-      },
-    })
-  }
-  
-  return NextResponse.json({ success: false, message: "Invalid email or password" }, { status: 401 })
+  return NextResponse.json({ success: false, message: "Invalid username or password" }, { status: 401 })
 }
 

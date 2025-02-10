@@ -9,6 +9,7 @@ export default function DashboardPage() {
   const router = useRouter()
 
   useEffect(() => {
+    // In a real application, you would fetch the user data from your state management solution or local storage
     const fakeUser = { name: "Budi Santoso" }
     setUser(fakeUser)
   }, [])
