@@ -15,7 +15,6 @@ export default function LoginPage() {
   const { toast } = useToast()
   const router = useRouter()
 
-  // Fungsi untuk login dengan kredensial spesifik (admin/operator/guru)
   const handleLogin = async (username: string, password: string) => {
     setIsLoading(true)
 
@@ -97,7 +96,7 @@ export default function LoginPage() {
               )}
             </Button>
             <Button
-              onClick={() => handleLogin("operator1", "operator123")}
+              onClick={() => handleLogin("operator2", "operator456")}
               className="bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition duration-300 flex items-center justify-center"
               disabled={isLoading}
             >
@@ -110,7 +109,7 @@ export default function LoginPage() {
               )}
             </Button>
             <Button
-              onClick={() => handleLogin("guru1", "guru123")}
+              onClick={() => handleLogin("teacher1", "teacher123")}
               className="bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition duration-300 flex items-center justify-center"
               disabled={isLoading}
             >

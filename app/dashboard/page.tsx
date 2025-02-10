@@ -25,7 +25,11 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/20 to-white flex items-center justify-center p-4">
-      <div className="bg-white shadow-2xl rounded-3xl p-8 space-y-6 max-w-md w-full">
+      {/* 
+        Ganti max-w-md jadi misalnya max-w-xl atau container yang responsif,
+        tergantung preferensi Anda.
+      */}
+      <div className="bg-white shadow-2xl rounded-3xl p-8 space-y-6 w-full max-w-xl">
         <h1 className="text-3xl font-bold text-primary text-center">Selamat Datang di Dashboard</h1>
         <p className="text-gray-600 text-center">Halo, {user.name}! Anda telah berhasil masuk.</p>
         <Button
@@ -38,4 +42,3 @@ export default function DashboardPage() {
     </div>
   )
 }
-

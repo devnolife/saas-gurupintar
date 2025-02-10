@@ -1,3 +1,5 @@
+'use client'
+
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { Sidebar } from "@/components/Sidebar"
 import { LayoutDashboard, Users, School, Settings } from "lucide-react"

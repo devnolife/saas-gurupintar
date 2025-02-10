@@ -5,7 +5,9 @@ import users from "../../data/users.json"
 export async function POST(request: Request) {
   const { username, password } = await request.json()
 
-  const user = users.find((u) => u.name === username)
+  
+  const user = users.find((u) => u.username === username)
+  console.log("🚀 ~ POST ~ user:", user)
   if (user && user.password === password) {
     const { password, ...userWithoutPassword } = user
     return NextResponse.json({
