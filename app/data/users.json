@@ -1,21 +1,50 @@
 [
   {
     "id": 1,
-    "name": "Budi Santoso",
-    "email": "budi@example.com",
-    "password": "password123"
+    "username": "admin1",
+    "password": "admin123",
+    "name": "Admin Utama",
+    "role": "admin"
   },
   {
     "id": 2,
-    "name": "Siti Rahayu",
-    "email": "siti@example.com",
-    "password": "password456"
+    "username": "operator1",
+    "password": "operator123",
+    "name": "Operator Sekolah 1",
+    "role": "operator",
+    "school": "SMA Negeri 1 Jakarta"
   },
   {
     "id": 3,
+    "username": "operator2",
+    "password": "operator456",
+    "name": "Operator Sekolah 2",
+    "role": "operator",
+    "school": "SMA Negeri 2 Surabaya"
+  },
+  {
+    "id": 4,
+    "username": "teacher1",
+    "password": "teacher123",
+    "name": "Budi Santoso",
+    "role": "teacher",
+    "school": "SMA Negeri 1 Jakarta"
+  },
+  {
+    "id": 5,
+    "username": "teacher2",
+    "password": "teacher456",
+    "name": "Siti Rahayu",
+    "role": "teacher",
+    "school": "SMA Negeri 1 Jakarta"
+  },
+  {
+    "id": 6,
+    "username": "teacher3",
+    "password": "teacher789",
     "name": "Agus Setiawan",
-    "email": "agus@example.com",
-    "password": "password789"
+    "role": "teacher",
+    "school": "SMA Negeri 2 Surabaya"
   }
 ]
 
