@@ -1,4 +1,5 @@
-"\"use client"
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client"
 
 import { Check, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
