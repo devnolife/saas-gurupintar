@@ -1,32 +1,52 @@
 "use client"
 
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2 } from "lucide-react"
+import { Textarea } from "@/components/ui/textarea"
+import { toast } from "@/components/ui/use-toast"
+import { Loader2, Save } from "lucide-react"
 
 interface AdminSettings {
-  name: string
-  email: string
-  password: string
-  notificationsEnabled: boolean
-  theme: string
-  language: string
-  maxOperatorsPerSchool: number
+  // General Settings
+  siteName: string
+  siteDescription: string
+  maintenanceMode: boolean
+
+  // Security Settings
+  passwordMinLength: number
+  twoFactorAuth: boolean
+  sessionTimeout: number
+
+  // Notification Settings
+  emailNotifications: boolean
+  pushNotifications: boolean
+  notificationFrequency: string
+
+  // Customization Settings
+  primaryColor: string
+  logoUrl: string
+  customCss: string
 }
 
 const initialSettings: AdminSettings = {
-  name: "Admin Utama",
-  email: "admin@gurupintar.com",
-  password: "",
-  notificationsEnabled: true,
-  theme: "light",
-  language: "id",
-  maxOperatorsPerSchool: 5,
+  siteName: "Guru Pintar Admin",
+  siteDescription: "Platform manajemen sekolah terpadu",
+  maintenanceMode: false,
+  passwordMinLength: 8,
+  twoFactorAuth: true,
+  sessionTimeout: 30,
+  emailNotifications: true,
+  pushNotifications: false,
+  notificationFrequency: "daily",
+  primaryColor: "#3b82f6",
+  logoUrl: "/logo.png",
+  customCss: "",
 }
 
 export default function AdminSettingsPage() {
@@ -38,11 +58,11 @@ export default function AdminSettingsPage() {
     setSettings((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSwitchChange = (checked: boolean) => {
-    setSettings((prev) => ({ ...prev, notificationsEnabled: checked }))
+  const handleSwitchChange = (name: keyof AdminSettings) => {
+    setSettings((prev) => ({ ...prev, [name]: !prev[name] }))
   }
 
-  const handleSelectChange = (name: string, value: string) => {
+  const handleSelectChange = (name: keyof AdminSettings, value: string) => {
     setSettings((prev) => ({ ...prev, [name]: value }))
   }
 
@@ -52,7 +72,10 @@ export default function AdminSettingsPage() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000))
     setIsLoading(false)
-    alert("Pengaturan berhasil disimpan!")
+    toast({
+      title: "Pengaturan berhasil disimpan",
+      description: "Perubahan telah diterapkan ke sistem.",
+    })
   }
 
   return (
@@ -60,98 +83,186 @@ export default function AdminSettingsPage() {
       <h1 className="text-3xl font-bold mb-8">Pengaturan Admin</h1>
 
       <form onSubmit={handleSubmit}>
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Informasi Akun</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nama</Label>
-              <Input id="name" name="name" value={settings.name} onChange={handleInputChange} required />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={settings.email}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Ubah Kata Sandi</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                value={settings.password}
-                onChange={handleInputChange}
-                placeholder="Biarkan kosong jika tidak ingin mengubah"
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <Tabs defaultValue="general" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="general">Umum</TabsTrigger>
+            <TabsTrigger value="security">Keamanan</TabsTrigger>
+            <TabsTrigger value="notifications">Notifikasi</TabsTrigger>
+            <TabsTrigger value="customization">Kustomisasi</TabsTrigger>
+          </TabsList>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Preferensi</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="notifications">Notifikasi Email</Label>
-              <Switch id="notifications" checked={settings.notificationsEnabled} onCheckedChange={handleSwitchChange} />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="theme">Tema</Label>
-              <Select value={settings.theme} onValueChange={(value) => handleSelectChange("theme", value)}>
-                <SelectTrigger id="theme">
-                  <SelectValue placeholder="Pilih tema" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Terang</SelectItem>
-                  <SelectItem value="dark">Gelap</SelectItem>
-                  <SelectItem value="system">Sistem</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="language">Bahasa</Label>
-              <Select value={settings.language} onValueChange={(value) => handleSelectChange("language", value)}>
-                <SelectTrigger id="language">
-                  <SelectValue placeholder="Pilih bahasa" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="id">Bahasa Indonesia</SelectItem>
-                  <SelectItem value="en">English</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </CardContent>
-        </Card>
+          <TabsContent value="general">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pengaturan Umum</CardTitle>
+                <CardDescription>Konfigurasi pengaturan dasar sistem</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="siteName">Nama Situs</Label>
+                  <Input id="siteName" name="siteName" value={settings.siteName} onChange={handleInputChange} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="siteDescription">Deskripsi Situs</Label>
+                  <Textarea
+                    id="siteDescription"
+                    name="siteDescription"
+                    value={settings.siteDescription}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Mode Pemeliharaan</Label>
+                    <p className="text-sm text-muted-foreground">Aktifkan mode pemeliharaan situs</p>
+                  </div>
+                  <Switch
+                    checked={settings.maintenanceMode}
+                    onCheckedChange={() => handleSwitchChange("maintenanceMode")}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Pengaturan Sistem</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="maxOperatorsPerSchool">Maksimum Operator per Sekolah</Label>
-              <Input
-                id="maxOperatorsPerSchool"
-                name="maxOperatorsPerSchool"
-                type="number"
-                value={settings.maxOperatorsPerSchool}
-                onChange={handleInputChange}
-                min={1}
-                required
-              />
-            </div>
-          </CardContent>
-        </Card>
+          <TabsContent value="security">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pengaturan Keamanan</CardTitle>
+                <CardDescription>Konfigurasi keamanan dan autentikasi</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="passwordMinLength">Panjang Minimal Password</Label>
+                  <Input
+                    id="passwordMinLength"
+                    name="passwordMinLength"
+                    type="number"
+                    value={settings.passwordMinLength}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Autentikasi Dua Faktor</Label>
+                    <p className="text-sm text-muted-foreground">
+                      Wajibkan autentikasi dua faktor untuk semua pengguna
+                    </p>
+                  </div>
+                  <Switch
+                    checked={settings.twoFactorAuth}
+                    onCheckedChange={() => handleSwitchChange("twoFactorAuth")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="sessionTimeout">Timeout Sesi (menit)</Label>
+                  <Input
+                    id="sessionTimeout"
+                    name="sessionTimeout"
+                    type="number"
+                    value={settings.sessionTimeout}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
-        <div className="flex justify-end">
+          <TabsContent value="notifications">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pengaturan Notifikasi</CardTitle>
+                <CardDescription>Atur preferensi notifikasi sistem</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Notifikasi Email</Label>
+                    <p className="text-sm text-muted-foreground">Aktifkan notifikasi melalui email</p>
+                  </div>
+                  <Switch
+                    checked={settings.emailNotifications}
+                    onCheckedChange={() => handleSwitchChange("emailNotifications")}
+                  />
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label>Notifikasi Push</Label>
+                    <p className="text-sm text-muted-foreground">Aktifkan notifikasi push di browser</p>
+                  </div>
+                  <Switch
+                    checked={settings.pushNotifications}
+                    onCheckedChange={() => handleSwitchChange("pushNotifications")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="notificationFrequency">Frekuensi Notifikasi</Label>
+                  <Select
+                    value={settings.notificationFrequency}
+                    onValueChange={(value) => handleSelectChange("notificationFrequency", value)}
+                  >
+                    <SelectTrigger id="notificationFrequency">
+                      <SelectValue placeholder="Pilih frekuensi notifikasi" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="realtime">Realtime</SelectItem>
+                      <SelectItem value="daily">Harian</SelectItem>
+                      <SelectItem value="weekly">Mingguan</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="customization">
+            <Card>
+              <CardHeader>
+                <CardTitle>Pengaturan Kustomisasi</CardTitle>
+                <CardDescription>Sesuaikan tampilan dan nuansa platform</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="primaryColor">Warna Utama</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                      id="primaryColor"
+                      name="primaryColor"
+                      type="color"
+                      value={settings.primaryColor}
+                      onChange={handleInputChange}
+                      className="w-12 h-12 p-1"
+                    />
+                    <Input
+                      type="text"
+                      value={settings.primaryColor}
+                      onChange={handleInputChange}
+                      name="primaryColor"
+                      className="flex-1"
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="logoUrl">URL Logo</Label>
+                  <Input id="logoUrl" name="logoUrl" value={settings.logoUrl} onChange={handleInputChange} />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="customCss">CSS Kustom</Label>
+                  <Textarea
+                    id="customCss"
+                    name="customCss"
+                    value={settings.customCss}
+                    onChange={handleInputChange}
+                    placeholder="Masukkan CSS kustom Anda di sini"
+                    className="font-mono"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+
+        <div className="mt-6 flex justify-end">
           <Button type="submit" disabled={isLoading}>
             {isLoading ? (
               <>
@@ -159,7 +270,10 @@ export default function AdminSettingsPage() {
                 Menyimpan...
               </>
             ) : (
-              "Simpan Pengaturan"
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Simpan Pengaturan
+              </>
             )}
           </Button>
         </div>

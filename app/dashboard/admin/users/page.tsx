@@ -7,28 +7,28 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Button } from "@/components/ui/button"
 import { Search, UserPlus } from "lucide-react"
 
-const operators = [
-  { id: 1, name: "John Doe", email: "john@example.com", school: "School A" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", school: "School B" },
-  { id: 3, name: "Bob Johnson", email: "bob@example.com", school: "School C" },
+const users = [
+  { id: 1, name: "John Doe", email: "john@example.com", role: "Operator" },
+  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Teacher" },
+  { id: 3, name: "Bob Johnson", email: "bob@example.com", role: "Operator" },
 ]
 
-export default function OperatorsPage() {
+export default function UsersPage() {
   const [searchTerm, setSearchTerm] = useState("")
 
-  const filteredOperators = operators.filter(
-    (operator) =>
-      operator.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      operator.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      operator.school.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.role.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Manage Operators</h1>
+      <h1 className="text-3xl font-bold mb-8">Manage Users</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Operator List</CardTitle>
+          <CardTitle>User List</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -36,7 +36,7 @@ export default function OperatorsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search operators..."
+                placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -44,7 +44,7 @@ export default function OperatorsPage() {
             </div>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
-              Add Operator
+              Add User
             </Button>
           </div>
           <Table>
@@ -52,16 +52,16 @@ export default function OperatorsPage() {
               <TableRow>
                 <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>School</TableHead>
+                <TableHead>Role</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredOperators.map((operator) => (
-                <TableRow key={operator.id}>
-                  <TableCell>{operator.name}</TableCell>
-                  <TableCell>{operator.email}</TableCell>
-                  <TableCell>{operator.school}</TableCell>
+              {filteredUsers.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.role}</TableCell>
                   <TableCell>
                     <Button variant="outline" size="sm">
                       Edit

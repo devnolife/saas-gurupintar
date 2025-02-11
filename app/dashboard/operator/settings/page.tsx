@@ -6,15 +6,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({
-    name: "Jane Doe",
-    email: "jane@example.com",
-    subject: "Mathematics",
+    name: "John Doe",
+    email: "john@example.com",
     notifications: true,
-    theme: "light",
+    twoFactor: false,
   })
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,10 +24,6 @@ export default function SettingsPage() {
     setSettings((prev) => ({ ...prev, [name]: !prev[name as keyof typeof prev] }))
   }
 
-  const handleSelectChange = (name: string, value: string) => {
-    setSettings((prev) => ({ ...prev, [name]: value }))
-  }
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission
@@ -38,10 +32,10 @@ export default function SettingsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Teacher Settings</h1>
+      <h1 className="text-3xl font-bold mb-8">Settings</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Personal Information</CardTitle>
+          <CardTitle>Operator Settings</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,10 +47,6 @@ export default function SettingsPage() {
               <Label htmlFor="email">Email</Label>
               <Input id="email" name="email" type="email" value={settings.email} onChange={handleInputChange} />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="subject">Subject</Label>
-              <Input id="subject" name="subject" value={settings.subject} onChange={handleInputChange} />
-            </div>
             <div className="flex items-center justify-between">
               <Label htmlFor="notifications">Enable Notifications</Label>
               <Switch
@@ -65,18 +55,13 @@ export default function SettingsPage() {
                 onCheckedChange={() => handleSwitchChange("notifications")}
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="theme">Theme</Label>
-              <Select value={settings.theme} onValueChange={(value) => handleSelectChange("theme", value)}>
-                <SelectTrigger id="theme">
-                  <SelectValue placeholder="Select theme" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="light">Light</SelectItem>
-                  <SelectItem value="dark">Dark</SelectItem>
-                  <SelectItem value="system">System</SelectItem>
-                </SelectContent>
-              </Select>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="twoFactor">Two-Factor Authentication</Label>
+              <Switch
+                id="twoFactor"
+                checked={settings.twoFactor}
+                onCheckedChange={() => handleSwitchChange("twoFactor")}
+              />
             </div>
             <Button type="submit">Save Changes</Button>
           </form>

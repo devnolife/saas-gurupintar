@@ -36,7 +36,6 @@ export function Sidebar({ user, items }: SidebarProps) {
 
   return (
     <ShadcnSidebar>
-      {/* HEADER */}
       <SidebarHeader>
         <div className="p-4">
           <h2 className="text-lg font-semibold">Guru Pintar</h2>
@@ -44,8 +43,6 @@ export function Sidebar({ user, items }: SidebarProps) {
           <p className="text-xs text-muted-foreground capitalize">{user.role}</p>
         </div>
       </SidebarHeader>
-
-      {/* CONTENT */}
       <SidebarContent>
         <ScrollArea className="h-[calc(100vh-8rem)]">
           <SidebarMenu>
@@ -56,7 +53,7 @@ export function Sidebar({ user, items }: SidebarProps) {
                     href={item.href}
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
-                      pathname === item.href && "bg-primary/10 text-primary"
+                      pathname === item.href && "bg-primary/10 text-primary",
                     )}
                   >
                     <item.icon className="h-4 w-4" />
@@ -68,8 +65,6 @@ export function Sidebar({ user, items }: SidebarProps) {
           </SidebarMenu>
         </ScrollArea>
       </SidebarContent>
-
-      {/* FOOTER */}
       <SidebarFooter>
         <Button variant="outline" className="w-full" asChild>
           <Link href="/login">Keluar</Link>
@@ -78,3 +73,4 @@ export function Sidebar({ user, items }: SidebarProps) {
     </ShadcnSidebar>
   )
 }
+

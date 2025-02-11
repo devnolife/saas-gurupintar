@@ -5,30 +5,30 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
-import { Search, Plus, FileText } from "lucide-react"
+import { Search, UserPlus } from "lucide-react"
 
-const lessons = [
-  { id: 1, title: "Introduction to Algebra", subject: "Mathematics", grade: "9th", date: "2023-06-15" },
-  { id: 2, title: "Cell Biology", subject: "Science", grade: "10th", date: "2023-06-16" },
-  { id: 3, title: "World War II", subject: "History", grade: "11th", date: "2023-06-17" },
+const teachers = [
+  { id: 1, name: "Alice Johnson", email: "alice@example.com", subject: "Mathematics" },
+  { id: 2, name: "Bob Smith", email: "bob@example.com", subject: "Science" },
+  { id: 3, name: "Carol Williams", email: "carol@example.com", subject: "English" },
 ]
 
-export default function LessonsPage() {
+export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("")
 
-  const filteredLessons = lessons.filter(
-    (lesson) =>
-      lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      lesson.grade.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredTeachers = teachers.filter(
+    (teacher) =>
+      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      teacher.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      teacher.subject.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Lessons</h1>
+      <h1 className="text-3xl font-bold mb-8">Manage Teachers</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Lesson Plans</CardTitle>
+          <CardTitle>Teacher List</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -36,38 +36,35 @@ export default function LessonsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search lessons..."
+                placeholder="Search teachers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
               />
             </div>
             <Button>
-              <Plus className="mr-2 h-4 w-4" />
-              Create New Lesson
+              <UserPlus className="mr-2 h-4 w-4" />
+              Add Teacher
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Title</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead>Subject</TableHead>
-                <TableHead>Grade</TableHead>
-                <TableHead>Date</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredLessons.map((lesson) => (
-                <TableRow key={lesson.id}>
-                  <TableCell>{lesson.title}</TableCell>
-                  <TableCell>{lesson.subject}</TableCell>
-                  <TableCell>{lesson.grade}</TableCell>
-                  <TableCell>{lesson.date}</TableCell>
+              {filteredTeachers.map((teacher) => (
+                <TableRow key={teacher.id}>
+                  <TableCell>{teacher.name}</TableCell>
+                  <TableCell>{teacher.email}</TableCell>
+                  <TableCell>{teacher.subject}</TableCell>
                   <TableCell>
                     <Button variant="outline" size="sm">
-                      <FileText className="mr-2 h-4 w-4" />
-                      View
+                      Edit
                     </Button>
                   </TableCell>
                 </TableRow>
