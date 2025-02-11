@@ -4,13 +4,11 @@ import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
 import { ArrowRight } from "lucide-react"
 
 export default function Hero() {
   const { toast } = useToast()
-  const [email, setEmail] = useState("")
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -18,7 +16,6 @@ export default function Hero() {
       title: "Terima kasih!",
       description: "Kami akan mengirimkan informasi lebih lanjut ke email Anda.",
     })
-    setEmail("")
   }
 
   return (
@@ -37,14 +34,6 @@ export default function Hero() {
             Hemat waktu, berkolaborasi dengan mudah, dan tingkatkan kualitas pendidikan dengan Guru Pintar.
           </p>
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4">
-            <Input
-              type="email"
-              placeholder="Masukkan email Anda"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="flex-grow text-lg py-6 px-4 rounded-full bg-light text-dark placeholder-dark/60"
-            />
             <Button
               type="submit"
               className="w-full sm:w-auto text-lg py-6 px-8 rounded-full bg-primary hover:bg-dark text-white transition-colors duration-300"

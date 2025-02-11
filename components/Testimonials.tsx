@@ -9,22 +9,22 @@ import { Button } from "@/components/ui/button"
 
 const testimonials = [
   {
-    name: "Bu Rina",
-    institution: "SMA 1 Surabaya",
+    name: "Bapak Dani",
+    institution: "SDN Banyuangi",
     quote: "Guru Pintar telah membuat perencanaan pembelajaran menjadi sangat mudah! Sangat direkomendasikan.",
-    image: "/placeholder.svg",
+    image: "/dany.jpg",
   },
   {
-    name: "Pak Budi",
-    institution: "SMP 3 Jakarta",
-    quote: "Alat ini telah merevolusi cara saya mempersiapkan kelas. Ini adalah game changer!",
-    image: "/placeholder.svg",
+    name: "Andi Nurhayati",
+    institution: "Kepala Sekolah SD Panyangkalang",
+    quote: "Saya tidak tahu aplikasi apa ini ,tapi anakku punya jadi gaskan saja deh",
+    image: "/mama.jpg",
   },
   {
-    name: "Ibu Siti",
-    institution: "SD 5 Bandung",
-    quote: "Fitur kolaborasinya luar biasa. Saya suka betapa mudahnya berbagi ide dengan rekan-rekan saya.",
-    image: "/placeholder.svg",
+    name: "Ibu Hasrullah",
+    institution: "SMA 200 Cikampret",
+    quote: "Saya bukan guru ck , sama ganti ganti ki dulu fotoku , itu terus!",
+    image: "/hasrullah.jpg",
   },
 ]
 

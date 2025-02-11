@@ -122,7 +122,7 @@ const generateRPP = async (formData: any): Promise<any> => {
   return {
     ...matched,
     // Kita sesuaikan judul agar tampak lebih dinamis
-    title: `RPP (Fake AI): ${formData.subject} untuk Kelas ${formData.grade}`,
+    title: `RPP : ${formData.subject} untuk Kelas ${formData.grade}`,
 
     subject: formData.subject || matched.subject,
     grade: formData.grade || matched.grade,
