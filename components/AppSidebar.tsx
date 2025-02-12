@@ -168,4 +168,3 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
     </Sidebar>
   )
 }
-

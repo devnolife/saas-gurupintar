@@ -12,4 +12,3 @@ export default function OperatorLayout({ children }: { children: React.ReactNode
     </SidebarProvider>
   )
 }
-
