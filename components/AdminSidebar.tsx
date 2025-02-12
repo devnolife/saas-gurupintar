@@ -1,56 +1,44 @@
-import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Users, School, Settings, LogOut } from "lucide-react"
-import Link from "next/link"
+"use client"
+
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail ,SidebarProvider } from "@/components/ui/sidebar"
+import { TeamSwitcher } from "@/components/TeamSwitcher"
+import { NavMain } from "@/components/NavMain"
+import { NavProjects } from "@/components/NavProjects"
+import { NavUser } from "@/components/NavUser"
+import { LayoutDashboard, Users, School, FileText, Settings2 } from "lucide-react"
+const adminData = {
+  teams: [
+    { name: "Admin Team", logo: Users, plan: "Enterprise" },
+  ],
+  navMain: [
+    { title: "Dashboard", url: "/dashboard/admin", icon: LayoutDashboard, isActive: true },
+    { title: "Manage Users", url: "/dashboard/admin/users", icon: Users },
+    { title: "Manage Schools", url: "/dashboard/admin/schools", icon: School },
+    { title: "Reports", url: "/dashboard/admin/reports", icon: FileText },
+    { title: "Settings", url: "/dashboard/admin/settings", icon: Settings2 },
+  ],
+  projects: [
+    { name: "User Analytics", url: "#", icon: FileText },
+  ],
+}
 
 export function AdminSidebar() {
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-2xl font-bold text-gray-800">Admin Dashboard</h2>
-      </div>
-      <nav className="flex-1 p-4">
-        <ul className="space-y-2">
-          <li>
-            <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/admin">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                Dashboard
-              </Link>
-            </Button>
-          </li>
-          <li>
-            <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/admin/users">
-                <Users className="mr-2 h-4 w-4" />
-                Manage Users
-              </Link>
-            </Button>
-          </li>
-          <li>
-            <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/admin/schools">
-                <School className="mr-2 h-4 w-4" />
-                Manage Schools
-              </Link>
-            </Button>
-          </li>
-          <li>
-            <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/admin/settings">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Link>
-            </Button>
-          </li>
-        </ul>
-      </nav>
-      <div className="p-4 border-t border-gray-200">
-        <Button variant="outline" className="w-full">
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </Button>
-      </div>
-    </div>
+    <SidebarProvider>
+      <Sidebar collapsible="icon">
+        <SidebarHeader className="border-b border-border/50 px-2 py-3">
+          <TeamSwitcher teams={adminData.teams} />
+        </SidebarHeader>
+        <SidebarContent className="px-2 py-4">
+          <NavMain items={adminData.navMain} />
+          <div className="my-4 border-t border-border/50" />
+          <NavProjects projects={adminData.projects} />
+        </SidebarContent>
+        <SidebarFooter className="border-t border-border/50 px-2 py-3">
+          <NavUser user={{ name: "Admin", email: "admin@example.com", avatar: "/default-avatar.png" }} />
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+    </SidebarProvider>
   )
 }
-
