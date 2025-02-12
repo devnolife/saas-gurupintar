@@ -110,10 +110,14 @@ const roleData = {
         title: "Dashboard",
         url: "/dashboard/teacher",
         icon: LayoutDashboard,
-        isActive: true,
+        items: [
+          { title: "Generate RPP", url: "/dashboard/teacher", isActive: true },
+          { title: "Generate Silabus", url: "/dashboard/teacher/syllabus" },
+          { title: "History", url: "/dashboard/teacher/history" },
+        ],
       },
       {
-        title: "Lessons",
+        title: "Lesson Plans",
         url: "/dashboard/teacher/lessons",
         icon: BookOpen,
       },
