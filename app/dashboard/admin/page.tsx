@@ -69,7 +69,7 @@ export default function AdminDashboardPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold">Dashboard Admin</h1>
+          <h1 className="text-3xl font-bold">Dasbor Admin</h1>
           <p className="text-muted-foreground">Selamat datang kembali, lihat statistik dan aktivitas terbaru</p>
         </div>
         <Button>
@@ -231,4 +231,3 @@ export default function AdminDashboardPage() {
     </div>
   )
 }
-

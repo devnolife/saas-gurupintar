@@ -51,7 +51,7 @@ export default function LoginPage() {
       } else {
         toast({
           title: "Login Gagal",
-          description: data.message,
+          description: "Nama pengguna atau kata sandi tidak valid",
           variant: "destructive",
         })
       }
@@ -92,7 +92,7 @@ export default function LoginPage() {
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Memproses...
                 </>
               ) : (
-                "Login sebagai Admin"
+                "Masuk sebagai Admin"
               )}
             </Button>
             <Button

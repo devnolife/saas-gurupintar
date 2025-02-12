@@ -22,7 +22,7 @@ export default function RegisterPage() {
 
     setIsLoading(false)
     toast({
-      title: "Pendaftaran Berhasil",
+      title: "Pendaftaran Sukses",
       description: "Selamat bergabung di Guru Pintar!",
     })
   }
@@ -91,7 +91,7 @@ export default function RegisterPage() {
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Memproses...
                 </>
               ) : (
-                "Daftar"
+                "Mendaftar"
               )}
             </Button>
           </form>
@@ -108,4 +108,3 @@ export default function RegisterPage() {
     </div>
   )
 }
-
