@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📚 SaaS GuruPintar
 
-## Getting Started
+GuruPintar adalah platform **SaaS (Software as a Service)** yang dirancang untuk menyediakan layanan pendidikan digital. Dibangun menggunakan [Next.js](https://nextjs.org), sebuah kerangka kerja React modern, dan diinisialisasi dengan [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-First, run the development server:
+## 🚀 Memulai
+
+### ✅ Prasyarat
+Pastikan Anda telah menginstal perangkat lunak berikut di mesin Anda:
+- **Node.js** (v14.x atau lebih tinggi)
+- **npm**, **yarn**, **pnpm**, atau **bun** (pilih salah satu untuk mengelola dependensi)
+
+### 📥 Instalasi
+
+1. **Klon repositori:**
+
+```bash
+git clone https://github.com/devnolife/saas-gurupintar.git
+cd saas-gurupintar
+```
+
+2. **Instal dependensi:**
+
+```bash
+# Menggunakan npm
+npm install
+
+# Menggunakan yarn
+yarn install
+
+# Menggunakan pnpm
+pnpm install
+
+# Menggunakan bun
+bun install
+```
+
+### ⚡ Menjalankan Server Pengembangan
+
+Untuk memulai server pengembangan, jalankan perintah berikut:
 
 ```bash
 npm run dev
-# or
+# atau
 yarn dev
-# or
+# atau
 pnpm dev
-# or
+# atau
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Buka [http://localhost:3000](http://localhost:3000) di browser Anda untuk melihat hasilnya. Perubahan pada kode akan langsung diperbarui secara otomatis.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Struktur Proyek
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+.
+├── app
+│   ├── components
+│   │   ├── Header.tsx          # 🌐 Komponen Header Navigasi
+│   │   ├── Footer.tsx          # 📋 Komponen Footer Informasi
+│   │   └── ...                 # 📦 Komponen Reusable lainnya
+│   ├── pages
+│   │   ├── index.tsx           # 🏠 Halaman Utama
+│   │   ├── about.tsx           # ℹ️  Halaman Tentang Kami
+│   │   └── ...                 # 📄 Halaman Next.js lainnya
+│   ├── styles
+│   │   ├── globals.css         # 🎨 Gaya Global Aplikasi
+│   │   ├── Home.module.css     # 🏡 Gaya Khusus Halaman Beranda
+│   │   └── ...                 # 🗂️  File CSS/SCSS lainnya
+│   ├── api
+│   │   └── ...                 # ⚙️  Rute API Backend
+│   └── ...                     # ⚡ Konfigurasi Next.js
+├── public
+│   ├── images
+│   │   └── logo.png            # 🖼️  Logo Aplikasi
+│   └── ...                     # 📁 Aset Publik lainnya
+├── .env.local                  # 🔐 Konfigurasi Lingkungan
+├── .gitignore                  # 🚫 Daftar File yang Diabaikan Git
+├── next.config.js              # ⚙️  Konfigurasi Next.js
+├── package.json                # 📦 Informasi Proyek & Dependensi
+└── README.md                   # 📑 Dokumentasi Proyek
+```
 
-## Learn More
+### 🗂️ Penjelasan Struktur Folder
+- **`app/components`**: Berisi komponen UI seperti Header, Footer, dan elemen reusable lainnya.
+- **`app/pages`**: Menyimpan halaman aplikasi yang akan dirender sebagai rute.
+- **`app/styles`**: Mengelola semua file CSS/SCSS untuk styling aplikasi.
+- **`app/api`**: Mengatur rute API yang digunakan untuk kebutuhan backend.
+- **`public`**: Menyimpan aset publik (gambar, ikon, dll) yang dapat diakses langsung.
+- **`.env.local`**: File untuk menyimpan variabel lingkungan sensitif.
+- **`next.config.js`**: File konfigurasi untuk Next.js.
+- **`package.json`**: Mendefinisikan metadata proyek dan dependensi yang digunakan.
 
-To learn more about Next.js, take a look at the following resources:
+## ✨ Fitur Unggulan
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- 🔐 **Autentikasi Pengguna:** Keamanan login dengan sistem otentikasi yang andal.
+- 📚 **Manajemen Kursus:** Kemudahan dalam mengelola materi pembelajaran.
+- 🔔 **Notifikasi Real-time:** Dapatkan pemberitahuan secara instan.
+- 📱 **Desain Responsif:** Tampilan optimal di berbagai perangkat.
+- 🔍 **Optimasi SEO:** Dirancang untuk meningkatkan visibilitas di mesin pencari.
+- 🚀 **Deployment Mudah di Vercel:** Integrasi cepat untuk publikasi aplikasi.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📖 Pelajari Lebih Lanjut
 
-## Deploy on Vercel
+- [📄 Dokumentasi Next.js](https://nextjs.org/docs) - Pelajari fitur dan API Next.js.
+- [💡 Belajar Next.js](https://nextjs.org/learn) - Ikuti tutorial interaktif.
+- [🔗 Repositori GitHub Next.js](https://github.com/vercel/next.js) - Berkontribusi dan beri umpan balik.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Deployment di Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Cara termudah untuk mendeply aplikasi Next.js adalah dengan menggunakan [Vercel](https://vercel.com/).
+
+- 📚 **Dokumentasi Deployment:** [Next.js Deployment Documentation](https://nextjs.org/docs/deployment).
+
+---
