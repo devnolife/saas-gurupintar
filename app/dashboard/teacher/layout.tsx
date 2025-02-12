@@ -18,4 +18,3 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
     </SidebarProvider>
   )
 }
-

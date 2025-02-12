@@ -21,7 +21,7 @@ import { NavMain } from "@/components/NavMain"
 import { NavProjects } from "@/components/NavProjects"
 import { NavUser } from "@/components/NavUser"
 import { TeamSwitcher } from "@/components/TeamSwitcher"
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from "@/components/ui/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail, SidebarTrigger } from "@/components/ui/sidebar"
 
 // This is sample data for each role
 const roleData = {
@@ -153,6 +153,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
+      <SidebarTrigger className="fixed top-4 left-4 z-50" />
       <SidebarHeader className="border-b border-border/50 px-2 py-3">
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
@@ -168,4 +169,3 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
     </Sidebar>
   )
 }
-
