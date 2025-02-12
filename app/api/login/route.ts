@@ -14,6 +14,5 @@ export async function POST(request: Request) {
     })
   }
 
-  return NextResponse.json({ success: false, message: "Invalid username or password" }, { status: 401 })
+  return NextResponse.json({ success: false, message: "Nama pengguna atau kata sandi tidak valid" }, { status: 401 })
 }
-

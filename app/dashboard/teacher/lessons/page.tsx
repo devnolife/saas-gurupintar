@@ -25,10 +25,10 @@ export default function LessonsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Lessons</h1>
+      <h1 className="text-3xl font-bold mb-8">Pelajaran</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Lesson Plans</CardTitle>
+          <CardTitle>Rencana Pelajaran</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -36,7 +36,7 @@ export default function LessonsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search lessons..."
+                placeholder="Cari pelajaran..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -44,17 +44,17 @@ export default function LessonsPage() {
             </div>
             <Button>
               <Plus className="mr-2 h-4 w-4" />
-              Create New Lesson
+              Buat Pelajaran Baru
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Grade</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Judul</TableHead>
+                <TableHead>Mata Pelajaran</TableHead>
+                <TableHead>Kelas</TableHead>
+                <TableHead>Tanggal</TableHead>
+                <TableHead>Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -67,7 +67,7 @@ export default function LessonsPage() {
                   <TableCell>
                     <Button variant="outline" size="sm">
                       <FileText className="mr-2 h-4 w-4" />
-                      View
+                      Lihat
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -79,4 +79,3 @@ export default function LessonsPage() {
     </div>
   )
 }
-
