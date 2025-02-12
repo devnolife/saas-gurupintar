@@ -52,13 +52,11 @@ export function RPPForm({
   isGenerating,
 }: RPPFormProps) {
   return (
-    <Card className="w-full">
+    <Card className="w-full mt-2">
       <CardContent className="w-full">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-2 gap-6">
-            {/* Kolom kiri */}
             <div className="space-y-6">
-              {/* Informasi Dasar */}
               <div>
                 <h3 className="text-lg font-semibold mb-4">Informasi Dasar</h3>
                 <div className="space-y-4">

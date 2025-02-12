@@ -118,7 +118,6 @@ export default function TeacherDashboardPage() {
 
       {!generatedRPP && (
         <div className="w-full">
-          <h2 className="text-2xl font-semibold mb-4">Create New Lesson Plan</h2>
           <RPPForm
             formData={formData}
             handleInputChange={handleInputChange}
