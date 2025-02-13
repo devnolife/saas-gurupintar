@@ -1,110 +1,65 @@
-"use client"
-
-import { useState } from "react"
-import Link from "next/link"
+import Image from "next/image"
+import { RegistrationWizard } from "@/components/RegistrationWizard"
 import { motion } from "framer-motion"
-import { Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { useToast } from "@/hooks/use-toast"
 
 export default function RegisterPage() {
-  const [isLoading, setIsLoading] = useState(false)
-  const { toast } = useToast()
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsLoading(true)
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    setIsLoading(false)
-    toast({
-      title: "Pendaftaran Sukses",
-      description: "Selamat bergabung di Guru Pintar!",
-    })
-  }
-
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary/20 to-white flex items-center justify-center p-4">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-gradient-to-br from-primary/10 to-secondary/10">
+      {/* Left side - Registration Form */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        className="w-full lg:w-1/2 flex items-center justify-center p-8 order-2 lg:order-1"
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md"
       >
-        <div className="bg-white shadow-2xl rounded-3xl p-8 space-y-6">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-primary">Daftar Guru Pintar</h1>
-            <p className="text-gray-600 mt-2">Mulai perjalanan mengajar Anda hari ini</p>
-          </div>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Nama Lengkap</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Masukkan nama lengkap Anda"
-                required
-                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="nama@sekolah.com"
-                required
-                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Kata Sandi</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Minimal 8 karakter"
-                required
-                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="confirm-password">Konfirmasi Kata Sandi</Label>
-              <Input
-                id="confirm-password"
-                type="password"
-                placeholder="Masukkan kembali kata sandi Anda"
-                required
-                className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent transition"
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3 rounded-lg transition duration-300 flex items-center justify-center"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Memproses...
-                </>
-              ) : (
-                "Mendaftar"
-              )}
-            </Button>
-          </form>
-          <div className="border-t border-gray-300 pt-4">
-            <p className="text-center text-gray-600">
-              Sudah punya akun?{" "}
-              <Link href="/login" className="text-primary font-semibold hover:underline">
-                Masuk di sini
-              </Link>
-            </p>
-          </div>
+        <div className="w-full max-w-md">
+          <h2 className="text-4xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
+            Join Guru Pintar
+          </h2>
+          <RegistrationWizard />
+        </div>
+      </motion.div>
+
+      {/* Right side - Illustration */}
+      <motion.div
+        className="w-full lg:w-1/2 flex items-center justify-center p-12 order-1 lg:order-2 bg-gradient-to-br from-primary to-secondary"
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="max-w-md text-white">
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            <Image
+              src="/placeholder.svg"
+              alt="Registration illustration"
+              width={500}
+              height={500}
+              className="w-full h-auto rounded-2xl shadow-2xl"
+            />
+          </motion.div>
+          <motion.h1
+            className="text-4xl font-bold mt-8 mb-4"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+          >
+            Empower Your School
+          </motion.h1>
+          <motion.p
+            className="text-xl"
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
+            Join our cutting-edge education management platform. Perfect for the modern, tech-savvy educator.
+          </motion.p>
         </div>
       </motion.div>
     </div>
   )
 }
+

@@ -5,7 +5,7 @@ import { TeamSwitcher } from "@/components/TeamSwitcher"
 import { NavMain } from "@/components/NavMain"
 import { NavProjects } from "@/components/NavProjects"
 import { NavUser } from "@/components/NavUser"
-import { LayoutDashboard, BookOpen, Calendar, FileText, Settings2 } from "lucide-react"
+import { LayoutDashboard, BookOpen, Calendar, FileText, Settings2, GalleryVerticalEnd } from "lucide-react"
 
 const teacherData = {
   teams: [
@@ -29,6 +29,7 @@ const teacherData = {
   ],
   projects: [
     { name: "Lesson Plans", url: "#", icon: BookOpen },
+    { name: "Student Progress", url: "#", icon: GalleryVerticalEnd },
   ],
 }
 

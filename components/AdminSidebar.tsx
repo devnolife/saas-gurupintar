@@ -5,7 +5,7 @@ import { TeamSwitcher } from "@/components/TeamSwitcher"
 import { NavMain } from "@/components/NavMain"
 import { NavProjects } from "@/components/NavProjects"
 import { NavUser } from "@/components/NavUser"
-import { LayoutDashboard, Users, School, FileText, Settings2 } from "lucide-react"
+import { LayoutDashboard, Users, School, FileText, Settings2, DollarSign, CreditCard, PieChart, GalleryVerticalEnd } from "lucide-react"
 const adminData = {
   teams: [
     { name: "Admin Team", logo: Users, plan: "Enterprise" },
@@ -14,11 +14,15 @@ const adminData = {
     { title: "Dashboard", url: "/dashboard/admin", icon: LayoutDashboard, isActive: true },
     { title: "Manage Users", url: "/dashboard/admin/users", icon: Users },
     { title: "Manage Schools", url: "/dashboard/admin/schools", icon: School },
-    { title: "Reports", url: "/dashboard/admin/reports", icon: FileText },
+    { title: "Pricing Management", url: "/dashboard/admin/pricing", icon: DollarSign},
+    { title: "Transactions", url: "/dashboard/admin/transactions", icon: DollarSign },
+    { title: "Reports", url: "/dashboard/admin/reports", icon: CreditCard },
+    { title: "Teacher Analytics", url: "/dashboard/admin/teacher-analytics", icon: PieChart },
     { title: "Settings", url: "/dashboard/admin/settings", icon: Settings2 },
   ],
   projects: [
     { name: "User Analytics", url: "#", icon: FileText },
+    { name: "School Performance", url: "#", icon: GalleryVerticalEnd },
   ],
 }
 

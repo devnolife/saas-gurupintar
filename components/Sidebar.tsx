@@ -67,7 +67,7 @@ export function Sidebar({ user, items }: SidebarProps) {
       </SidebarContent>
       <SidebarFooter>
         <Button variant="outline" className="w-full" asChild>
-          <Link href="/login">Keluar</Link>
+          <Link href="/auth/login">Keluar</Link>
         </Button>
       </SidebarFooter>
     </ShadcnSidebar>

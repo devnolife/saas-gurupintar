@@ -16,7 +16,7 @@ export default function DashboardPage() {
 
   const handleLogout = () => {
     // In a real application, you would clear the user data from your state management solution or local storage
-    router.push("/login")
+    router.push("/auth/login")
   }
 
   if (!user) {

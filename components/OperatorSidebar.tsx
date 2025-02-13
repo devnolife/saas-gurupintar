@@ -5,7 +5,7 @@ import { TeamSwitcher } from "@/components/TeamSwitcher"
 import { NavMain } from "@/components/NavMain"
 import { NavProjects } from "@/components/NavProjects"
 import { NavUser } from "@/components/NavUser"
-import { LayoutDashboard, Users, FileText, Settings2 } from "lucide-react"
+import { LayoutDashboard, Users, FileText, Settings2, Calendar } from "lucide-react"
 
 const operatorData = {
   teams: [
@@ -19,6 +19,7 @@ const operatorData = {
   ],
   projects: [
     { name: "Teacher Evaluations", url: "#", icon: FileText },
+    { name: "School Calendar", url: "#", icon: Calendar },
   ],
 }
 
