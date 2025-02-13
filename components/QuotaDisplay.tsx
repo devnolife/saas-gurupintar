@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { getRemainingQuota } from "@/lib/accountQuotaManager"
@@ -14,7 +14,7 @@ interface QuotaDisplayProps {
 export function QuotaDisplay({ schoolId, onUpgradeRequest }: QuotaDisplayProps) {
   const [quota, setQuota] = useState<{ operators: number; teachers: number } | undefined>(undefined)
 
-  useState(() => {
+  useEffect(() => {
     const q = getRemainingQuota(schoolId)
     setQuota(q)
   }, [schoolId])
