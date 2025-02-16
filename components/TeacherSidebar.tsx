@@ -9,7 +9,7 @@ import { LayoutDashboard, BookOpen, Calendar, FileText, Settings2, GalleryVertic
 
 const teacherData = {
   teams: [
-    { name: "Math Department", logo: BookOpen, plan: "Standard" },
+    { name: "Departemen Matematika", logo: BookOpen, plan: "Standard" },
   ],
   navMain: [
     {
@@ -17,19 +17,19 @@ const teacherData = {
       url: "/dashboard/teacher",
       icon: LayoutDashboard,
       items: [
-        { title: "Generate RPP", url: "/dashboard/teacher", isActive: true },
-        { title: "Generate Syllabus", url: "/dashboard/teacher/syllabus" },
-        { title: "History", url: "/dashboard/teacher/history" },
+        { title: "Buat RPP", url: "/dashboard/teacher", isActive: true },
+        { title: "Buat Silabus", url: "/dashboard/teacher/syllabus" },
+        { title: "Riwayat", url: "/dashboard/teacher/history" },
       ],
     },
-    { title: "Lesson Plans", url: "/dashboard/teacher/lessons", icon: BookOpen },
-    { title: "Schedule", url: "/dashboard/teacher/schedule", icon: Calendar },
-    { title: "Reports", url: "/dashboard/teacher/reports", icon: FileText },
-    { title: "Settings", url: "/dashboard/teacher/settings", icon: Settings2 },
+    { title: "Rencana Pelajaran", url: "/dashboard/teacher/lessons", icon: BookOpen },
+    { title: "Jadwal", url: "/dashboard/teacher/schedule", icon: Calendar },
+    { title: "Laporan", url: "/dashboard/teacher/reports", icon: FileText },
+    { title: "Pengaturan", url: "/dashboard/teacher/settings", icon: Settings2 },
   ],
   projects: [
-    { name: "Lesson Plans", url: "#", icon: BookOpen },
-    { name: "Student Progress", url: "#", icon: GalleryVerticalEnd },
+    { name: "Rencana Pelajaran", url: "#", icon: BookOpen },
+    { name: "Kemajuan Siswa", url: "#", icon: GalleryVerticalEnd },
   ],
 }
 
@@ -46,7 +46,7 @@ export function TeacherSidebar() {
         <NavProjects projects={teacherData.projects} />
       </SidebarContent>
       <SidebarFooter className="border-t border-border/50 px-2 py-3">
-        <NavUser user={{ name: "Teacher", email: "teacher@example.com", avatar: "/default-avatar.png" }} />
+        <NavUser user={{ name: "Guru", email: "teacher@example.com", avatar: "/default-avatar.png" }} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

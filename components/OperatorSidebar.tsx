@@ -9,17 +9,17 @@ import { LayoutDashboard, Users, FileText, Settings2, Calendar } from "lucide-re
 
 const operatorData = {
   teams: [
-    { name: "Operator Team", logo: Users, plan: "Pro" },
+    { name: "Tim Operator", logo: Users, plan: "Pro" },
   ],
   navMain: [
     { title: "Dashboard", url: "/dashboard/operator", icon: LayoutDashboard, isActive: true },
-    { title: "Manage Teachers", url: "/dashboard/operator/teachers", icon: Users },
-    { title: "Reports", url: "/dashboard/operator/reports", icon: FileText },
-    { title: "Settings", url: "/dashboard/operator/settings", icon: Settings2 },
+    { title: "Kelola Guru", url: "/dashboard/operator/teachers", icon: Users },
+    { title: "Laporan", url: "/dashboard/operator/reports", icon: FileText },
+    { title: "Pengaturan", url: "/dashboard/operator/settings", icon: Settings2 },
   ],
   projects: [
-    { name: "Teacher Evaluations", url: "#", icon: FileText },
-    { name: "School Calendar", url: "#", icon: Calendar },
+    { name: "Evaluasi Guru", url: "#", icon: FileText },
+    { name: "Kalender Sekolah", url: "#", icon: Calendar },
   ],
 }
 
