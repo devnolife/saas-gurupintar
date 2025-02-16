@@ -17,7 +17,7 @@ export default function RegisterPage() {
       >
         <div className="w-full max-w-md">
           <h2 className="text-3xl font-bold mb-4 text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            Join Guru Pintar
+            Bergabung dengan Guru Pintar
           </h2>
           <RegistrationWizard />
           <p className="text-center text-sm mt-4">
@@ -45,7 +45,7 @@ export default function RegisterPage() {
           >
             <Image
               src="/placeholder.svg"
-              alt="Teacher illustration"
+              alt="Ilustrasi Guru"
               width={350}
               height={250}
               className="w-full h-auto rounded-2xl shadow-2xl"
@@ -57,7 +57,7 @@ export default function RegisterPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            Empower Your Teaching
+            Tingkatkan Pengajaran Anda
           </motion.h1>
           <motion.p
             className="text-lg mb-6"
@@ -65,7 +65,7 @@ export default function RegisterPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            Join our cutting-edge education management platform. Perfect for the modern, tech-savvy educator.
+            Gabung platform manajemen pendidikan terkini kami. Cocok untuk pendidik modern yang memahami teknologi.
           </motion.p>
           <motion.div
             className="grid grid-cols-2 gap-4"
@@ -73,10 +73,10 @@ export default function RegisterPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
           >
-            <FeatureItem icon={GraduationCap} text="Smart Lesson Planning" />
-            <FeatureItem icon={BookOpen} text="Resource Library" />
-            <FeatureItem icon={Users} text="Student Management" />
-            <FeatureItem icon={Lightbulb} text="Innovative Tools" />
+            <FeatureItem icon={GraduationCap} text="Perencanaan Pelajaran Cerdas" />
+            <FeatureItem icon={BookOpen} text="Perpustakaan Sumber Belajar" />
+            <FeatureItem icon={Users} text="Manajemen Siswa" />
+            <FeatureItem icon={Lightbulb} text="Alat Inovatif" />
           </motion.div>
         </div>
       </motion.div>
