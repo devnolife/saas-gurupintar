@@ -1,3 +1,5 @@
+'use client'
+
 import Image from "next/image"
 import { RegistrationWizard } from "@/components/RegistrationWizard"
 import { motion } from "framer-motion"
