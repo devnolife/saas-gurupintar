@@ -52,15 +52,15 @@ export default function AddOperatorPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Add New Operator</h1>
+      <h1 className="text-3xl font-bold mb-8">Tambah Operator Baru</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Operator Information</CardTitle>
+          <CardTitle>Informasi Operator</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">Nama Lengkap</Label>
               <Input
                 id="name"
                 name="name"
@@ -83,7 +83,7 @@ export default function AddOperatorPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="school">Assigned School</Label>
+              <Label htmlFor="school">Sekolah yang Ditugaskan</Label>
               <Select onValueChange={handleSelectChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a school" />
@@ -96,7 +96,7 @@ export default function AddOperatorPage() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="teacherAccounts">Number of Teacher Accounts</Label>
+              <Label htmlFor="teacherAccounts">Jumlah Akun Guru</Label>
               <Select onValueChange={handleTeacherAccountsChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select number of teacher accounts" />
@@ -112,14 +112,13 @@ export default function AddOperatorPage() {
             </div>
             <Alert>
               <InfoIcon className="h-4 w-4" />
-              <AlertTitle>Important</AlertTitle>
+              <AlertTitle>Penting</AlertTitle>
               <AlertDescription>
-                The operator will not be able to log in if no teacher accounts are available. Please ensure you allocate
-                the appropriate number of teacher accounts.
+                Operator tidak akan dapat masuk jika tidak ada akun guru yang tersedia. Harap pastikan Anda mengalokasikan jumlah akun guru yang sesuai.
               </AlertDescription>
             </Alert>
             <Button type="submit" className="w-full">
-              Add Operator
+              Tambah Operator
             </Button>
           </form>
         </CardContent>
@@ -127,4 +126,3 @@ export default function AddOperatorPage() {
     </div>
   )
 }
-

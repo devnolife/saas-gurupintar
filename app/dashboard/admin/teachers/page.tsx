@@ -25,10 +25,10 @@ export default function TeachersPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Manage Teachers</h1>
+      <h1 className="text-3xl font-bold mb-8">Kelola Guru</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Teacher List</CardTitle>
+          <CardTitle>Daftar Guru</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -36,7 +36,7 @@ export default function TeachersPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search teachers..."
+                placeholder="Cari guru..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -44,16 +44,16 @@ export default function TeachersPage() {
             </div>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
-              Add Teacher
+              Tambah Guru
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
+                <TableHead>Nama</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Subject</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Mata Pelajaran</TableHead>
+                <TableHead>Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -76,4 +76,3 @@ export default function TeachersPage() {
     </div>
   )
 }
-

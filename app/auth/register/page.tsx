@@ -1,15 +1,20 @@
 'use client'
 import type React from "react"
+'use client'
+import type React from "react"
 import Image from "next/image"
 import { RegistrationWizard } from "@/components/RegistrationWizard"
 import { motion } from "framer-motion"
+import { GraduationCap, BookOpen, Users, Lightbulb } from "lucide-react"
 import { GraduationCap, BookOpen, Users, Lightbulb } from "lucide-react"
 
 export default function RegisterPage() {
   return (
     <div className="h-screen flex flex-col lg:flex-row bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden">
+    <div className="h-screen flex flex-col lg:flex-row bg-gradient-to-br from-primary/10 to-secondary/10 overflow-hidden">
       {/* Left side - Registration Form */}
       <motion.div
+        className="w-full lg:w-1/2 flex items-center justify-center p-4 order-2 lg:order-1"
         className="w-full lg:w-1/2 flex items-center justify-center p-4 order-2 lg:order-1"
         initial={{ opacity: 0, x: -50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -26,11 +31,18 @@ export default function RegisterPage() {
               Silahkan Login
             </a>
           </p>
+          <p className="text-center text-sm mt-4">
+            Sudah punya akun?{' '}
+            <a href="/auth/login" className="text-primary hover:underline">
+              Silahkan Login
+            </a>
+          </p>
         </div>
       </motion.div>
 
       {/* Right side - Illustration & Description */}
       <motion.div
+        className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 order-1 lg:order-2 bg-gradient-to-br from-primary to-secondary"
         className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6 order-1 lg:order-2 bg-gradient-to-br from-primary to-secondary"
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -41,6 +53,7 @@ export default function RegisterPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
+            className="mb-6"
             className="mb-6"
           >
             <Image
@@ -53,6 +66,7 @@ export default function RegisterPage() {
           </motion.div>
           <motion.h1
             className="text-3xl font-bold mb-4"
+            className="text-3xl font-bold mb-4"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -61,11 +75,12 @@ export default function RegisterPage() {
           </motion.h1>
           <motion.p
             className="text-lg mb-6"
+            className="text-lg mb-6"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            Join our cutting-edge education management platform. Perfect for the modern, tech-savvy educator.
+            Gabung platform manajemen pendidikan terkini kami. Cocok untuk pendidik modern yang memahami teknologi.
           </motion.p>
           <motion.div
             className="grid grid-cols-2 gap-4"
@@ -84,6 +99,14 @@ export default function RegisterPage() {
   )
 }
 
+function FeatureItem({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
+  return (
+    <div className="flex items-center space-x-2">
+      <Icon className="w-5 h-5" />
+      <span className="text-sm">{text}</span>
+    </div>
+  )
+}
 function FeatureItem({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
   return (
     <div className="flex items-center space-x-2">

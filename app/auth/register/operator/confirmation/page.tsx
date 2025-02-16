@@ -37,12 +37,12 @@ export default function ConfirmationPage() {
     <div className="container mx-auto px-4 py-8">
       <Card className="max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Confirm Registration Details</CardTitle>
+          <CardTitle>Konfirmasi Detail Pendaftaran</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="schoolName">School Name</Label>
+              <Label htmlFor="schoolName">Nama Sekolah</Label>
               <Input
                 id="schoolName"
                 name="schoolName"
@@ -52,7 +52,7 @@ export default function ConfirmationPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="teacherCount">Number of Teachers</Label>
+              <Label htmlFor="teacherCount">Jumlah Guru</Label>
               <Input
                 id="teacherCount"
                 name="teacherCount"
@@ -63,10 +63,10 @@ export default function ConfirmationPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="package">Package</Label>
+              <Label htmlFor="package">Paket</Label>
               <Select onValueChange={(value) => handleSelectChange("package", value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a package" />
+                  <SelectValue placeholder="Pilih paket" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="basic">Basic</SelectItem>
@@ -76,7 +76,7 @@ export default function ConfirmationPage() {
               </Select>
             </div>
             <Button type="submit" className="w-full">
-              Confirm and Proceed to Payment
+              Konfirmasi dan Lanjutkan ke Pembayaran
             </Button>
           </form>
         </CardContent>
@@ -84,4 +84,3 @@ export default function ConfirmationPage() {
     </div>
   )
 }
-

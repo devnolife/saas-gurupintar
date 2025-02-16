@@ -36,16 +36,16 @@ export default function PaymentPage() {
     <div className="container mx-auto px-4 py-8">
       <Card className="max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Payment</CardTitle>
+          <CardTitle>Pembayaran</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label>Select Payment Method</Label>
+              <Label>Pilih Metode Pembayaran</Label>
               <RadioGroup value={paymentMethod} onValueChange={setPaymentMethod}>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="credit_card" id="credit_card" />
-                  <Label htmlFor="credit_card">Credit Card</Label>
+                  <Label htmlFor="credit_card">Kartu Kredit</Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="dana" id="dana" />
@@ -60,7 +60,7 @@ export default function PaymentPage() {
             {paymentMethod === "credit_card" && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="cardNumber">Card Number</Label>
+                  <Label htmlFor="cardNumber">Nomor Kartu</Label>
                   <Input
                     id="cardNumber"
                     name="cardNumber"
@@ -71,7 +71,7 @@ export default function PaymentPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="expiryDate">Expiry Date</Label>
+                    <Label htmlFor="expiryDate">Tanggal Kedaluwarsa</Label>
                     <Input
                       id="expiryDate"
                       name="expiryDate"
@@ -88,7 +88,7 @@ export default function PaymentPage() {
               </div>
             )}
             <Button type="submit" className="w-full">
-              Complete Payment
+              Selesaikan Pembayaran
             </Button>
           </form>
         </CardContent>
@@ -96,4 +96,3 @@ export default function PaymentPage() {
     </div>
   )
 }
-

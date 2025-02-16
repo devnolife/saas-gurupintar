@@ -32,12 +32,12 @@ export default function OperatorRegistrationPage() {
     <div className="container mx-auto px-4 py-8">
       <Card className="max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Operator Registration</CardTitle>
+          <CardTitle>Pendaftaran Operator</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">Nama Lengkap</Label>
               <Input id="name" name="name" value={formData.name} onChange={handleInputChange} required />
             </div>
             <div className="space-y-2">
@@ -52,7 +52,7 @@ export default function OperatorRegistrationPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Kata Sandi</Label>
               <Input
                 id="password"
                 name="password"
@@ -63,7 +63,7 @@ export default function OperatorRegistrationPage() {
               />
             </div>
             <Button type="submit" className="w-full">
-              Register
+              Daftar
             </Button>
           </form>
         </CardContent>
@@ -71,4 +71,3 @@ export default function OperatorRegistrationPage() {
     </div>
   )
 }
-
