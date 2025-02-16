@@ -33,10 +33,10 @@ export default function TransactionsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Transaction Monitor</h1>
+      <h1 className="text-3xl font-bold mb-8">Monitor Transaksi</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Teacher Payment Transactions</CardTitle>
+          <CardTitle>Transaksi Pembayaran Guru</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -44,7 +44,7 @@ export default function TransactionsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search transactions..."
+                placeholder="Cari transaksi..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -52,16 +52,16 @@ export default function TransactionsPage() {
             </div>
             <Button onClick={handleExportData}>
               <Download className="mr-2 h-4 w-4" />
-              Export Data
+              Ekspor Data
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Teacher ID</TableHead>
-                <TableHead>Teacher Name</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>ID Guru</TableHead>
+                <TableHead>Nama Guru</TableHead>
+                <TableHead>Jumlah</TableHead>
+                <TableHead>Tanggal</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -82,7 +82,11 @@ export default function TransactionsPage() {
                             : "destructive"
                       }
                     >
-                      {transaction.status}
+                      {transaction.status === "Completed"
+                        ? "Selesai"
+                        : transaction.status === "Pending"
+                          ? "Tertunda"
+                          : "Gagal"}
                     </Badge>
                   </TableCell>
                 </TableRow>
@@ -94,4 +98,3 @@ export default function TransactionsPage() {
     </div>
   )
 }
-

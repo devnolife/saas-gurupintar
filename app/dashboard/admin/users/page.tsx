@@ -25,10 +25,10 @@ export default function UsersPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Manage Users</h1>
+      <h1 className="text-3xl font-bold mb-8">Kelola Pengguna</h1>
       <Card>
         <CardHeader>
-          <CardTitle>User List</CardTitle>
+          <CardTitle>Daftar Pengguna</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -36,7 +36,7 @@ export default function UsersPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Search users..."
+                placeholder="Cari pengguna..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -44,16 +44,16 @@ export default function UsersPage() {
             </div>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
-              Add User
+              Tambah Pengguna
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
+                <TableHead>Nama</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>Peran</TableHead>
+                <TableHead>Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -76,4 +76,3 @@ export default function UsersPage() {
     </div>
   )
 }
-

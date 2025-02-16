@@ -14,7 +14,7 @@ export default function RegisterPage() {
       >
         <div className="w-full max-w-md">
           <h2 className="text-4xl font-bold mb-6 text-center bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">
-            Join Guru Pintar
+            Bergabung dengan Guru Pintar
           </h2>
           <RegistrationWizard />
         </div>
@@ -47,7 +47,7 @@ export default function RegisterPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            Empower Your School
+            Memberdayakan Sekolah Anda
           </motion.h1>
           <motion.p
             className="text-xl"
@@ -55,11 +55,10 @@ export default function RegisterPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            Join our cutting-edge education management platform. Perfect for the modern, tech-savvy educator.
+            Bergabunglah dengan platform manajemen pendidikan mutakhir kami. Sempurna untuk pendidik modern yang melek teknologi.
           </motion.p>
         </div>
       </motion.div>
     </div>
   )
 }
-
