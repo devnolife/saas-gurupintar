@@ -15,6 +15,7 @@ const operatorData = {
     { title: "Dashboard", url: "/dashboard/operator", icon: LayoutDashboard, isActive: true },
     { title: "Kelola Guru", url: "/dashboard/operator/teachers", icon: Users },
     { title: "Laporan", url: "/dashboard/operator/reports", icon: FileText },
+    { title: "Buat Template Soal", url: "/dashboard/operator/templates", icon: FileText },
     { title: "Pengaturan", url: "/dashboard/operator/settings", icon: Settings2 },
   ],
   projects: [
