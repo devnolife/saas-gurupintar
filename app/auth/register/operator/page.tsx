@@ -20,12 +20,25 @@ export default function OperatorRegistrationPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real application, you would send this data to your API
-    console.log("Operator registration data:", formData)
-    // For now, we'll just move to the next step
-    router.push("/register/operator/confirmation")
+    try {
+      const response = await fetch("/api/register/operator", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        router.push("/register/operator/confirmation")
+      } else {
+        console.error("Failed to register operator")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    }
   }
 
   return (

@@ -51,7 +51,7 @@ export default function LoginPage() {
       } else {
         toast({
           title: "Login Gagal",
-          description: "Nama pengguna atau kata sandi tidak valid",
+          description: data.message || "Nama pengguna atau kata sandi tidak valid",
           variant: "destructive",
         })
       }
