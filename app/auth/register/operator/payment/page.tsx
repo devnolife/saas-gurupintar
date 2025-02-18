@@ -22,14 +22,26 @@ export default function PaymentPage() {
     setCardDetails((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real application, you would process the payment here
-    console.log("Payment method:", paymentMethod)
-    console.log("Card details:", cardDetails)
-    // Simulate successful payment
-    alert("Payment successful! Your account has been created.")
-    router.push("/dashboard/operator")
+    try {
+      const response = await fetch("/api/register/operator/payment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ paymentMethod, cardDetails }),
+      })
+
+      if (response.ok) {
+        alert("Payment successful! Your account has been created.")
+        router.push("/dashboard/operator")
+      } else {
+        console.error("Failed to process payment")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    }
   }
 
   return (

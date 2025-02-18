@@ -25,12 +25,25 @@ export default function ConfirmationPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // In a real application, you would send this data to your API
-    console.log("Confirmation data:", formData)
-    // Move to the payment page
-    router.push("/register/operator/payment")
+    try {
+      const response = await fetch("/api/register/operator/confirmation", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (response.ok) {
+        router.push("/register/operator/payment")
+      } else {
+        console.error("Failed to confirm registration")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    }
   }
 
   return (
