@@ -27,7 +27,7 @@ interface RPPFormData {
 interface GeneratedRPP extends Omit<RPPFormData, "learningObjectives"> {
   title: string;
   learningObjectives: string[]; // converted from input string to array
-  activities: unknown[]; // replaced "any[]" with "unknown[]"
+  activities: any[]; // replaced "any[]" with "unknown[]"
 }
 
 const generateRPP = async (formData: RPPFormData): Promise<GeneratedRPP> => {
