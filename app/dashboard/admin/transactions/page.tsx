@@ -17,7 +17,7 @@ const initialTransactions = [
 
 export default function TransactionsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [transactions, setTransactions] = useState(initialTransactions)
+  const [transactions] = useState(initialTransactions)
 
   const filteredTransactions = transactions.filter(
     (transaction) =>

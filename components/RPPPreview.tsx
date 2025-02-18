@@ -1,9 +1,30 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
+interface RPPGenerated {
+  title: string;
+  subject: string;
+  grade: string;
+  duration: string;
+  identitasModule: string;
+  kompetensiAwal: string;
+  profilPelajarPancasila: string;
+  saranaPrasarana: string;
+  targetPesertaDidik: string;
+  modelPembelajaran: string;
+  learningObjectives: string[];
+  activities: string[];
+  assessment: string;
+  refleksiGuru: string;
+  refleksiPesertaDidik: string;
+  pengayaanRemedial: string;
+  bahanBacaan: string;
+  glosarium: string;
+}
+
 interface RPPPreviewProps {
-  generatedRPP: any
-  isGenerating: boolean
+  generatedRPP: RPPGenerated;
+  isGenerating: boolean;
 }
 
 export function RPPPreview({ generatedRPP, isGenerating }: RPPPreviewProps) {
@@ -68,7 +89,7 @@ export function RPPPreview({ generatedRPP, isGenerating }: RPPPreviewProps) {
         ) : (
           <div className="text-center text-muted-foreground py-4">
             <p>RPP belum di-generate.</p>
-            <p>Isi formulir di sebelah kiri dan klik "Generate RPP" untuk melihat hasilnya di sini.</p>
+            <p>Isi formulir di sebelah kiri dan klik &quot;Generate RPP&quot; untuk melihat hasilnya di sini.</p>
           </div>
         )}
       </CardContent>

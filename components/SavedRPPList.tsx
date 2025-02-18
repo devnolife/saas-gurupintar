@@ -1,7 +1,15 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
+interface SavedRPP {
+  title: string;
+  subject: string;
+  grade: string;
+  duration: string;
+  kompetensiAwal: string;
+}
+
 interface SavedRPPListProps {
-  savedRPPList: any[]
+  savedRPPList: SavedRPP[];
 }
 
 export function SavedRPPList({ savedRPPList }: SavedRPPListProps) {

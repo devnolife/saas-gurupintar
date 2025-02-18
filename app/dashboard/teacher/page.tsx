@@ -5,7 +5,32 @@ import { RPPForm } from "@/components/RPPForm"
 import { RPPPreview } from "@/components/RPPPreview"
 import { FAKE_RPP_DATA } from "@/app/data/fakeRPPData"
 
-const generateRPP = async (formData: any): Promise<any> => {
+interface RPPFormData {
+  subject: string;
+  grade: string;
+  duration: string;
+  identitasModule: string;
+  kompetensiAwal: string;
+  profilPelajarPancasila: string;
+  saranaPrasarana: string;
+  targetPesertaDidik: string;
+  modelPembelajaran: string;
+  learningObjectives: string;
+  assessment: string;
+  refleksiGuru: string;
+  refleksiPesertaDidik: string;
+  pengayaanRemedial: string;
+  bahanBacaan: string;
+  glosarium: string;
+}
+
+interface GeneratedRPP extends Omit<RPPFormData, "learningObjectives"> {
+  title: string;
+  learningObjectives: string[]; // converted from input string to array
+  activities: any[];
+}
+
+const generateRPP = async (formData: RPPFormData): Promise<GeneratedRPP> => {
   // simulasi loading 2 detik
   await new Promise((resolve) => setTimeout(resolve, 2000))
 
@@ -40,11 +65,12 @@ const generateRPP = async (formData: any): Promise<any> => {
     pengayaanRemedial: formData.pengayaanRemedial || matched.pengayaanRemedial,
     bahanBacaan: formData.bahanBacaan || matched.bahanBacaan,
     glosarium: formData.glosarium || matched.glosarium,
+    activities: matched.activities || [],
   }
 }
 
 export default function TeacherDashboardPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<RPPFormData>({
     subject: "",
     grade: "",
     duration: "",
@@ -64,7 +90,7 @@ export default function TeacherDashboardPage() {
   })
 
   const [isGenerating, setIsGenerating] = useState(false)
-  const [generatedRPP, setGeneratedRPP] = useState<any>(null)
+  const [generatedRPP, setGeneratedRPP] = useState<GeneratedRPP | null>(null)
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

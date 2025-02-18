@@ -35,14 +35,33 @@ import {
   Loader2,
 } from "lucide-react"
 
+// Add new interface for formData:
+interface RPPFormData {
+  subject: string;
+  grade: string;
+  duration: string;
+  identitasModule: string;
+  kompetensiAwal: string;
+  profilPelajarPancasila: string;
+  saranaPrasarana: string;
+  targetPesertaDidik: string;
+  modelPembelajaran: string;
+  learningObjectives: string;
+  assessment: string;
+  refleksiGuru: string;
+  refleksiPesertaDidik: string;
+  pengayaanRemedial: string;
+  bahanBacaan: string;
+  glosarium: string;
+}
+
+// Update props interface:
 interface RPPFormProps {
-  formData: any
-  handleInputChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void
-  handleSelectChange: (value: string, field: string) => void
-  handleSubmit: (e: React.FormEvent) => void
-  isGenerating: boolean
+  formData: RPPFormData;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleSelectChange: (value: string, field: string) => void;
+  handleSubmit: (e: React.FormEvent) => void;
+  isGenerating: boolean;
 }
 
 export function RPPForm({
