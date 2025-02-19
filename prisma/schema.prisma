@@ -1,8 +1,152 @@
-
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  email          String           @unique
+  password       String
+  role           Role
+  school         School?          @relation(fields: [schoolId], references: [id])
+  schoolId       String?          @db.ObjectId
+  rpps           RPP[]
+  syllabi        Syllabus[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  rppTemplates   RPPTemplate[]
+  syllabusTemplates SyllabusTemplate[]
+}
+
+model School {
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  name             String
+  address          String
+  principalName    String
+  users            User[]
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  rppTemplates     RPPTemplate[]
+  syllabusTemplates SyllabusTemplate[]
+  subscription     SchoolSubscription?
+}
+
+model RPP {
+  id                     String   @id @default(auto()) @map("_id") @db.ObjectId
+  title                  String
+  subject                String
+  grade                  String
+  duration               String
+  identitasModule        String
+  kompetensiAwal         String
+  profilPelajarPancasila String
+  saranaPrasarana        String
+  targetPesertaDidik     String
+  modelPembelajaran      String
+  learningObjectives     String[]
+  activities             String[]
+  assessment             String
+  refleksiGuru           String
+  refleksiPesertaDidik   String
+  pengayaanRemedial      String
+  bahanBacaan            String
+  glosarium              String
+  author                 User     @relation(fields: [authorId], references: [id])
+  authorId               String   @db.ObjectId
+  template               RPPTemplate? @relation(fields: [templateId], references: [id])
+  templateId             String?  @db.ObjectId
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model Syllabus {
+  id                 String   @id @default(auto()) @map("_id") @db.ObjectId
+  subject            String
+  grade              String
+  semester           String
+  academicYear       String
+  coreCompetencies   String
+  basicCompetencies  String
+  indicators         String
+  mainTopics         String
+  learningActivities String
+  assessmentMethods  String
+  timeAllocation     String
+  learningResources  String
+  author             User     @relation(fields: [authorId], references: [id])
+  authorId           String   @db.ObjectId
+  template           SyllabusTemplate? @relation(fields: [templateId], references: [id])
+  templateId         String?  @db.ObjectId
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model RPPTemplate {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  grade     String
+  semester  String
+  sections  Json
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String   @db.ObjectId
+  rpps      RPP[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SyllabusTemplate {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  grade     String
+  semester  String
+  sections  Json
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String   @db.ObjectId
+  school    School   @relation(fields: [schoolId], references: [id])
+  schoolId  String   @db.ObjectId
+  syllabi   Syllabus[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SchoolSubscription {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  school            School   @relation(fields: [schoolId], references: [id])
+  schoolId          String   @unique @db.ObjectId
+  packageName       String
+  maxRPPsPerMonth   Int
+  maxSyllabiPerMonth Int
+  maxTeachers       Int
+  startDate         DateTime
+  endDate           DateTime
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  OPERATOR
+  TEACHER
+}
+
+model PricingPackage {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  price           Float
+  billingCycle    String
+  maxTeachers     Int
+  maxRPPsPerMonth Int
+  maxSyllabiPerMonth Int
+  features        String[]
+  isPopular       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
