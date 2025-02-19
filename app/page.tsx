@@ -4,7 +4,7 @@ import Features from "@/components/Features"
 import HowItWorks from "@/components/HowItWorks"
 import Benefits from "@/components/Benefits"
 import Testimonials from "@/components/Testimonials"
-import Pricing from "@/components/Pricing"
+import PricingSection from "@/components/PricingSection"
 import FAQ from "@/components/FAQ"
 import Footer from "@/components/Footer"
 
@@ -26,7 +26,7 @@ export default function Home() {
         <Testimonials />
       </section>
       <section id="pricing">
-        <Pricing />
+        <PricingSection />
       </section>
       <section id="faq">
         <FAQ />
