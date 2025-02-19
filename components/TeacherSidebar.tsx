@@ -5,7 +5,9 @@ import { TeamSwitcher } from "@/components/TeamSwitcher"
 import { NavMain } from "@/components/NavMain"
 import { NavProjects } from "@/components/NavProjects"
 import { NavUser } from "@/components/NavUser"
-import { LayoutDashboard, BookOpen, Calendar, FileText, Settings2, GalleryVerticalEnd } from "lucide-react"
+import { LayoutDashboard, BookOpen, Calendar, FileText, Settings2, GalleryVerticalEnd, LogOut } from "lucide-react"
+import { Button } from "./ui/button"
+import { useAuth } from "@/hooks/useAuth"
 
 const teacherData = {
   teams: [
@@ -34,6 +36,7 @@ const teacherData = {
 }
 
 export function TeacherSidebar() {
+  const { user, logout } = useAuth()
   return (
     <SidebarProvider>
     <Sidebar collapsible="icon">
@@ -46,7 +49,11 @@ export function TeacherSidebar() {
         <NavProjects projects={teacherData.projects} />
       </SidebarContent>
       <SidebarFooter className="border-t border-border/50 px-2 py-3">
-        <NavUser user={{ name: "Guru", email: "teacher@example.com", avatar: "/default-avatar.png" }} />
+          <NavUser user={user ? { ...user, avatar: "/default-avatar.png" } : null} />
+          <Button onClick={logout} variant="ghost" className="w-full justify-start mt-2">
+            <LogOut className="mr-2 h-4 w-4" />
+            Logout
+          </Button>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -35,7 +35,7 @@ import {
   Loader2,
 } from "lucide-react"
 
-// Add new interface for formData:
+
 interface RPPFormData {
   subject: string;
   grade: string;
@@ -55,7 +55,7 @@ interface RPPFormData {
   glosarium: string;
 }
 
-// Update props interface:
+
 interface RPPFormProps {
   formData: RPPFormData;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
@@ -75,13 +75,10 @@ export function RPPForm({
     <Card className="w-full max-w-4xl mx-auto">
       <CardContent className="p-6">
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Bagian Atas: Informasi Dasar & Identitas */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Kolom Kiri: Informasi Dasar */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Informasi Dasar</h3>
 
-              {/* Mata Pelajaran */}
               <div className="space-y-2">
                 <Label htmlFor="subject">Mata Pelajaran</Label>
                 <div className="relative">
@@ -97,7 +94,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Kelas */}
               <div className="space-y-2">
                 <Label htmlFor="grade">Kelas</Label>
                 <div className="relative">
@@ -120,7 +116,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Durasi */}
               <div className="space-y-2">
                 <Label htmlFor="duration">Durasi</Label>
                 <div className="relative">
@@ -138,13 +133,11 @@ export function RPPForm({
               </div>
             </div>
 
-            {/* Kolom Kanan: Identitas & Kompetensi */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">
                 Identitas & Kompetensi
               </h3>
 
-              {/* Identitas Modul */}
               <div className="space-y-2">
                 <Label htmlFor="identitasModule">Identitas Modul</Label>
                 <div className="relative">
@@ -160,7 +153,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Kompetensi Awal */}
               <div className="space-y-2">
                 <Label htmlFor="kompetensiAwal">Kompetensi Awal</Label>
                 <div className="relative">
@@ -176,7 +168,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Profil Pelajar */}
               <div className="space-y-2">
                 <Label htmlFor="profilPelajarPancasila">
                   Profil Pelajar
@@ -198,13 +189,10 @@ export function RPPForm({
 
           <Separator />
 
-          {/* Bagian Tengah: Sarana, Target, Tujuan & Penilaian */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Kolom Kiri: Sarana & Target */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">Sarana & Target</h3>
 
-              {/* Sarana & Prasarana */}
               <div className="space-y-2">
                 <Label htmlFor="saranaPrasarana">Sarana & Prasarana</Label>
                 <div className="relative">
@@ -220,7 +208,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Target Peserta Didik */}
               <div className="space-y-2">
                 <Label htmlFor="targetPesertaDidik">
                   Target Peserta Didik
@@ -238,7 +225,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Model Pembelajaran */}
               <div className="space-y-2">
                 <Label htmlFor="modelPembelajaran">
                   Model Pembelajaran
@@ -257,13 +243,11 @@ export function RPPForm({
               </div>
             </div>
 
-            {/* Kolom Kanan: Tujuan & Penilaian */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">
                 Tujuan & Penilaian
               </h3>
 
-              {/* Tujuan Pembelajaran */}
               <div className="space-y-2">
                 <Label htmlFor="learningObjectives">
                   Tujuan Pembelajaran
@@ -281,7 +265,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Penilaian */}
               <div className="space-y-2">
                 <Label htmlFor="assessment">Penilaian</Label>
                 <div className="relative">
@@ -301,15 +284,12 @@ export function RPPForm({
 
           <Separator />
 
-          {/* Bagian Bawah: Refleksi & Pengayaan, Bahan Bacaan & Glosarium */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Refleksi & Pengayaan */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">
                 Refleksi & Pengayaan
               </h3>
 
-              {/* Refleksi Guru */}
               <div className="space-y-2">
                 <Label htmlFor="refleksiGuru">Refleksi Guru</Label>
                 <div className="relative">
@@ -324,7 +304,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Refleksi Peserta Didik */}
               <div className="space-y-2">
                 <Label htmlFor="refleksiPesertaDidik">
                   Refleksi Peserta Didik
@@ -341,7 +320,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Pengayaan & Remedial */}
               <div className="space-y-2">
                 <Label htmlFor="pengayaanRemedial">
                   Pengayaan & Remedial
@@ -359,13 +337,11 @@ export function RPPForm({
               </div>
             </div>
 
-            {/* Bahan Bacaan & Glosarium */}
             <div className="space-y-4">
               <h3 className="text-lg font-semibold mb-4">
                 Bahan Bacaan & Glosarium
               </h3>
 
-              {/* Bahan Bacaan */}
               <div className="space-y-2">
                 <Label htmlFor="bahanBacaan">Bahan Bacaan</Label>
                 <div className="relative">
@@ -380,7 +356,6 @@ export function RPPForm({
                 </div>
               </div>
 
-              {/* Glosarium */}
               <div className="space-y-2">
                 <Label htmlFor="glosarium">Glosarium</Label>
                 <div className="relative">

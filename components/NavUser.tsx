@@ -18,10 +18,11 @@ interface UserData {
 }
 
 interface NavUserProps {
-  user: UserData
+  user: UserData | null
 }
 
 export function NavUser({ user }: NavUserProps) {
+  if (!user) return null
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
