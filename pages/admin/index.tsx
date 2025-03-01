@@ -1,4 +1,4 @@
-import { AdminLayout } from "@/components/AdminLayout"
+import AdminLayout from "@/components/AdminLayout"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 export default function AdminDashboard() {
