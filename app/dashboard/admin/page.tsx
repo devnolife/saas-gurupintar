@@ -13,7 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Progress } from "@/components/ui/progress"
 import {
   LineChart,
   BarChart,
@@ -26,7 +25,9 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
-import { School, Users, FileText, MoreVertical, Search, ArrowUpRight, Download } from "lucide-react"
+import { School, Users, FileText, MoreVertical, Search, Download, CreditCard, TrendingUp, Activity } from "lucide-react"
+import { DashboardCard } from "@/components/DashboardCard"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Mock data for charts
 const userActivityData = [
@@ -66,130 +67,173 @@ export default function AdminDashboardPage() {
   )
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-8">
+    <div className="space-y-8 w-full p-6">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Dasbor Admin</h1>
+          <h1 className="text-3xl font-bold">Dashboard Admin</h1>
           <p className="text-muted-foreground">Selamat datang kembali, lihat statistik dan aktivitas terbaru</p>
         </div>
-        <Button>
-          <Download className="mr-2 h-4 w-4" /> Unduh Laporan
+        <Button className="gap-2 rounded-xl">
+          <Download className="h-4 w-4" /> Unduh Laporan
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Pengguna</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold">2,834</div>
-                <p className="text-xs text-muted-foreground">+89 dari bulan lalu</p>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <ArrowUpRight className="h-6 w-6 text-primary" />
-              </div>
-            </div>
-            <Progress value={70} className="mt-3" />
-          </CardContent>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <DashboardCard
+          title="Total Pengguna"
+          value="2,834"
+          description="+89 dari bulan lalu"
+          icon={Users}
+          trend={{ value: 3.2, isPositive: true }}
+          colorScheme="primary"
+        />
+        <DashboardCard
+          title="Total Sekolah"
+          value="482"
+          description="+12 dari bulan lalu"
+          icon={School}
+          trend={{ value: 2.5, isPositive: true }}
+          colorScheme="secondary"
+        />
+        <DashboardCard
+          title="Total Dokumen"
+          value="12,543"
+          description="+1,234 dari bulan lalu"
+          icon={FileText}
+          trend={{ value: 9.8, isPositive: true }}
+          colorScheme="accent"
+        />
+        <DashboardCard
+          title="Pendapatan"
+          value="Rp 45.6M"
+          description="-2.3% dari bulan lalu"
+          icon={CreditCard}
+          trend={{ value: 2.3, isPositive: false }}
+          colorScheme="warning"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <Card className="lg:col-span-2 border-none shadow-md bg-white dark:bg-gray-900">
+          <Tabs defaultValue="users">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle>Analisis Aktivitas</CardTitle>
+              <TabsList className="bg-muted/50">
+                <TabsTrigger value="users">Pengguna</TabsTrigger>
+                <TabsTrigger value="documents">Dokumen</TabsTrigger>
+              </TabsList>
+            </CardHeader>
+            <CardContent>
+              <TabsContent value="users" className="mt-0">
+                <ResponsiveContainer width="100%" height={350}>
+                  <LineChart data={userActivityData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                    <XAxis dataKey="month" stroke="var(--muted-foreground)" />
+                    <YAxis stroke="var(--muted-foreground)" />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--background)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "0.5rem",
+                      }}
+                    />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="teachers"
+                      stroke="var(--primary)"
+                      activeDot={{ r: 8 }}
+                      strokeWidth={2}
+                    />
+                    <Line type="monotone" dataKey="students" stroke="var(--secondary)" strokeWidth={2} />
+                    <Line type="monotone" dataKey="admins" stroke="var(--accent)" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </TabsContent>
+              <TabsContent value="documents" className="mt-0">
+                <ResponsiveContainer width="100%" height={350}>
+                  <BarChart data={documentData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                    <XAxis dataKey="month" stroke="var(--muted-foreground)" />
+                    <YAxis stroke="var(--muted-foreground)" />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--background)",
+                        border: "1px solid var(--border)",
+                        borderRadius: "0.5rem",
+                      }}
+                    />
+                    <Legend />
+                    <Bar dataKey="lesson_plans" fill="var(--primary)" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="reports" fill="var(--secondary)" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="assessments" fill="var(--accent)" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </TabsContent>
+            </CardContent>
+          </Tabs>
         </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Sekolah</CardTitle>
-            <School className="h-4 w-4 text-muted-foreground" />
+
+        <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle>Kalender Aktivitas</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold">482</div>
-                <p className="text-xs text-muted-foreground">+12 dari bulan lalu</p>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <ArrowUpRight className="h-6 w-6 text-primary" />
-              </div>
+            <div className="flex flex-col space-y-4">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="flex items-start gap-3">
+                  <div className="flex flex-col items-center">
+                    <div className="text-sm font-medium text-muted-foreground">
+                      {["Sen", "Sel", "Rab", "Kam", "Jum"][i]}
+                    </div>
+                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-medium">
+                      {i + 10}
+                    </div>
+                  </div>
+                  <div className="flex-1 rounded-lg border p-3">
+                    <div className="font-medium">
+                      {
+                        [
+                          "Rapat Koordinasi Sekolah",
+                          "Pelatihan Guru Baru",
+                          "Evaluasi Kurikulum",
+                          "Pertemuan dengan Kepala Sekolah",
+                          "Pengembangan Sistem",
+                        ][i]
+                      }
+                    </div>
+                    <div className="text-sm text-muted-foreground">
+                      {["09:00 - 10:30", "13:00 - 15:00", "10:00 - 12:00", "14:00 - 15:30", "09:30 - 11:00"][i]}
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-            <Progress value={60} className="mt-3" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Dokumen</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="text-2xl font-bold">12,543</div>
-                <p className="text-xs text-muted-foreground">+1,234 dari bulan lalu</p>
-              </div>
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <ArrowUpRight className="h-6 w-6 text-primary" />
-              </div>
-            </div>
-            <Progress value={85} className="mt-3" />
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Aktivitas Pengguna</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={userActivityData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="teachers" stroke="#8884d8" activeDot={{ r: 8 }} />
-                <Line type="monotone" dataKey="students" stroke="#82ca9d" />
-                <Line type="monotone" dataKey="admins" stroke="#ffc658" />
-              </LineChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle>Dokumen yang Dibuat</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={documentData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="lesson_plans" fill="#8884d8" />
-                <Bar dataKey="reports" fill="#82ca9d" />
-                <Bar dataKey="assessments" fill="#ffc658" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Card>
-        <CardHeader>
+      <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Aktivitas Terbaru</CardTitle>
+          <div className="flex items-center space-x-2">
+            <div className="relative">
+              <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Cari aktivitas..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-8 h-9 w-[200px] rounded-lg border-muted bg-muted/50"
+              />
+            </div>
+            <Button variant="outline" size="sm" className="h-9 rounded-lg">
+              <Activity className="mr-2 h-4 w-4" />
+              Filter
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center space-x-2 mb-4">
-            <Search className="text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Cari aktivitas..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="max-w-sm"
-            />
-          </div>
           <Table>
             <TableHeader>
               <TableRow>
@@ -201,11 +245,11 @@ export default function AdminDashboardPage() {
             </TableHeader>
             <TableBody>
               {filteredActivities.map((activity) => (
-                <TableRow key={activity.id}>
+                <TableRow key={activity.id} className="hover:bg-muted/30">
                   <TableCell className="font-medium">{activity.user}</TableCell>
                   <TableCell>{activity.action}</TableCell>
                   <TableCell>{activity.timestamp}</TableCell>
-                  <TableCell>
+                  <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" className="h-8 w-8 p-0">
@@ -228,6 +272,72 @@ export default function AdminDashboardPage() {
           </Table>
         </CardContent>
       </Card>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle>Statistik Pengguna</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm font-medium">Guru</div>
+                  <div className="text-sm text-muted-foreground">82 / 100</div>
+                </div>
+                <div className="h-2 rounded-full bg-muted overflow-hidden">
+                  <div className="h-full bg-primary rounded-full" style={{ width: "82%" }}></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm font-medium">Operator</div>
+                  <div className="text-sm text-muted-foreground">24 / 30</div>
+                </div>
+                <div className="h-2 rounded-full bg-muted overflow-hidden">
+                  <div className="h-full bg-secondary rounded-full" style={{ width: "80%" }}></div>
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm font-medium">Admin</div>
+                  <div className="text-sm text-muted-foreground">5 / 10</div>
+                </div>
+                <div className="h-2 rounded-full bg-muted overflow-hidden">
+                  <div className="h-full bg-accent rounded-full" style={{ width: "50%" }}></div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+          <CardHeader>
+            <CardTitle>Tindakan Cepat</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+                <Users className="h-6 w-6" />
+                <span>Tambah Pengguna</span>
+              </Button>
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+                <School className="h-6 w-6" />
+                <span>Tambah Sekolah</span>
+              </Button>
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+                <FileText className="h-6 w-6" />
+                <span>Buat Laporan</span>
+              </Button>
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+                <TrendingUp className="h-6 w-6" />
+                <span>Lihat Analitik</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
+

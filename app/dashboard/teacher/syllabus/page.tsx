@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, type ChangeEvent } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"

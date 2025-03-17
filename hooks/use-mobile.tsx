@@ -1,19 +1,46 @@
-import * as React from "react"
+"use client"
 
-const MOBILE_BREAKPOINT = 768
+import { useState, useEffect } from "react"
 
-export function useIsMobile() {
-  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+/**
+ * Custom hook to detect if a media query matches
+ * @param query The media query to check
+ * @returns Boolean indicating if the media query matches
+ */
+export function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState<boolean>(false)
 
-  React.useEffect(() => {
-    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
-    const onChange = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+  useEffect(() => {
+    // Create a media query list
+    const mediaQuery = window.matchMedia(query)
+
+    // Set the initial value
+    setMatches(mediaQuery.matches)
+
+    // Define a callback function to handle changes
+    const handleChange = (event: MediaQueryListEvent) => {
+      setMatches(event.matches)
     }
-    mql.addEventListener("change", onChange)
-    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
-    return () => mql.removeEventListener("change", onChange)
-  }, [])
 
-  return !!isMobile
+    // Add the event listener
+    mediaQuery.addEventListener("change", handleChange)
+
+    // Clean up
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange)
+    }
+  }, [query])
+
+  return matches
 }
+
+/**
+ * Custom hook to detect if the device is mobile
+ * @returns Boolean indicating if the device is mobile
+ */
+export function useMobile(): boolean {
+  return useMediaQuery("(max-width: 768px)")
+}
+
+export default useMobile
+

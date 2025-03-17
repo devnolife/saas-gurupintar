@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button"
 import { Search, FileText, Download } from "lucide-react"
 
 const reports = [
-  { id: 1, name: "Kinerja Guru Bulanan", date: "2023-06-01", type: "Kinerja" },
-  { id: 2, name: "Statistik Kelas Triwulanan", date: "2023-07-01", type: "Statistik" },
-  { id: 3, name: "Laporan Tahunan Sekolah", date: "2023-05-15", type: "Umum" },
+  { id: 1, name: "Monthly Teacher Performance", date: "2023-06-01", type: "Performance" },
+  { id: 2, name: "Quarterly Class Statistics", date: "2023-07-01", type: "Statistics" },
+  { id: 3, name: "Annual School Report", date: "2023-05-15", type: "General" },
 ]
 
 export default function ReportsPage() {
@@ -24,10 +24,10 @@ export default function ReportsPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Laporan</h1>
+      <h1 className="text-3xl font-bold mb-8">Reports</h1>
       <Card>
         <CardHeader>
-          <CardTitle>Daftar Laporan</CardTitle>
+          <CardTitle>Report List</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -35,7 +35,7 @@ export default function ReportsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Cari laporan..."
+                placeholder="Search reports..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -43,16 +43,16 @@ export default function ReportsPage() {
             </div>
             <Button>
               <FileText className="mr-2 h-4 w-4" />
-              Hasilkan Laporan Baru
+              Generate New Report
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nama Laporan</TableHead>
-                <TableHead>Tanggal</TableHead>
-                <TableHead>Tipe</TableHead>
-                <TableHead>Aksi</TableHead>
+                <TableHead>Report Name</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -64,7 +64,7 @@ export default function ReportsPage() {
                   <TableCell>
                     <Button variant="outline" size="sm">
                       <Download className="mr-2 h-4 w-4" />
-                      Unduh
+                      Download
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -76,3 +76,4 @@ export default function ReportsPage() {
     </div>
   )
 }
+

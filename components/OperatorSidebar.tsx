@@ -1,60 +1,56 @@
-"use client"
-
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarProvider, SidebarRail } from "@/components/ui/sidebar"
-import { TeamSwitcher } from "@/components/TeamSwitcher"
-import { NavMain } from "@/components/NavMain"
-import { NavProjects } from "@/components/NavProjects"
-import { NavUser } from "@/components/NavUser"
-import { LayoutDashboard, Users, FileText, Settings2, Calendar, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "@/hooks/useAuth"
-
-const operatorData = {
-  teams: [
-    { name: "Tim Operator", logo: Users, plan: "Pro" },
-  ],
-  navMain: [
-    { title: "Dashboard", url: "/dashboard/operator", icon: LayoutDashboard, isActive: true },
-    { title: "Kelola Guru", url: "/dashboard/operator/teachers", icon: Users },
-    { title: "Laporan", url: "/dashboard/operator/reports", icon: FileText },
-    { title: "Buat Template Soal", url: "/dashboard/operator/templates", icon: FileText },
-    { title: "Pengaturan", url: "/dashboard/operator/settings", icon: Settings2 },
-  ],
-  projects: [
-    { name: "Evaluasi Guru", url: "#", icon: FileText },
-    { name: "Kalender Sekolah", url: "#", icon: Calendar },
-  ],
-}
+import { LayoutDashboard, Users, FileText, Settings, LogOut } from "lucide-react"
+import Link from "next/link"
 
 export function OperatorSidebar() {
-  const { user, logout } = useAuth()
-
   return (
-    <SidebarProvider>
-      <Sidebar collapsible="icon">
-        <SidebarHeader className="border-b border-border/50 px-2 py-3">
-          <TeamSwitcher teams={operatorData.teams} />
-        </SidebarHeader>
-        <SidebarContent className="px-2 py-4">
-          <NavMain items={operatorData.navMain} />
-          <div className="my-4 border-t border-border/50" />
-          <NavProjects projects={operatorData.projects} />
-        </SidebarContent>
-        <SidebarFooter className="border-t border-border/50 px-2 py-3">
-          <NavUser
-            user={
-              user
-                ? { name: user.name, email: user.email, avatar: "/defaultAvatar.png" }
-                : null
-            }
-          />
-          <Button onClick={logout} variant="ghost" className="mt-2 w-full justify-start">
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </Button>
-        </SidebarFooter>
-        <SidebarRail />
-      </Sidebar>
-    </SidebarProvider>
+    <div className="flex flex-col h-full">
+      <div className="p-4 border-b border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-800">Operator Dashboard</h2>
+      </div>
+      <nav className="flex-1 p-4">
+        <ul className="space-y-2">
+          <li>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/operator">
+                <LayoutDashboard className="mr-2 h-4 w-4" />
+                Dashboard
+              </Link>
+            </Button>
+          </li>
+          <li>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/operator/teachers">
+                <Users className="mr-2 h-4 w-4" />
+                Manage Teachers
+              </Link>
+            </Button>
+          </li>
+          <li>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/operator/reports">
+                <FileText className="mr-2 h-4 w-4" />
+                Reports
+              </Link>
+            </Button>
+          </li>
+          <li>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/operator/settings">
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </Link>
+            </Button>
+          </li>
+        </ul>
+      </nav>
+      <div className="p-4 border-t border-gray-200">
+        <Button variant="outline" className="w-full">
+          <LogOut className="mr-2 h-4 w-4" />
+          Logout
+        </Button>
+      </div>
+    </div>
   )
 }
+

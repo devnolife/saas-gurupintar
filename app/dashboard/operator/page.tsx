@@ -40,10 +40,10 @@ export default function OperatorDashboardPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Dasbor Operator</h1>
+      <h1 className="text-3xl font-bold mb-8">Dashboard Operator</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card>
+        <Card className="bg-white dark:bg-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Guru</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
@@ -54,7 +54,7 @@ export default function OperatorDashboardPage() {
             <Progress value={58} max={100} className="mt-2" />
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-white dark:bg-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Kelas Aktif</CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
@@ -65,7 +65,7 @@ export default function OperatorDashboardPage() {
             <Progress value={155} max={200} className="mt-2" />
           </CardContent>
         </Card>
-        <Card>
+        <Card className="bg-white dark:bg-gray-900">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Laporan Dihasilkan</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -79,7 +79,7 @@ export default function OperatorDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <Card>
+        <Card className="bg-white dark:bg-gray-900">
           <CardHeader>
             <CardTitle>Aktivitas Bulanan</CardTitle>
           </CardHeader>
@@ -100,7 +100,7 @@ export default function OperatorDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white dark:bg-gray-900">
           <CardHeader>
             <CardTitle>Aktivitas Terbaru</CardTitle>
           </CardHeader>
@@ -138,13 +138,13 @@ export default function OperatorDashboardPage() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="bg-white dark:bg-gray-900">
         <CardHeader>
           <CardTitle>Tindakan Cepat</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button>Tambah Guru</Button>
+            <Button>Tambah Guru Baru</Button>
             <Button>Buat Kelas Baru</Button>
             <Button>Hasilkan Laporan</Button>
           </div>
@@ -153,3 +153,4 @@ export default function OperatorDashboardPage() {
     </div>
   )
 }
+

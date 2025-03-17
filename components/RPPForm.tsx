@@ -6,13 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 
 import {
@@ -25,7 +19,7 @@ import {
   Wrench,
   Users,
   ScreenShare,
-  Target as TargetIcon,
+  TargetIcon,
   ListChecks,
   Edit,
   Edit2,
@@ -35,42 +29,34 @@ import {
   Loader2,
 } from "lucide-react"
 
-
 interface RPPFormData {
-  subject: string;
-  grade: string;
-  duration: string;
-  identitasModule: string;
-  kompetensiAwal: string;
-  profilPelajarPancasila: string;
-  saranaPrasarana: string;
-  targetPesertaDidik: string;
-  modelPembelajaran: string;
-  learningObjectives: string;
-  assessment: string;
-  refleksiGuru: string;
-  refleksiPesertaDidik: string;
-  pengayaanRemedial: string;
-  bahanBacaan: string;
-  glosarium: string;
+  subject: string
+  grade: string
+  duration: string
+  identitasModule: string
+  kompetensiAwal: string
+  profilPelajarPancasila: string
+  saranaPrasarana: string
+  targetPesertaDidik: string
+  modelPembelajaran: string
+  learningObjectives: string
+  assessment: string
+  refleksiGuru: string
+  refleksiPesertaDidik: string
+  pengayaanRemedial: string
+  bahanBacaan: string
+  glosarium: string
 }
-
 
 interface RPPFormProps {
-  formData: RPPFormData;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  handleSelectChange: (value: string, field: string) => void;
-  handleSubmit: (e: React.FormEvent) => void;
-  isGenerating: boolean;
+  formData: RPPFormData
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  handleSelectChange: (value: string, field: string) => void
+  handleSubmit: (e: React.FormEvent) => void
+  isGenerating: boolean
 }
 
-export function RPPForm({
-  formData,
-  handleInputChange,
-  handleSelectChange,
-  handleSubmit,
-  isGenerating,
-}: RPPFormProps) {
+export function RPPForm({ formData, handleInputChange, handleSelectChange, handleSubmit, isGenerating }: RPPFormProps) {
   return (
     <Card className="w-full max-w-4xl mx-auto">
       <CardContent className="p-6">
@@ -98,10 +84,7 @@ export function RPPForm({
                 <Label htmlFor="grade">Kelas</Label>
                 <div className="relative">
                   <GraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 z-10" />
-                  <Select
-                    value={formData.grade}
-                    onValueChange={(value) => handleSelectChange(value, "grade")}
-                  >
+                  <Select value={formData.grade} onValueChange={(value) => handleSelectChange(value, "grade")}>
                     <SelectTrigger className="w-full pl-10">
                       <SelectValue placeholder="Pilih kelas" />
                     </SelectTrigger>
@@ -134,9 +117,7 @@ export function RPPForm({
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">
-                Identitas & Kompetensi
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">Identitas & Kompetensi</h3>
 
               <div className="space-y-2">
                 <Label htmlFor="identitasModule">Identitas Modul</Label>
@@ -169,9 +150,7 @@ export function RPPForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="profilPelajarPancasila">
-                  Profil Pelajar
-                </Label>
+                <Label htmlFor="profilPelajarPancasila">Profil Pelajar</Label>
                 <div className="relative">
                   <Star className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Textarea
@@ -209,9 +188,7 @@ export function RPPForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="targetPesertaDidik">
-                  Target Peserta Didik
-                </Label>
+                <Label htmlFor="targetPesertaDidik">Target Peserta Didik</Label>
                 <div className="relative">
                   <Users className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Textarea
@@ -226,9 +203,7 @@ export function RPPForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="modelPembelajaran">
-                  Model Pembelajaran
-                </Label>
+                <Label htmlFor="modelPembelajaran">Model Pembelajaran</Label>
                 <div className="relative">
                   <ScreenShare className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Textarea
@@ -244,14 +219,10 @@ export function RPPForm({
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">
-                Tujuan & Penilaian
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">Tujuan & Penilaian</h3>
 
               <div className="space-y-2">
-                <Label htmlFor="learningObjectives">
-                  Tujuan Pembelajaran
-                </Label>
+                <Label htmlFor="learningObjectives">Tujuan Pembelajaran</Label>
                 <div className="relative">
                   <TargetIcon className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Textarea
@@ -286,9 +257,7 @@ export function RPPForm({
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">
-                Refleksi & Pengayaan
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">Refleksi & Pengayaan</h3>
 
               <div className="space-y-2">
                 <Label htmlFor="refleksiGuru">Refleksi Guru</Label>
@@ -305,9 +274,7 @@ export function RPPForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="refleksiPesertaDidik">
-                  Refleksi Peserta Didik
-                </Label>
+                <Label htmlFor="refleksiPesertaDidik">Refleksi Peserta Didik</Label>
                 <div className="relative">
                   <Edit2 className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Textarea
@@ -321,9 +288,7 @@ export function RPPForm({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="pengayaanRemedial">
-                  Pengayaan & Remedial
-                </Label>
+                <Label htmlFor="pengayaanRemedial">Pengayaan & Remedial</Label>
                 <div className="relative">
                   <RefreshCcw className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                   <Textarea
@@ -338,9 +303,7 @@ export function RPPForm({
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold mb-4">
-                Bahan Bacaan & Glosarium
-              </h3>
+              <h3 className="text-lg font-semibold mb-4">Bahan Bacaan & Glosarium</h3>
 
               <div className="space-y-2">
                 <Label htmlFor="bahanBacaan">Bahan Bacaan</Label>
@@ -387,3 +350,4 @@ export function RPPForm({
     </Card>
   )
 }
+

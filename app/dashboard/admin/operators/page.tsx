@@ -24,11 +24,11 @@ export default function OperatorsPage() {
   )
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Kelola Operator</h1>
-      <Card>
+    <div className="w-full h-full p-6">
+      <h1 className="text-3xl font-bold mb-8">Manage Operators</h1>
+      <Card className="shadow-sm border-none h-full">
         <CardHeader>
-          <CardTitle>Daftar Operator</CardTitle>
+          <CardTitle>Operator List</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -36,7 +36,7 @@ export default function OperatorsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Cari operator..."
+                placeholder="Search operators..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -44,16 +44,16 @@ export default function OperatorsPage() {
             </div>
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
-              Tambah Operator
+              Add Operator
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Nama</TableHead>
+                <TableHead>Name</TableHead>
                 <TableHead>Email</TableHead>
-                <TableHead>Sekolah</TableHead>
-                <TableHead>Aksi</TableHead>
+                <TableHead>School</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -76,3 +76,4 @@ export default function OperatorsPage() {
     </div>
   )
 }
+

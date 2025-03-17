@@ -17,7 +17,7 @@ const initialTransactions = [
 
 export default function TransactionsPage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [transactions] = useState(initialTransactions)
+  const [transactions, setTransactions] = useState(initialTransactions)
 
   const filteredTransactions = transactions.filter(
     (transaction) =>
@@ -32,11 +32,11 @@ export default function TransactionsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Monitor Transaksi</h1>
-      <Card>
+    <div className="w-full h-full p-6">
+      <h1 className="text-3xl font-bold mb-8">Transaction Monitor</h1>
+      <Card className="shadow-sm border-none h-full">
         <CardHeader>
-          <CardTitle>Transaksi Pembayaran Guru</CardTitle>
+          <CardTitle>Teacher Payment Transactions</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
@@ -44,7 +44,7 @@ export default function TransactionsPage() {
               <Search className="text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Cari transaksi..."
+                placeholder="Search transactions..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="max-w-sm"
@@ -52,16 +52,16 @@ export default function TransactionsPage() {
             </div>
             <Button onClick={handleExportData}>
               <Download className="mr-2 h-4 w-4" />
-              Ekspor Data
+              Export Data
             </Button>
           </div>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>ID Guru</TableHead>
-                <TableHead>Nama Guru</TableHead>
-                <TableHead>Jumlah</TableHead>
-                <TableHead>Tanggal</TableHead>
+                <TableHead>Teacher ID</TableHead>
+                <TableHead>Teacher Name</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
               </TableRow>
             </TableHeader>
@@ -82,11 +82,7 @@ export default function TransactionsPage() {
                             : "destructive"
                       }
                     >
-                      {transaction.status === "Completed"
-                        ? "Selesai"
-                        : transaction.status === "Pending"
-                          ? "Tertunda"
-                          : "Gagal"}
+                      {transaction.status}
                     </Badge>
                   </TableCell>
                 </TableRow>
@@ -98,3 +94,4 @@ export default function TransactionsPage() {
     </div>
   )
 }
+

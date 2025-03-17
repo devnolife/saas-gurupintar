@@ -6,6 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Button } from "@/components/ui/button"
 import { Search, UserPlus } from "lucide-react"
+import { QuotaDisplay } from "@/components/QuotaDisplay"
+import { canAddTeacher, addTeacher } from "@/lib/accountQuotaManager"
+import { useToast } from "@/components/ui/use-toast"
 
 const teachers = [
   { id: 1, name: "Alice Johnson", email: "alice@example.com", subject: "Mathematics", classes: 5 },
@@ -15,6 +18,7 @@ const teachers = [
 
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const { toast } = useToast()
 
   const filteredTeachers = teachers.filter(
     (teacher) =>
@@ -23,58 +27,98 @@ export default function TeachersPage() {
       teacher.subject.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  const handleAddTeacher = () => {
+    const schoolId = "school1" // This would typically come from the logged-in user's context
+    if (canAddTeacher(schoolId)) {
+      if (addTeacher(schoolId)) {
+        toast({
+          title: "Teacher Added",
+          description: "A new teacher account has been successfully created.",
+        })
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to add teacher. Please try again.",
+          variant: "destructive",
+        })
+      }
+    } else {
+      toast({
+        title: "Quota Exceeded",
+        description: "You have reached the maximum number of teacher accounts. Please upgrade your plan.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleUpgradeRequest = () => {
+    // This would typically open a modal or redirect to an upgrade page
+    toast({
+      title: "Upgrade Requested",
+      description: "An administrator will contact you about upgrading your plan.",
+    })
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Kelola Guru</h1>
-      <Card>
-        <CardHeader>
-          <CardTitle>Daftar Guru</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <Search className="text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Cari guru..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-sm"
-              />
-            </div>
-            <Button>
-              <UserPlus className="mr-2 h-4 w-4" />
-              Tambah Guru
-            </Button>
-          </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Nama</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Mata Pelajaran</TableHead>
-                <TableHead>Kelas</TableHead>
-                <TableHead>Aksi</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredTeachers.map((teacher) => (
-                <TableRow key={teacher.id}>
-                  <TableCell>{teacher.name}</TableCell>
-                  <TableCell>{teacher.email}</TableCell>
-                  <TableCell>{teacher.subject}</TableCell>
-                  <TableCell>{teacher.classes}</TableCell>
-                  <TableCell>
-                    <Button variant="outline" size="sm">
-                      Edit
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+      <h1 className="text-3xl font-bold mb-8">Manage Teachers</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="md:col-span-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Teacher List</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <Search className="text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Search teachers..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="max-w-sm"
+                  />
+                </div>
+                <Button onClick={handleAddTeacher}>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Add Teacher
+                </Button>
+              </div>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Subject</TableHead>
+                    <TableHead>Classes</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredTeachers.map((teacher) => (
+                    <TableRow key={teacher.id}>
+                      <TableCell>{teacher.name}</TableCell>
+                      <TableCell>{teacher.email}</TableCell>
+                      <TableCell>{teacher.subject}</TableCell>
+                      <TableCell>{teacher.classes}</TableCell>
+                      <TableCell>
+                        <Button variant="outline" size="sm">
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+        <div>
+          <QuotaDisplay schoolId="school1" onUpgradeRequest={handleUpgradeRequest} />
+        </div>
+      </div>
     </div>
   )
 }
+

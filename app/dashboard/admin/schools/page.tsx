@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -68,10 +70,10 @@ export default function SchoolsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="w-full h-full p-6">
       <h1 className="text-3xl font-bold mb-8">Manajemen Sekolah</h1>
 
-      <Card className="mb-8">
+      <Card className="mb-8 shadow-sm border-none">
         <CardHeader>
           <CardTitle>Tambah Sekolah Baru</CardTitle>
         </CardHeader>
@@ -128,7 +130,7 @@ export default function SchoolsPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="shadow-sm border-none">
         <CardHeader>
           <CardTitle>Daftar Sekolah</CardTitle>
         </CardHeader>
@@ -182,3 +184,4 @@ export default function SchoolsPage() {
     </div>
   )
 }
+

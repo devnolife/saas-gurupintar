@@ -85,10 +85,10 @@ export default function PricingManagementPage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="w-full h-full p-6">
       <h1 className="text-3xl font-bold mb-6">Pricing Management</h1>
 
-      <Card className="mb-8">
+      <Card className="mb-8 shadow-sm border-none">
         <CardHeader>
           <CardTitle>School Pricing Tiers</CardTitle>
         </CardHeader>
@@ -175,7 +175,7 @@ export default function PricingManagementPage() {
         </CardContent>
       </Card>
 
-      <Card className="mb-8">
+      <Card className="mb-8 shadow-sm border-none">
         <CardHeader>
           <CardTitle>Teacher Account Pricing</CardTitle>
         </CardHeader>
