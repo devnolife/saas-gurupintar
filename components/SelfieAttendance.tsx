@@ -47,6 +47,7 @@ export function SelfieAttendance({ teacherId, onSuccess }: SelfieAttendanceProps
     }
   }, [open, cameraActive])
 
+  // Update the startCamera function to check for null refs
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -66,39 +67,43 @@ export function SelfieAttendance({ teacherId, onSuccess }: SelfieAttendanceProps
     }
   }
 
+  // Update the stopCamera function to check for null refs
   const stopCamera = () => {
     if (videoRef.current && videoRef.current.srcObject) {
       const stream = videoRef.current.srcObject as MediaStream
       const tracks = stream.getTracks()
 
       tracks.forEach((track) => track.stop())
-      videoRef.current.srcObject = null
+      if (videoRef.current) {
+        videoRef.current.srcObject = null
+      }
     }
   }
 
+  // Update the captureSelfie function to check for null refs
   const captureSelfie = useCallback(() => {
-    if (videoRef.current && canvasRef.current) {
-      const video = videoRef.current
-      const canvas = canvasRef.current
+    if (!videoRef.current || !canvasRef.current) return
 
-      // Set canvas dimensions to match video
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
+    const video = videoRef.current
+    const canvas = canvasRef.current
 
-      // Draw video frame to canvas
-      const ctx = canvas.getContext("2d")
-      if (ctx) {
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+    // Set canvas dimensions to match video
+    canvas.width = video.videoWidth
+    canvas.height = video.videoHeight
 
-        // Convert canvas to data URL
-        const imageDataUrl = canvas.toDataURL("image/jpeg", 0.8)
-        setCapturedImage(imageDataUrl)
-        stopCamera()
-        setCameraActive(false)
+    // Draw video frame to canvas
+    const ctx = canvas.getContext("2d")
+    if (ctx) {
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-        // Check location after capturing
-        checkLocation()
-      }
+      // Convert canvas to data URL
+      const imageDataUrl = canvas.toDataURL("image/jpeg", 0.8)
+      setCapturedImage(imageDataUrl)
+      stopCamera()
+      setCameraActive(false)
+
+      // Check location after capturing
+      checkLocation()
     }
   }, [])
 

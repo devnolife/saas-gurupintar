@@ -1,60 +1,34 @@
-export interface Subscription {
-  id: string
-  schoolId: string
+export type Subscription = {
   plan: string
-  maxTeachers: number
-  maxDocuments: number
+  features: string[]
+  status: "active" | "inactive" | "pending"
   startDate: string
   endDate: string
-  status?: "active" | "inactive"
-  features: string[]
 }
 
 // Mock subscription data
 const subscriptions = {
   operator1: {
-    id: "sub1",
-    schoolId: "school1",
     plan: "basic",
-    maxTeachers: 50,
-    maxDocuments: 500,
-    startDate: "2023-01-01",
-    endDate: "2024-01-01",
-    status: "active",
     features: ["basic_reports"],
-  },
-  operator2: {
-    id: "sub2",
-    schoolId: "school2",
-    plan: "premium",
-    maxTeachers: 100,
-    maxDocuments: 1000,
+    status: "active",
     startDate: "2023-01-01",
     endDate: "2024-01-01",
-    status: "active",
-    features: ["reports", "advanced_analytics", "bulk_operations"],
   },
   headmaster1: {
-    id: "sub3",
-    schoolId: "school3",
     plan: "premium",
-    maxTeachers: 150,
-    maxDocuments: 1500,
+    features: ["headmaster_features", "advanced_reports", "analytics"],
+    status: "active",
     startDate: "2023-01-01",
     endDate: "2024-01-01",
-    status: "active",
-    features: ["headmaster_features", "reports", "advanced_analytics"],
   },
 }
 
 /**
- * Get subscription information for a user
+ * Get user subscription details
  */
 export function getSubscription(userId: string): Subscription | null {
-  if (subscriptions[userId]) {
-    return subscriptions[userId] as Subscription
-  }
-  return null
+  return subscriptions[userId as keyof typeof subscriptions] || null
 }
 
 /**

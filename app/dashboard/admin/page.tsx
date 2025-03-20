@@ -80,7 +80,7 @@ export default function AdminDashboardPage() {
   )
 
   return (
-    <div className="space-y-8 w-full p-6">
+    <div className="space-y-8 w-full p-6 min-h-[calc(100vh-10rem)]">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">

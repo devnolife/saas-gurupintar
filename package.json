@@ -60,7 +60,6 @@
     "zod": "latest",
     "@emotion/is-prop-valid": "latest",
     "framer-motion": "latest",
-    "tailwindcss": "latest",
     "cookies-next": "latest"
   },
   "devDependencies": {

@@ -28,10 +28,22 @@ export default function NavBar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
+      if (typeof window !== "undefined") {
+        setIsScrolled(window.scrollY > 10)
+      }
     }
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", handleScroll)
+      // Initial check
+      handleScroll()
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll)
+      }
+    }
+
+    return undefined
   }, [])
 
   const handleNavigation = (href: string) => {

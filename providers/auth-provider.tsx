@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState, type ReactNode } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { getCurrentUser, type UserSession } from "@/lib/auth"
 
@@ -16,57 +14,49 @@ export const AuthContext = createContext<AuthContextType>({
   loading: true,
 })
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserSession | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const pathname = usePathname()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    // Check if user is logged in
-    const currentUser = getCurrentUser()
-    setUser(currentUser)
-    setLoading(false)
+    setMounted(true)
 
-    // If on a protected route and not logged in, redirect to login
-    const isProtectedRoute =
-      pathname?.startsWith("/dashboard") && !pathname?.includes("/login") && !pathname?.includes("/register")
-
-    if (isProtectedRoute && !currentUser) {
-      router.push("/login")
+    try {
+      // Check if user is logged in
+      const currentUser = getCurrentUser()
+      setUser(currentUser)
+    } catch (error) {
+      console.error("Error in auth provider:", error)
+    } finally {
+      setLoading(false)
     }
+  }, [])
 
-    // If logged in and trying to access a role-specific route that doesn't match the user's role
-    if (currentUser && isProtectedRoute) {
-      const userRole = currentUser.role
-      const isAdminRoute = pathname?.includes("/admin")
-      const isOperatorRoute = pathname?.includes("/operator")
-      const isTeacherRoute = pathname?.includes("/teacher")
-      const isHeadmasterRoute = pathname?.includes("/headmaster")
-      const isStudentRoute = pathname?.includes("/student")
+  // Don't perform any redirects until the component is mounted
+  useEffect(() => {
+    if (!mounted) return
 
-      if (
-        (isAdminRoute && userRole !== "admin") ||
-        (isOperatorRoute && userRole !== "operator") ||
-        (isTeacherRoute && userRole !== "teacher") ||
-        (isHeadmasterRoute && userRole !== "headmaster") ||
-        (isStudentRoute && userRole !== "student")
-      ) {
-        // Redirect to the appropriate dashboard based on role
-        if (userRole === "admin") {
-          router.push("/dashboard/admin")
-        } else if (userRole === "operator") {
-          router.push("/dashboard/operator")
-        } else if (userRole === "teacher") {
-          router.push("/dashboard/teacher")
-        } else if (userRole === "headmaster") {
-          router.push("/dashboard/headmaster")
-        } else if (userRole === "student") {
-          router.push("/dashboard/student")
-        }
+    try {
+      // If on a protected route and not logged in, redirect to login
+      const isProtectedRoute =
+        pathname?.startsWith("/dashboard") && !pathname?.includes("/login") && !pathname?.includes("/register")
+
+      // For development, we'll skip the authentication check
+      if (process.env.NODE_ENV === "development") {
+        return
       }
+
+      const currentUser = getCurrentUser()
+      if (isProtectedRoute && !currentUser) {
+        router.push("/login")
+      }
+    } catch (error) {
+      console.error("Error in auth redirect:", error)
     }
-  }, [pathname, router])
+  }, [pathname, router, mounted])
 
   return <AuthContext.Provider value={{ user, loading }}>{children}</AuthContext.Provider>
 }

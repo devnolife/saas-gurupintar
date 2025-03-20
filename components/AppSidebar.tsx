@@ -53,7 +53,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-// Flattened navigation items for each role (removed subItems)
+// Di bagian awal file, standardisasi struktur data untuk semua role
 const roleData = {
   admin: {
     navItems: [
@@ -69,8 +69,8 @@ const roleData = {
       { title: "Settings", url: "/dashboard/admin/settings", icon: Settings2 },
     ],
     projects: [
-      { name: "User Analytics", url: "#", icon: PieChart },
-      { name: "School Performance", url: "#", icon: GalleryVerticalEnd },
+      { title: "User Analytics", url: "#", icon: PieChart },
+      { title: "School Performance", url: "#", icon: GalleryVerticalEnd },
     ],
   },
   operator: {
@@ -116,10 +116,24 @@ const roleData = {
       { title: "Kalender Sekolah", url: "#", icon: Calendar },
     ],
   },
+  student: {
+    navItems: [
+      { title: "Dashboard", url: "/dashboard/student", icon: LayoutDashboard },
+      { title: "Kelas", url: "/dashboard/student/classes", icon: BookOpen },
+      { title: "Tugas", url: "/dashboard/student/assignments", icon: FileText },
+      { title: "Jadwal", url: "/dashboard/student/schedule", icon: Calendar },
+      { title: "Nilai", url: "/dashboard/student/grades", icon: GalleryVerticalEnd },
+      { title: "Pengaturan", url: "/dashboard/student/settings", icon: Settings2 },
+    ],
+    projects: [
+      { title: "Tugas Terbaru", url: "#", icon: FileText },
+      { title: "Jadwal Ujian", url: "#", icon: Calendar },
+    ],
+  },
 }
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  role: "admin" | "operator" | "teacher" | "headmaster"
+  role: "admin" | "operator" | "teacher" | "headmaster" | "student"
 }
 
 export function AppSidebar({ role, ...props }: AppSidebarProps) {
@@ -137,15 +151,24 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
   // Detect scroll position for shadow effect
   useEffect(() => {
     const handleScroll = (e: Event) => {
-      const target = e.target as HTMLElement
-      setIsScrolled(target.scrollTop > 10)
+      if (e.target) {
+        const target = e.target as HTMLElement
+        setIsScrolled(target.scrollTop > 10)
+      }
     }
 
+    // Use a ref instead of querySelector to avoid null issues
     const scrollArea = document.querySelector(".sidebar-scroll-area")
     if (scrollArea) {
       scrollArea.addEventListener("scroll", handleScroll)
-      return () => scrollArea.removeEventListener("scroll", handleScroll)
+      return () => {
+        if (scrollArea) {
+          scrollArea.removeEventListener("scroll", handleScroll)
+        }
+      }
     }
+
+    return undefined
   }, [])
 
   // Handle logout with confirmation
@@ -193,7 +216,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
         </SidebarHeader>
 
         <SidebarContent className="px-4 py-2">
-          <ScrollArea className="h-[calc(100vh-15rem)] sidebar-scroll-area">
+          <ScrollArea className="h-[calc(100vh-15rem)] min-h-[400px] sidebar-scroll-area">
             <div className="space-y-6">
               <div>
                 <div className="px-4 py-2">
@@ -250,12 +273,12 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                 <div>
                   <div className="px-4 py-2">
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-                      Recent Projects
+                      Projects
                     </h3>
                   </div>
                   <SidebarMenu>
                     {data.projects.map((project) => (
-                      <SidebarMenuItem key={project.title || project.name}>
+                      <SidebarMenuItem key={project.title}>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -265,13 +288,11 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                               <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-muted/30 group-hover:bg-primary/10 transition-all">
                                 <project.icon className="h-4.5 w-4.5 text-muted-foreground group-hover:text-primary transition-all" />
                               </div>
-                              <span className="transition-all duration-300 flex-1">
-                                {project.title || project.name}
-                              </span>
+                              <span className="transition-all duration-300 flex-1">{project.title}</span>
                             </Link>
                           </TooltipTrigger>
                           <TooltipContent side="right" className="font-medium">
-                            {project.title || project.name}
+                            {project.title}
                           </TooltipContent>
                         </Tooltip>
                       </SidebarMenuItem>
