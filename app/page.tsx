@@ -7,9 +7,9 @@ import Testimonials from "@/components/Testimonials"
 import Pricing from "@/components/Pricing"
 import FAQ from "@/components/FAQ"
 import Footer from "@/components/Footer"
-import GradientFeatures from "@/components/GradientFeatures"
 import GradientCTA from "@/components/GradientCTA"
 import RadialGradientBackground from "@/components/RadialGradientBackground"
+import MobileActionButton from "@/components/MobileActionButton"
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
       <RadialGradientBackground />
       <Navbar />
       <GradientLanding />
-     
+
       <Features />
       <HowItWorks />
       <Benefits />
@@ -26,6 +26,7 @@ export default function Home() {
       <FAQ />
       <GradientCTA />
       <Footer />
+      <MobileActionButton />
     </main>
   )
 }

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { LayoutDashboard, Users, FileText, Settings, LogOut } from "lucide-react"
+import { LayoutDashboard, Users, FileText, Settings, LogOut, CreditCard, UserCog } from "lucide-react"
 import Link from "next/link"
 
 export function OperatorSidebar() {
@@ -12,7 +12,7 @@ export function OperatorSidebar() {
         <ul className="space-y-2">
           <li>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/operator">
+              <Link href="/dashboard/operator">
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 Dashboard
               </Link>
@@ -20,7 +20,7 @@ export function OperatorSidebar() {
           </li>
           <li>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/operator/teachers">
+              <Link href="/dashboard/operator/teachers">
                 <Users className="mr-2 h-4 w-4" />
                 Manage Teachers
               </Link>
@@ -28,7 +28,23 @@ export function OperatorSidebar() {
           </li>
           <li>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/operator/reports">
+              <Link href="/dashboard/operator/accounts">
+                <UserCog className="mr-2 h-4 w-4" />
+                Accounts
+              </Link>
+            </Button>
+          </li>
+          <li>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/dashboard/operator/payments">
+                <CreditCard className="mr-2 h-4 w-4" />
+                Payments
+              </Link>
+            </Button>
+          </li>
+          <li>
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link href="/dashboard/operator/reports">
                 <FileText className="mr-2 h-4 w-4" />
                 Reports
               </Link>
@@ -36,7 +52,7 @@ export function OperatorSidebar() {
           </li>
           <li>
             <Button asChild variant="ghost" className="w-full justify-start">
-              <Link href="/operator/settings">
+              <Link href="/dashboard/operator/settings">
                 <Settings className="mr-2 h-4 w-4" />
                 Settings
               </Link>

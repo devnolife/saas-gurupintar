@@ -177,19 +177,19 @@ export default function FAQ() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="max-w-3xl mx-auto mb-10"
         >
-          <div className="relative mb-6">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
+          <div className="relative mb-4 md:mb-6">
+            <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 md:h-5 md:w-5" />
             <Input
               type="text"
               placeholder="Cari pertanyaan..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 py-6 text-lg rounded-2xl border-primary/20 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm shadow-sm focus-visible:ring-primary/30"
+              className="pl-10 md:pl-12 py-5 md:py-6 text-base md:text-lg rounded-xl md:rounded-2xl border-primary/20 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm shadow-sm focus-visible:ring-primary/30"
             />
           </div>
 
           {/* Category filters */}
-          <div className="flex flex-wrap justify-center gap-2 mb-8">
+          <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-6 md:mb-8">
             {categories.map((category, index) => (
               <motion.button
                 key={category.id}
@@ -198,7 +198,7 @@ export default function FAQ() {
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300",
+                  "flex items-center gap-1 md:gap-2 px-2.5 py-1.5 md:px-4 md:py-2 rounded-full transition-all duration-300 text-xs md:text-sm",
                   activeCategory === category.id
                     ? "bg-primary text-white shadow-md scale-105"
                     : "bg-white/80 dark:bg-gray-900/80 hover:bg-white dark:hover:bg-gray-900 shadow-sm",
@@ -209,7 +209,7 @@ export default function FAQ() {
                 <span>{category.emoji}</span>
                 <span>{category.name}</span>
                 {category.id === "all" && filteredFaqs.length > 0 && (
-                  <Badge className="ml-1 bg-white/20 text-white">{filteredFaqs.length}</Badge>
+                  <Badge className="ml-1 bg-white/20 text-white text-xs">{filteredFaqs.length}</Badge>
                 )}
               </motion.button>
             ))}
@@ -285,7 +285,7 @@ export default function FAQ() {
               >
                 <motion.div
                   className={cn(
-                    "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-3xl shadow-sm border border-primary/10 overflow-hidden transition-all duration-300",
+                    "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm rounded-2xl md:rounded-3xl shadow-sm border border-primary/10 overflow-hidden transition-all duration-300",
                     openIndex === index ? "shadow-lg" : "",
                     hoveredFaq === faq.id && "shadow-md",
                   )}
@@ -293,14 +293,14 @@ export default function FAQ() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <motion.button
-                    className="flex justify-between items-center w-full text-left font-semibold p-6"
+                    className="flex justify-between items-center w-full text-left font-semibold p-4 md:p-6"
                     onClick={() => toggleFAQ(index)}
                   >
-                    <div className="flex items-center gap-3 pr-8">
-                      <span className="text-2xl">{faq.emoji}</span>
-                      <span className="text-foreground">{faq.question}</span>
+                    <div className="flex items-center gap-2 md:gap-3 pr-8">
+                      <span className="text-xl md:text-2xl">{faq.emoji}</span>
+                      <span className="text-sm md:text-base text-foreground">{faq.question}</span>
                       {faq.popular && activeCategory === "all" && !searchTerm && (
-                        <Badge className="ml-2 bg-secondary/10 text-secondary border-0">Popular</Badge>
+                        <Badge className="ml-2 bg-secondary/10 text-secondary border-0 text-xs">Popular</Badge>
                       )}
                     </div>
                     <motion.div
@@ -309,9 +309,13 @@ export default function FAQ() {
                         backgroundColor: openIndex === index ? "rgba(var(--primary), 0.1)" : "transparent",
                       }}
                       transition={{ duration: 0.3 }}
-                      className={`flex-shrink-0 p-2 rounded-full ${openIndex === index ? "text-primary" : "text-muted-foreground"}`}
+                      className={`flex-shrink-0 p-1.5 md:p-2 rounded-full ${openIndex === index ? "text-primary" : "text-muted-foreground"}`}
                     >
-                      {openIndex === index ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                      {openIndex === index ? (
+                        <Minus className="w-4 h-4 md:w-5 md:h-5" />
+                      ) : (
+                        <Plus className="w-4 h-4 md:w-5 md:h-5" />
+                      )}
                     </motion.div>
                   </motion.button>
 
@@ -322,31 +326,31 @@ export default function FAQ() {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="px-6 pb-6"
+                        className="px-4 md:px-6 pb-4 md:pb-6"
                       >
-                        <div className="pl-10 border-l-2 border-primary/20">
-                          <p className="text-muted-foreground mb-4">{faq.answer}</p>
+                        <div className="pl-8 md:pl-10 border-l-2 border-primary/20">
+                          <p className="text-sm md:text-base text-muted-foreground mb-4">{faq.answer}</p>
                           <div className="flex justify-between items-center">
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="text-primary hover:text-primary/80 hover:bg-primary/5 gap-2"
+                              className="text-primary hover:text-primary/80 hover:bg-primary/5 gap-2 text-xs md:text-sm"
                             >
                               <span>Baca selengkapnya</span>
-                              <ArrowRight className="h-3.5 w-3.5" />
+                              <ArrowRight className="h-3 w-3 md:h-3.5 md:w-3.5" />
                             </Button>
                             <Button
                               variant="ghost"
                               size="sm"
                               className={cn(
-                                "gap-2",
+                                "gap-2 text-xs md:text-sm",
                                 likedFaqs.includes(faq.id)
                                   ? "text-secondary hover:text-secondary/80 hover:bg-secondary/5"
                                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
                               )}
                               onClick={(e) => handleLike(faq.id, e)}
                             >
-                              <ThumbsUp className="h-3.5 w-3.5" />
+                              <ThumbsUp className="h-3 w-3 md:h-3.5 md:w-3.5" />
                               <span>Membantu</span>
                               {likedFaqs.includes(faq.id) && (
                                 <Badge className="bg-secondary/20 text-secondary">✓</Badge>

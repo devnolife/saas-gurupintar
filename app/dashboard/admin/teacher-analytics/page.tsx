@@ -55,21 +55,23 @@ export default function TeacherAccountAnalyticsPage() {
 
   return (
     <div className="w-full h-full p-6">
-      <h1 className="text-3xl font-bold mb-6">Teacher Account Analytics</h1>
+      <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+        Teacher Account Analytics
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <Card>
+        <Card className="shadow-md border-none rounded-2xl overflow-hidden">
           <CardHeader>
-            <CardTitle>Total Teacher Accounts</CardTitle>
+            <CardTitle className="text-xl font-bold">Total Teacher Accounts</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold">{totalTeacherAccounts}</div>
             <p className="text-sm text-muted-foreground">Across all schools</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="shadow-md border-none rounded-2xl overflow-hidden">
           <CardHeader>
-            <CardTitle>Used Teacher Accounts</CardTitle>
+            <CardTitle className="text-xl font-bold">Used Teacher Accounts</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-4xl font-bold">{totalUsedAccounts}</div>
@@ -80,57 +82,65 @@ export default function TeacherAccountAnalyticsPage() {
         </Card>
       </div>
 
-      <Card>
+      <Card className="shadow-md border-none rounded-2xl overflow-hidden">
         <CardHeader>
-          <CardTitle>School-wise Teacher Account Distribution</CardTitle>
+          <CardTitle className="text-xl font-bold">School-wise Teacher Account Distribution</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex justify-between mb-4">
-            <div className="flex items-center space-x-2">
-              <Search className="text-muted-foreground" />
+            <div className="relative flex-grow max-w-md">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Search schools..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-sm"
+                className="pl-9 rounded-full"
               />
             </div>
-            <Button onClick={handleExportData}>
+            <Button
+              onClick={handleExportData}
+              className="rounded-full bg-gradient-to-r from-primary to-primary-light hover:opacity-90 transition-opacity"
+            >
               <Download className="mr-2 h-4 w-4" />
               Export Data
             </Button>
           </div>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>School Name</TableHead>
-                <TableHead>Total Accounts</TableHead>
-                <TableHead>Used Accounts</TableHead>
-                <TableHead>Available Accounts</TableHead>
-                <TableHead>Usage</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredSchools.map((school) => {
-                const stats = calculateTeacherAccountStats(school.id)
-                return (
-                  <TableRow key={school.id}>
-                    <TableCell>{school.name}</TableCell>
-                    <TableCell>{stats.total}</TableCell>
-                    <TableCell>{stats.used}</TableCell>
-                    <TableCell>{stats.available}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center">
-                        <Progress value={stats.percentageUsed} className="w-full mr-2" />
-                        <span>{stats.percentageUsed.toFixed(2)}%</span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
+          <div className="rounded-xl border overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                  <TableHead>School Name</TableHead>
+                  <TableHead>Total Accounts</TableHead>
+                  <TableHead>Used Accounts</TableHead>
+                  <TableHead>Available Accounts</TableHead>
+                  <TableHead>Usage</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredSchools.map((school) => {
+                  const stats = calculateTeacherAccountStats(school.id)
+                  return (
+                    <TableRow key={school.id}>
+                      <TableCell className="font-medium">{school.name}</TableCell>
+                      <TableCell>{stats.total}</TableCell>
+                      <TableCell>{stats.used}</TableCell>
+                      <TableCell>{stats.available}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center">
+                          <Progress
+                            value={stats.percentageUsed}
+                            className="w-full mr-2 h-3 rounded-full bg-muted overflow-hidden"
+                          />
+                          <span>{stats.percentageUsed.toFixed(2)}%</span>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
     </div>

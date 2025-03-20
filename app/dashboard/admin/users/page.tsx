@@ -380,15 +380,20 @@ export default function UsersPage() {
     <div className="w-full p-6 space-y-6">
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">User Management</h1>
+          <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+            User Management
+          </h1>
           <p className="text-muted-foreground">Manage user accounts, permissions, and access.</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
-          <Button className="gap-2">
+          <Button className="gap-2 rounded-full bg-gradient-to-r from-primary to-primary-light text-white">
             <UserPlus className="h-4 w-4" />
             <span className="hidden sm:inline">Add User</span>
           </Button>
-          <Button variant="outline" className="gap-2">
+          <Button
+            variant="outline"
+            className="gap-2 rounded-full border-primary/20 hover:bg-primary/5 hover:text-primary"
+          >
             <Download className="h-4 w-4" />
             <span className="hidden sm:inline">Export</span>
           </Button>
@@ -397,11 +402,31 @@ export default function UsersPage() {
 
       <Tabs defaultValue="all" className="w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-          <TabsList className="bg-muted/50">
-            <TabsTrigger value="all">All Users</TabsTrigger>
-            <TabsTrigger value="active">Active</TabsTrigger>
-            <TabsTrigger value="inactive">Inactive</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
+          <TabsList className="bg-muted/50 rounded-full p-1">
+            <TabsTrigger
+              value="all"
+              className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+            >
+              All Users
+            </TabsTrigger>
+            <TabsTrigger
+              value="active"
+              className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+            >
+              Active
+            </TabsTrigger>
+            <TabsTrigger
+              value="inactive"
+              className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+            >
+              Inactive
+            </TabsTrigger>
+            <TabsTrigger
+              value="pending"
+              className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+            >
+              Pending
+            </TabsTrigger>
           </TabsList>
 
           <div className="flex flex-col sm:flex-row gap-2">
@@ -412,16 +437,16 @@ export default function UsersPage() {
                 placeholder="Search users..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-9 w-full sm:w-[250px] rounded-lg"
+                className="pl-9 w-full sm:w-[250px] rounded-full"
               />
             </div>
 
             <div className="flex gap-2">
               <Select value={roleFilter} onValueChange={setRoleFilter}>
-                <SelectTrigger className="w-full sm:w-[150px]">
+                <SelectTrigger className="w-full sm:w-[150px] rounded-full">
                   <SelectValue placeholder="Filter by role" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="rounded-xl">
                   <SelectItem value="all">All Roles</SelectItem>
                   <SelectItem value="admin">Admin</SelectItem>
                   <SelectItem value="operator">Operator</SelectItem>
@@ -429,7 +454,7 @@ export default function UsersPage() {
                 </SelectContent>
               </Select>
 
-              <Button variant="outline" size="icon" className="rounded-lg">
+              <Button variant="outline" size="icon" className="rounded-full">
                 <Filter className="h-4 w-4" />
               </Button>
             </div>
@@ -437,9 +462,9 @@ export default function UsersPage() {
         </div>
 
         <TabsContent value="all" className="m-0">
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-md rounded-2xl overflow-hidden">
             <CardContent className="p-0">
-              <div className="rounded-lg border overflow-hidden">
+              <div className="rounded-xl border overflow-hidden">
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-muted/50 hover:bg-muted/50">
@@ -463,7 +488,7 @@ export default function UsersPage() {
                           <TableCell>
                             <UserDetailsDialog user={user}>
                               <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity">
-                                <Avatar className="h-9 w-9 border border-border">
+                                <Avatar className="h-9 w-9 border-2 border-primary/20">
                                   <AvatarImage src={user.avatar} alt={user.name} />
                                   <AvatarFallback className="bg-primary/10 text-primary">
                                     {user.name
@@ -495,7 +520,7 @@ export default function UsersPage() {
                                 <Button
                                   variant="ghost"
                                   size="sm"
-                                  className="h-8 gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                  className="h-8 gap-1 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
                                 >
                                   <Edit className="h-3.5 w-3.5" />
                                   <span className="hidden sm:inline">Details</span>
@@ -507,29 +532,32 @@ export default function UsersPage() {
                                   <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
                                   >
+                                    <span className="sr-only">Open menu</span>
                                     <MoreHorizontal className="h-4 w-4" />
-                                    <span className="sr-only">Actions</span>
                                   </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-[180px]">
+                                <DropdownMenuContent align="end" className="w-[180px] rounded-xl">
                                   <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                   <DropdownMenuSeparator />
                                   <UserDetailsDialog user={user}>
-                                    <DropdownMenuItem>
+                                    <DropdownMenuItem className="rounded-lg cursor-pointer">
                                       <Edit className="mr-2 h-4 w-4" />
                                       Edit User
                                     </DropdownMenuItem>
                                   </UserDetailsDialog>
                                   <UserDetailsDialog user={user}>
-                                    <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                                    <DropdownMenuItem
+                                      onSelect={(e) => e.preventDefault()}
+                                      className="rounded-lg cursor-pointer"
+                                    >
                                       <Mail className="mr-2 h-4 w-4" />
                                       Send Email
                                     </DropdownMenuItem>
                                   </UserDetailsDialog>
                                   <DropdownMenuSeparator />
-                                  <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                  <DropdownMenuItem className="text-destructive focus:text-destructive rounded-lg cursor-pointer">
                                     <Trash2 className="mr-2 h-4 w-4" />
                                     Delete User
                                   </DropdownMenuItem>
@@ -548,7 +576,7 @@ export default function UsersPage() {
         </TabsContent>
 
         <TabsContent value="active" className="m-0">
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-md rounded-2xl overflow-hidden">
             <CardContent className="p-6 text-center">
               <p>Active users content will be displayed here.</p>
             </CardContent>
@@ -556,7 +584,7 @@ export default function UsersPage() {
         </TabsContent>
 
         <TabsContent value="inactive" className="m-0">
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-md rounded-2xl overflow-hidden">
             <CardContent className="p-6 text-center">
               <p>Inactive users content will be displayed here.</p>
             </CardContent>
@@ -564,7 +592,7 @@ export default function UsersPage() {
         </TabsContent>
 
         <TabsContent value="pending" className="m-0">
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-md rounded-2xl overflow-hidden">
             <CardContent className="p-6 text-center">
               <p>Pending users content will be displayed here.</p>
             </CardContent>
@@ -577,10 +605,10 @@ export default function UsersPage() {
           Showing <strong>{filteredUsers.length}</strong> of <strong>{users.length}</strong> users
         </p>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" disabled>
+          <Button variant="outline" size="sm" disabled className="rounded-full">
             Previous
           </Button>
-          <Button variant="outline" size="sm" className="gap-1">
+          <Button variant="outline" size="sm" className="gap-1 rounded-full">
             Next
           </Button>
         </div>

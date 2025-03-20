@@ -97,7 +97,7 @@ export default function Pricing() {
         </motion.div>
 
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 px-2 md:px-0"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -105,7 +105,7 @@ export default function Pricing() {
           {plans.map((plan, index) => (
             <motion.div
               key={plan.name}
-              className={`bg-white dark:bg-gray-900 rounded-3xl shadow-lg p-8 relative ${
+              className={`bg-white dark:bg-gray-900 rounded-2xl md:rounded-3xl shadow-lg p-5 md:p-8 relative ${
                 plan.recommended ? "border-2 border-secondary" : "border border-muted"
               }`}
               variants={cardVariants}
@@ -113,28 +113,28 @@ export default function Pricing() {
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
             >
               {plan.recommended && (
-                <div className="absolute top-0 right-0 bg-secondary text-white px-4 py-1 rounded-bl-2xl rounded-tr-2xl text-sm font-semibold flex items-center">
-                  <Star className="w-4 h-4 mr-1" /> Rekomendasi
+                <div className="absolute top-0 right-0 bg-secondary text-white px-3 py-1 rounded-bl-xl rounded-tr-2xl text-xs md:text-sm font-semibold flex items-center">
+                  <Star className="w-3 h-3 md:w-4 md:h-4 mr-1" /> Rekomendasi
                 </div>
               )}
 
               <div className={`inline-block p-2 rounded-lg bg-${plan.color}/10 mb-4`}>
-                <Zap className={`h-6 w-6 text-${plan.color}`} />
+                <Zap className={`h-5 w-5 md:h-6 md:w-6 text-${plan.color}`} />
               </div>
 
-              <h3 className="text-2xl font-bold mb-4 text-foreground">{plan.name}</h3>
-              <p className="text-4xl font-bold mb-6 text-gradient-primary">
+              <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4 text-foreground">{plan.name}</h3>
+              <p className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-gradient-primary">
                 {plan.price === "Hubungi kami" ? (
                   plan.price
                 ) : (
                   <>
                     Rp {plan.price}
-                    <span className="text-base font-normal text-muted-foreground">/bulan</span>
+                    <span className="text-sm md:text-base font-normal text-muted-foreground">/bulan</span>
                   </>
                 )}
               </p>
 
-              <ul className="mb-8 space-y-3">
+              <ul className="mb-6 md:mb-8 space-y-2 md:space-y-3">
                 {plan.features.map((feature, i) => (
                   <motion.li
                     key={feature}
@@ -143,8 +143,8 @@ export default function Pricing() {
                     animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
                     transition={{ delay: 0.3 + i * 0.1 }}
                   >
-                    <Check className={`text-${plan.color} mr-2 flex-shrink-0`} />
-                    <span className="text-muted-foreground">{feature}</span>
+                    <Check className={`text-${plan.color} mr-2 flex-shrink-0 h-4 w-4 md:h-5 md:w-5`} />
+                    <span className="text-sm md:text-base text-muted-foreground">{feature}</span>
                   </motion.li>
                 ))}
               </ul>
@@ -169,10 +169,10 @@ export default function Pricing() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ delay: 0.8, duration: 0.5 }}
-          className="mt-16 text-center bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm rounded-3xl p-8 max-w-3xl mx-auto"
+          className="mt-12 md:mt-16 text-center bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm rounded-2xl md:rounded-3xl p-6 md:p-8 max-w-3xl mx-auto"
         >
-          <h3 className="text-2xl font-bold mb-4">Butuh solusi khusus?</h3>
-          <p className="text-muted-foreground mb-6">
+          <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">Butuh solusi khusus?</h3>
+          <p className="text-sm md:text-base text-muted-foreground mb-4 md:mb-6">
             Kami menyediakan paket khusus untuk kebutuhan spesifik institusi Anda.
           </p>
           <Button className="rounded-full bg-gradient-primary relative overflow-hidden group">

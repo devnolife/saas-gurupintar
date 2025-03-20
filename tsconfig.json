@@ -1,10 +1,8 @@
 {
-  
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "target": "es2022",
-    "types": ["node", "react", "react-dom"],
+    "target": "ES6",
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,

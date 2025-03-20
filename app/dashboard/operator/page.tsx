@@ -1,155 +1,286 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Progress } from "@/components/ui/progress"
-import { Users, BookOpen, FileText, Search } from "lucide-react"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { Badge } from "@/components/ui/badge"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts"
+import { CreditCard, Users, FileText, AlertCircle, ArrowRight, Download, Plus } from "lucide-react"
+import Link from "next/link"
 
-// Mock data for charts
-const activityData = [
-  { month: "Jan", teachers: 40, classes: 120 },
-  { month: "Feb", teachers: 45, classes: 130 },
-  { month: "Mar", teachers: 50, classes: 140 },
-  { month: "Apr", teachers: 48, classes: 135 },
-  { month: "May", teachers: 52, classes: 145 },
-  { month: "Jun", teachers: 55, classes: 150 },
-  { month: "Jul", teachers: 58, classes: 155 },
+// Mock data for dashboard
+const stats = {
+  totalTeachers: 25,
+  activeTeachers: 22,
+  totalPayments: "Rp 125.000.000",
+  pendingPayments: "Rp 5.200.000",
+  documentsGenerated: 150,
+  remainingQuota: 350,
+  quotaUsedPercentage: 30,
+  nextPaymentDate: "2023-07-15",
+}
+
+// Mock data for payment chart
+const paymentData = [
+  { month: "Jan", amount: 20000000 },
+  { month: "Feb", amount: 22000000 },
+  { month: "Mar", amount: 19000000 },
+  { month: "Apr", amount: 23000000 },
+  { month: "May", amount: 25000000 },
+  { month: "Jun", amount: 25000000 },
 ]
 
-// Dummy data for recent activities
+// Mock data for document generation chart
+const documentData = [
+  { month: "Jan", rpp: 20, syllabus: 5 },
+  { month: "Feb", rpp: 25, syllabus: 8 },
+  { month: "Mar", rpp: 18, syllabus: 4 },
+  { month: "Apr", rpp: 22, syllabus: 7 },
+  { month: "May", rpp: 30, syllabus: 10 },
+  { month: "Jun", rpp: 35, syllabus: 12 },
+]
+
+// Mock recent payments
+const recentPayments = [
+  {
+    id: 1,
+    teacherName: "Alice Johnson",
+    amount: "Rp 5.000.000",
+    date: "2023-06-15",
+    status: "Paid",
+  },
+  {
+    id: 2,
+    teacherName: "Bob Smith",
+    amount: "Rp 4.800.000",
+    date: "2023-06-15",
+    status: "Paid",
+  },
+  {
+    id: 3,
+    teacherName: "Carol Williams",
+    amount: "Rp 5.200.000",
+    date: "2023-06-15",
+    status: "Pending",
+  },
+]
+
+// Mock recent account activities
 const recentActivities = [
-  { id: 1, action: "Guru baru ditambahkan", user: "Admin", timestamp: "2023-06-10 09:30" },
-  { id: 2, action: "Kelas baru dibuat", user: "Budi Santoso", timestamp: "2023-06-09 14:45" },
-  { id: 3, action: "Laporan bulanan dihasilkan", user: "Sistem", timestamp: "2023-06-08 00:01" },
-  { id: 4, action: "Pengaturan diperbarui", user: "Admin", timestamp: "2023-06-07 11:20" },
-  { id: 5, action: "Guru dinonaktifkan", user: "Admin", timestamp: "2023-06-06 16:15" },
+  {
+    id: 1,
+    action: "Password Reset",
+    user: "David Brown",
+    date: "2023-07-03",
+    time: "10:15 AM",
+  },
+  {
+    id: 2,
+    action: "Account Updated",
+    user: "Alice Johnson",
+    date: "2023-07-02",
+    time: "2:30 PM",
+  },
+  {
+    id: 3,
+    action: "Permissions Changed",
+    user: "Eva Garcia",
+    date: "2023-07-01",
+    time: "11:45 AM",
+  },
 ]
 
-export default function OperatorDashboardPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-
-  const filteredActivities = recentActivities.filter(
-    (activity) =>
-      activity.action.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      activity.user.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
-
+export default function OperatorDashboard() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Dashboard Operator</h1>
+      <h1 className="text-3xl font-bold mb-8">Operator Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-white dark:bg-gray-900">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Guru</CardTitle>
+      {/* Stats Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Total Teachers</CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">58</div>
-            <p className="text-xs text-muted-foreground">+3 bulan ini</p>
-            <Progress value={58} max={100} className="mt-2" />
+            <div className="text-2xl font-bold">{stats.totalTeachers}</div>
+            <p className="text-xs text-muted-foreground">{stats.activeTeachers} active teachers</p>
           </CardContent>
         </Card>
-        <Card className="bg-white dark:bg-gray-900">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Kelas Aktif</CardTitle>
-            <BookOpen className="h-4 w-4 text-muted-foreground" />
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Total Payments (YTD)</CardTitle>
+            <CreditCard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">155</div>
-            <p className="text-xs text-muted-foreground">+5 bulan ini</p>
-            <Progress value={155} max={200} className="mt-2" />
+            <div className="text-2xl font-bold">{stats.totalPayments}</div>
+            <p className="text-xs text-muted-foreground">{stats.pendingPayments} pending</p>
           </CardContent>
         </Card>
-        <Card className="bg-white dark:bg-gray-900">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Laporan Dihasilkan</CardTitle>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Documents Generated</CardTitle>
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">28</div>
-            <p className="text-xs text-muted-foreground">Bulan ini</p>
-            <Progress value={28} max={30} className="mt-2" />
+            <div className="text-2xl font-bold">{stats.documentsGenerated}</div>
+            <div className="mt-2">
+              <Progress value={stats.quotaUsedPercentage} className="h-2" />
+              <p className="text-xs text-muted-foreground mt-1">{stats.remainingQuota} documents remaining</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium">Next Payment Date</CardTitle>
+            <AlertCircle className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.nextPaymentDate}</div>
+            <p className="text-xs text-muted-foreground">5 teachers scheduled</p>
           </CardContent>
         </Card>
       </div>
 
+      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <Card className="bg-white dark:bg-gray-900">
+        <Card>
           <CardHeader>
-            <CardTitle>Aktivitas Bulanan</CardTitle>
+            <CardTitle>Payment History</CardTitle>
+            <CardDescription>Monthly payment totals for the current year</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="h-[300px]">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={activityData}>
+                <BarChart data={paymentData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
-                  <YAxis yAxisId="left" />
-                  <YAxis yAxisId="right" orientation="right" />
-                  <Tooltip />
-                  <Line yAxisId="left" type="monotone" dataKey="teachers" stroke="#8884d8" name="Guru" />
-                  <Line yAxisId="right" type="monotone" dataKey="classes" stroke="#82ca9d" name="Kelas" />
-                </LineChart>
+                  <YAxis tickFormatter={(value) => `Rp ${(value / 1000000).toFixed(0)}M`} />
+                  <Tooltip formatter={(value) => [`Rp ${(Number(value) / 1000000).toFixed(1)}M`, "Amount"]} />
+                  <Bar dataKey="amount" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                </BarChart>
               </ResponsiveContainer>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-white dark:bg-gray-900">
+        <Card>
           <CardHeader>
-            <CardTitle>Aktivitas Terbaru</CardTitle>
+            <CardTitle>Document Generation</CardTitle>
+            <CardDescription>Monthly RPP and syllabus generation</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center space-x-2 mb-4">
-              <Search className="text-muted-foreground" />
-              <Input
-                type="text"
-                placeholder="Cari aktivitas..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="max-w-sm"
-              />
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={documentData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="month" />
+                  <YAxis />
+                  <Tooltip />
+                  <Line type="monotone" dataKey="rpp" stroke="#3b82f6" strokeWidth={2} />
+                  <Line type="monotone" dataKey="syllabus" stroke="#10b981" strokeWidth={2} />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-            <Table>
-              <TableCaption>Daftar aktivitas terbaru</TableCaption>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Aksi</TableHead>
-                  <TableHead>Pengguna</TableHead>
-                  <TableHead>Waktu</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredActivities.map((activity) => (
-                  <TableRow key={activity.id}>
-                    <TableCell>{activity.action}</TableCell>
-                    <TableCell>{activity.user}</TableCell>
-                    <TableCell>{activity.timestamp}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="bg-white dark:bg-gray-900">
-        <CardHeader>
-          <CardTitle>Tindakan Cepat</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button>Tambah Guru Baru</Button>
-            <Button>Buat Kelas Baru</Button>
-            <Button>Hasilkan Laporan</Button>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Recent Activities */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Recent Payments</CardTitle>
+              <CardDescription>Latest teacher payments</CardDescription>
+            </div>
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/dashboard/operator/payments">
+                View All
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Teacher</TableHead>
+                  <TableHead>Amount</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {recentPayments.map((payment) => (
+                  <TableRow key={payment.id}>
+                    <TableCell>{payment.teacherName}</TableCell>
+                    <TableCell>{payment.amount}</TableCell>
+                    <TableCell>{new Date(payment.date).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <Badge variant={payment.status === "Paid" ? "default" : "secondary"}>{payment.status}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Button variant="outline" size="sm">
+                        <Download className="h-4 w-4 mr-2" />
+                        Receipt
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <div className="mt-4 flex justify-center">
+              <Button asChild>
+                <Link href="/dashboard/operator/payments">
+                  <Plus className="mr-2 h-4 w-4" />
+                  Process New Payment
+                </Link>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
+              <CardTitle>Account Activities</CardTitle>
+              <CardDescription>Recent account management activities</CardDescription>
+            </div>
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/dashboard/operator/accounts">
+                View All
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              {recentActivities.map((activity) => (
+                <div key={activity.id} className="border-l-4 border-blue-500 pl-4 py-1">
+                  <div className="flex items-center">
+                    <h3 className="font-medium">{activity.action}</h3>
+                    <span className="ml-auto text-sm text-muted-foreground">
+                      {activity.date} - {activity.time}
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">{activity.user}</p>
+                </div>
+              ))}
+              <div className="mt-4 flex justify-center">
+                <Button variant="outline" asChild>
+                  <Link href="/dashboard/operator/accounts">Manage Teacher Accounts</Link>
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }

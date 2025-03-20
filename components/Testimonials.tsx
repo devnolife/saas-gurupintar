@@ -87,15 +87,15 @@ export default function Testimonials() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col md:flex-row items-center justify-center bg-white dark:bg-gray-900 rounded-3xl p-8 shadow-lg"
+              className="flex flex-col md:flex-row items-center justify-center bg-white dark:bg-gray-900 rounded-3xl p-5 md:p-8 shadow-lg mx-2 md:mx-0"
             >
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
-                className="md:w-1/3 mb-8 md:mb-0 relative"
+                className="md:w-1/3 mb-6 md:mb-0 relative"
               >
-                <div className="w-32 h-32 mx-auto relative">
+                <div className="w-24 h-24 md:w-32 md:h-32 mx-auto relative">
                   <Image
                     src={testimonials[currentTestimonial].image || "/placeholder.svg"}
                     alt={testimonials[currentTestimonial].name}
@@ -123,7 +123,7 @@ export default function Testimonials() {
                   {[...Array(5)].map((_, i) => (
                     <Star
                       key={i}
-                      className={`h-5 w-5 ${i < testimonials[currentTestimonial].rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                      className={`h-4 w-4 md:h-5 md:w-5 ${i < testimonials[currentTestimonial].rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
                     />
                   ))}
                 </motion.div>
@@ -136,8 +136,8 @@ export default function Testimonials() {
                   transition={{ delay: 0.3, duration: 0.5 }}
                   className="relative"
                 >
-                  <Quote className="absolute -top-6 -left-6 h-12 w-12 text-primary opacity-20 transform -rotate-12" />
-                  <p className="text-2xl md:text-3xl italic mb-6 text-foreground leading-relaxed">
+                  <Quote className="absolute -top-6 -left-6 h-8 w-8 md:h-12 md:w-12 text-primary opacity-20 transform -rotate-12" />
+                  <p className="text-lg md:text-2xl lg:text-3xl italic mb-4 md:mb-6 text-foreground leading-relaxed">
                     &ldquo;{testimonials[currentTestimonial].quote}&rdquo;
                   </p>
                 </motion.div>
@@ -148,31 +148,35 @@ export default function Testimonials() {
                   transition={{ delay: 0.4, duration: 0.5 }}
                   className="text-right"
                 >
-                  <p className="font-semibold text-foreground text-xl">{testimonials[currentTestimonial].name}</p>
-                  <p className="text-gradient-primary">{testimonials[currentTestimonial].institution}</p>
+                  <p className="font-semibold text-foreground text-lg md:text-xl">
+                    {testimonials[currentTestimonial].name}
+                  </p>
+                  <p className="text-gradient-primary text-sm md:text-base">
+                    {testimonials[currentTestimonial].institution}
+                  </p>
                 </motion.div>
               </div>
             </motion.div>
           </AnimatePresence>
 
-          <div className="absolute left-0 right-0 bottom-0 md:bottom-auto md:top-1/2 flex justify-between transform md:-translate-y-1/2 px-4 md:-mx-12">
+          <div className="absolute left-0 right-0 bottom-0 md:bottom-auto md:top-1/2 flex justify-between transform md:-translate-y-1/2 px-2 md:-mx-12">
             <Button
               onClick={prevTestimonial}
               variant="outline"
               size="icon"
-              className="bg-white dark:bg-gray-900 hover:bg-muted/80 transition-colors duration-200 rounded-full"
+              className="w-9 h-9 md:w-10 md:h-10 bg-white dark:bg-gray-900 hover:bg-muted/80 transition-colors duration-200 rounded-full"
               aria-label="Testimonial sebelumnya"
             >
-              <ChevronLeft className="w-6 h-6 text-primary" />
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             </Button>
             <Button
               onClick={nextTestimonial}
               variant="outline"
               size="icon"
-              className="bg-white dark:bg-gray-900 hover:bg-muted/80 transition-colors duration-200 rounded-full"
+              className="w-9 h-9 md:w-10 md:h-10 bg-white dark:bg-gray-900 hover:bg-muted/80 transition-colors duration-200 rounded-full"
               aria-label="Testimonial selanjutnya"
             >
-              <ChevronRight className="w-6 h-6 text-primary" />
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6 text-primary" />
             </Button>
           </div>
         </div>

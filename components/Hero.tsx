@@ -48,7 +48,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative w-full overflow-hidden bg-white dark:bg-gray-950 pt-32 pb-16 md:pt-40 md:pb-24"
+      className="relative w-full overflow-hidden bg-white dark:bg-gray-950 pt-28 pb-16 md:pt-40 md:pb-24"
     >
       {/* Background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
@@ -76,7 +76,7 @@ export default function Hero() {
               <span className="text-sm font-medium">Revolusi Perencanaan Pembelajaran</span>
             </motion.div>
 
-            <h1 className="mb-6 text-4xl font-bold tracking-tight text-foreground md:text-6xl lg:text-7xl">
+            <h1 className="mb-6 text-3xl font-bold tracking-tight text-foreground md:text-5xl lg:text-7xl">
               <motion.span
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -117,7 +117,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-              <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row">
+              <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-grow">
                   <Input
                     type="email"
@@ -125,7 +125,7 @@ export default function Hero() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="h-12 flex-grow bg-background text-lg rounded-full shadow-sm pl-12"
+                    className="h-12 flex-grow bg-background text-base rounded-full shadow-sm pl-12"
                   />
                   <div className="absolute left-4 top-1/2 transform -translate-y-1/2">
                     <Zap className="h-5 w-5 text-primary" />
@@ -134,7 +134,7 @@ export default function Hero() {
                 <Button
                   type="submit"
                   size="lg"
-                  className="h-12 px-8 shadow-sm rounded-full bg-gradient-primary relative overflow-hidden group"
+                  className="h-12 px-6 shadow-sm rounded-full bg-gradient-primary relative overflow-hidden group"
                 >
                   <span className="relative z-10 flex items-center">
                     Mulai Sekarang
@@ -261,6 +261,39 @@ export default function Hero() {
                 }}
               />
             </motion.div>
+          </motion.div>
+
+          {/* Mobile image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-8 relative lg:hidden"
+          >
+            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-primary/5 via-white to-secondary/5 dark:from-primary/10 dark:via-gray-900 dark:to-secondary/10 p-3 shadow-xl border border-muted">
+              <Image src="/placeholder.svg" alt="Dashboard Preview" width={600} height={400} className="rounded-lg" />
+
+              {/* Floating stats cards for mobile */}
+              <motion.div
+                className="absolute -left-4 top-1/4 rounded-xl border bg-white dark:bg-gray-900 p-3 shadow-lg scale-75"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
+                <p className="text-xs font-medium text-muted-foreground">Total Guru</p>
+                <p className="text-xl font-bold text-gradient-primary">1,234</p>
+              </motion.div>
+
+              <motion.div
+                className="absolute -right-4 bottom-1/4 rounded-xl border bg-white dark:bg-gray-900 p-3 shadow-lg scale-75"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
+              >
+                <p className="text-xs font-medium text-muted-foreground">RPP Dibuat</p>
+                <p className="text-xl font-bold text-gradient-secondary">10,567</p>
+              </motion.div>
+            </div>
           </motion.div>
         </motion.div>
       </div>

@@ -25,7 +25,20 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts"
-import { School, Users, FileText, MoreVertical, Search, Download, CreditCard, TrendingUp, Activity } from "lucide-react"
+import {
+  School,
+  Users,
+  FileText,
+  MoreVertical,
+  Search,
+  Download,
+  CreditCard,
+  TrendingUp,
+  Activity,
+  Mail,
+  Trash2,
+  Edit,
+} from "lucide-react"
 import { DashboardCard } from "@/components/DashboardCard"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -68,12 +81,14 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-8 w-full p-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold">Dashboard Admin</h1>
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+            Dashboard Admin
+          </h1>
           <p className="text-muted-foreground">Selamat datang kembali, lihat statistik dan aktivitas terbaru</p>
         </div>
-        <Button className="gap-2 rounded-xl">
+        <Button className="gap-2 rounded-full bg-gradient-to-r from-primary to-primary-light hover:opacity-90 transition-opacity">
           <Download className="h-4 w-4" /> Unduh Laporan
         </Button>
       </div>
@@ -114,13 +129,23 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-none shadow-md bg-white dark:bg-gray-900">
+        <Card className="lg:col-span-2 border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
           <Tabs defaultValue="users">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle>Analisis Aktivitas</CardTitle>
-              <TabsList className="bg-muted/50">
-                <TabsTrigger value="users">Pengguna</TabsTrigger>
-                <TabsTrigger value="documents">Dokumen</TabsTrigger>
+              <CardTitle className="text-xl font-bold">Analisis Aktivitas</CardTitle>
+              <TabsList className="bg-muted/50 rounded-full p-1">
+                <TabsTrigger
+                  value="users"
+                  className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
+                  Pengguna
+                </TabsTrigger>
+                <TabsTrigger
+                  value="documents"
+                  className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
+                  Dokumen
+                </TabsTrigger>
               </TabsList>
             </CardHeader>
             <CardContent>
@@ -174,9 +199,9 @@ export default function AdminDashboardPage() {
           </Tabs>
         </Card>
 
-        <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+        <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
           <CardHeader>
-            <CardTitle>Kalender Aktivitas</CardTitle>
+            <CardTitle className="text-xl font-bold">Kalender Aktivitas</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col space-y-4">
@@ -190,7 +215,7 @@ export default function AdminDashboardPage() {
                       {i + 10}
                     </div>
                   </div>
-                  <div className="flex-1 rounded-lg border p-3">
+                  <div className="flex-1 rounded-xl border p-3 hover:border-primary/20 hover:bg-primary/5 transition-colors duration-300 cursor-pointer">
                     <div className="font-medium">
                       {
                         [
@@ -213,70 +238,86 @@ export default function AdminDashboardPage() {
         </Card>
       </div>
 
-      <Card className="border-none shadow-md bg-white dark:bg-gray-900">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Aktivitas Terbaru</CardTitle>
-          <div className="flex items-center space-x-2">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
+        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <CardTitle className="text-xl font-bold">Aktivitas Terbaru</CardTitle>
+          <div className="flex flex-col sm:flex-row items-center gap-2">
+            <div className="relative w-full sm:w-auto">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Cari aktivitas..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-8 h-9 w-[200px] rounded-lg border-muted bg-muted/50"
+                className="pl-9 h-9 w-full sm:w-[200px] rounded-full border-muted bg-muted/50"
               />
             </div>
-            <Button variant="outline" size="sm" className="h-9 rounded-lg">
+            <Button variant="outline" size="sm" className="h-9 rounded-full w-full sm:w-auto">
               <Activity className="mr-2 h-4 w-4" />
               Filter
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Pengguna</TableHead>
-                <TableHead>Aksi</TableHead>
-                <TableHead>Waktu</TableHead>
-                <TableHead></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredActivities.map((activity) => (
-                <TableRow key={activity.id} className="hover:bg-muted/30">
-                  <TableCell className="font-medium">{activity.user}</TableCell>
-                  <TableCell>{activity.action}</TableCell>
-                  <TableCell>{activity.timestamp}</TableCell>
-                  <TableCell className="text-right">
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Aksi</DropdownMenuLabel>
-                        <DropdownMenuItem>Lihat detail</DropdownMenuItem>
-                        <DropdownMenuItem>Kirim notifikasi</DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>Hapus log</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </TableCell>
+          <div className="rounded-xl border overflow-hidden">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                  <TableHead>Pengguna</TableHead>
+                  <TableHead>Aksi</TableHead>
+                  <TableHead>Waktu</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {filteredActivities.map((activity) => (
+                  <TableRow key={activity.id} className="hover:bg-muted/30 group">
+                    <TableCell className="font-medium">{activity.user}</TableCell>
+                    <TableCell>{activity.action}</TableCell>
+                    <TableCell>{activity.timestamp}</TableCell>
+                    <TableCell className="text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
+                          >
+                            <span className="sr-only">Open menu</span>
+                            <MoreVertical className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-[180px] rounded-xl">
+                          <DropdownMenuLabel>Aksi</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="rounded-lg cursor-pointer">
+                            <Edit className="mr-2 h-4 w-4" />
+                            Lihat detail
+                          </DropdownMenuItem>
+                          <DropdownMenuItem className="rounded-lg cursor-pointer">
+                            <Mail className="mr-2 h-4 w-4" />
+                            Kirim notifikasi
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive focus:text-destructive rounded-lg cursor-pointer">
+                            <Trash2 className="mr-2 h-4 w-4" />
+                            Hapus log
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </CardContent>
       </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+        <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
           <CardHeader>
-            <CardTitle>Statistik Pengguna</CardTitle>
+            <CardTitle className="text-xl font-bold">Statistik Pengguna</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
@@ -285,8 +326,11 @@ export default function AdminDashboardPage() {
                   <div className="text-sm font-medium">Guru</div>
                   <div className="text-sm text-muted-foreground">82 / 100</div>
                 </div>
-                <div className="h-2 rounded-full bg-muted overflow-hidden">
-                  <div className="h-full bg-primary rounded-full" style={{ width: "82%" }}></div>
+                <div className="h-3 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-primary to-primary-light rounded-full"
+                    style={{ width: "82%" }}
+                  ></div>
                 </div>
               </div>
               <div>
@@ -294,8 +338,11 @@ export default function AdminDashboardPage() {
                   <div className="text-sm font-medium">Operator</div>
                   <div className="text-sm text-muted-foreground">24 / 30</div>
                 </div>
-                <div className="h-2 rounded-full bg-muted overflow-hidden">
-                  <div className="h-full bg-secondary rounded-full" style={{ width: "80%" }}></div>
+                <div className="h-3 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-secondary to-secondary-light rounded-full"
+                    style={{ width: "80%" }}
+                  ></div>
                 </div>
               </div>
               <div>
@@ -303,33 +350,36 @@ export default function AdminDashboardPage() {
                   <div className="text-sm font-medium">Admin</div>
                   <div className="text-sm text-muted-foreground">5 / 10</div>
                 </div>
-                <div className="h-2 rounded-full bg-muted overflow-hidden">
-                  <div className="h-full bg-accent rounded-full" style={{ width: "50%" }}></div>
+                <div className="h-3 rounded-full bg-muted overflow-hidden">
+                  <div
+                    className="h-full bg-gradient-to-r from-accent to-accent-light rounded-full"
+                    style={{ width: "50%" }}
+                  ></div>
                 </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-md bg-white dark:bg-gray-900">
+        <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
           <CardHeader>
-            <CardTitle>Tindakan Cepat</CardTitle>
+            <CardTitle className="text-xl font-bold">Tindakan Cepat</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary/80 to-primary hover:opacity-90 transition-opacity">
                 <Users className="h-6 w-6" />
                 <span>Tambah Pengguna</span>
               </Button>
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-secondary/80 to-secondary hover:opacity-90 transition-opacity">
                 <School className="h-6 w-6" />
                 <span>Tambah Sekolah</span>
               </Button>
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-accent/80 to-accent hover:opacity-90 transition-opacity">
                 <FileText className="h-6 w-6" />
                 <span>Buat Laporan</span>
               </Button>
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl">
+              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary/80 to-primary hover:opacity-90 transition-opacity">
                 <TrendingUp className="h-6 w-6" />
                 <span>Lihat Analitik</span>
               </Button>

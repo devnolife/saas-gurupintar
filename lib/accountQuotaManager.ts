@@ -1,107 +1,166 @@
-// Types
-type PlanType = "Basic" | "Standard" | "Premium" | "Enterprise"
-
-interface SchoolSubscription {
-  id: string
-  schoolId: string
-  planType: PlanType
-  maxOperators: number
-  maxTeachers: number
-  currentOperators: number
-  currentTeachers: number
-  expirationDate: Date
-}
-
-// Mock database
-const subscriptions: SchoolSubscription[] = [
-  {
-    id: "1",
-    schoolId: "school1",
-    planType: "Standard",
-    maxOperators: 2,
-    maxTeachers: 50,
-    currentOperators: 1,
-    currentTeachers: 30,
-    expirationDate: new Date("2024-12-31"),
+// Mock data for account quotas
+const schoolQuotas = {
+  school1: {
+    maxTeacherAccounts: 50,
+    usedTeacherAccounts: 42,
+    maxDocuments: 500,
+    usedDocuments: 320,
   },
-  {
-    id: "2",
-    schoolId: "school2",
-    planType: "Premium",
-    maxOperators: 3,
-    maxTeachers: 100,
-    currentOperators: 2,
-    currentTeachers: 75,
-    expirationDate: new Date("2024-12-31"),
+  school2: {
+    maxTeacherAccounts: 25,
+    usedTeacherAccounts: 10,
+    maxDocuments: 250,
+    usedDocuments: 75,
   },
-]
-
-// Utility functions
-export function getSchoolSubscription(schoolId: string): SchoolSubscription | undefined {
-  return subscriptions.find((sub) => sub.schoolId === schoolId)
 }
 
-export function canAddOperator(schoolId: string): boolean {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription) return false
-  return subscription.currentOperators < subscription.maxOperators
+// Teacher document quotas
+const teacherQuotas = {
+  teacher1: {
+    maxDocuments: 50,
+    usedDocuments: 32,
+  },
+  teacher2: {
+    maxDocuments: 30,
+    usedDocuments: 15,
+  },
 }
 
+/**
+ * Get the maximum number of teacher accounts allowed for a school
+ */
+export function getTeacherQuota(schoolId: string): number {
+  return schoolQuotas[schoolId]?.maxTeacherAccounts || 0
+}
+
+/**
+ * Get the number of teacher accounts already created for a school
+ */
+export function getUsedTeacherQuota(schoolId: string): number {
+  return schoolQuotas[schoolId]?.usedTeacherAccounts || 0
+}
+
+/**
+ * Get the remaining number of teacher accounts that can be created
+ */
+export function getRemainingQuota(schoolId: string): number {
+  const maxQuota = getTeacherQuota(schoolId)
+  const usedQuota = getUsedTeacherQuota(schoolId)
+  return Math.max(0, maxQuota - usedQuota)
+}
+
+/**
+ * Use a specified amount of teacher account quota
+ */
+export function useQuota(schoolId: string, amount = 1): boolean {
+  if (!schoolQuotas[schoolId]) return false
+
+  const remainingQuota = getRemainingQuota(schoolId)
+  if (remainingQuota < amount) return false
+
+  schoolQuotas[schoolId].usedTeacherAccounts += amount
+  return true
+}
+
+/**
+ * Increase the maximum teacher account quota for a school
+ */
+export function increaseQuota(schoolId: string, amount: number): boolean {
+  if (!schoolQuotas[schoolId]) return false
+
+  schoolQuotas[schoolId].maxTeacherAccounts += amount
+  return true
+}
+
+/**
+ * Get the maximum number of documents a teacher can generate
+ */
+export function getTeacherDocumentQuota(teacherId: string): number {
+  return teacherQuotas[teacherId]?.maxDocuments || 0
+}
+
+/**
+ * Get the number of documents a teacher has already generated
+ */
+export function getTeacherUsedDocumentQuota(teacherId: string): number {
+  return teacherQuotas[teacherId]?.usedDocuments || 0
+}
+
+/**
+ * Get the remaining number of documents a teacher can generate
+ */
+export function getTeacherRemainingDocumentQuota(teacherId: string): number {
+  const maxQuota = getTeacherDocumentQuota(teacherId)
+  const usedQuota = getTeacherUsedDocumentQuota(teacherId)
+  return Math.max(0, maxQuota - usedQuota)
+}
+
+/**
+ * Use a specified amount of document generation quota for a teacher
+ */
+export function useTeacherDocumentQuota(teacherId: string, amount = 1): boolean {
+  if (!teacherQuotas[teacherId]) return false
+
+  const remainingQuota = getTeacherRemainingDocumentQuota(teacherId)
+  if (remainingQuota < amount) return false
+
+  teacherQuotas[teacherId].usedDocuments += amount
+  return true
+}
+
+/**
+ * Increase the maximum document quota for a teacher
+ */
+export function increaseTeacherDocumentQuota(teacherId: string, amount: number): boolean {
+  if (!teacherQuotas[teacherId]) {
+    teacherQuotas[teacherId] = {
+      maxDocuments: amount,
+      usedDocuments: 0,
+    }
+    return true
+  }
+
+  teacherQuotas[teacherId].maxDocuments += amount
+  return true
+}
+
+/**
+ * Get subscription information for a school
+ */
+export function getSchoolSubscription(schoolId: string) {
+  // Mock implementation - replace with actual data fetching
+  if (schoolId === "school1") {
+    return {
+      id: "sub1",
+      schoolId: "school1",
+      plan: "Premium",
+      maxTeachers: 50,
+      maxDocuments: 500,
+      startDate: "2023-01-01",
+      endDate: "2024-01-01",
+    }
+  }
+  return null
+}
+
+/**
+ * Check if a school can add more teachers
+ */
 export function canAddTeacher(schoolId: string): boolean {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription) return false
-  return subscription.currentTeachers < subscription.maxTeachers
+  return getRemainingQuota(schoolId) > 0
 }
 
-export function addOperator(schoolId: string): boolean {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription || !canAddOperator(schoolId)) return false
-  subscription.currentOperators++
-  return true
-}
-
-export function addTeacher(schoolId: string): boolean {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription || !canAddTeacher(schoolId)) return false
-  subscription.currentTeachers++
-  return true
-}
-
-export function getQuotaUsage(schoolId: string): { operators: number; teachers: number } | undefined {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription) return undefined
-  return {
-    operators: subscription.currentOperators,
-    teachers: subscription.currentTeachers,
+/**
+ * Get quota usage for a school
+ */
+export function getQuotaUsage(schoolId: string) {
+  // Mock implementation - replace with actual data fetching
+  if (schoolId === "school1") {
+    return {
+      teachers: getUsedTeacherQuota(schoolId),
+      documents: schoolQuotas[schoolId]?.usedDocuments || 0,
+    }
   }
-}
-
-export function getRemainingQuota(schoolId: string): { operators: number; teachers: number } | undefined {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription) return undefined
-  return {
-    operators: subscription.maxOperators - subscription.currentOperators,
-    teachers: subscription.maxTeachers - subscription.currentTeachers,
-  }
-}
-
-export function upgradePlan(schoolId: string, newPlanType: PlanType): boolean {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription) return false
-
-  // In a real implementation, you would check if the new plan is actually an upgrade
-  // and update the maxOperators and maxTeachers accordingly
-  subscription.planType = newPlanType
-  return true
-}
-
-// This function would be called when a school wants to purchase additional teacher accounts
-export function purchaseAdditionalTeacherAccounts(schoolId: string, additionalAccounts: number): boolean {
-  const subscription = getSchoolSubscription(schoolId)
-  if (!subscription) return false
-
-  // In a real implementation, you would handle payment processing here
-  subscription.maxTeachers += additionalAccounts
-  return true
+  return null
 }
 

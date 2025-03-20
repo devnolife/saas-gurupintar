@@ -1,158 +1,161 @@
-"use client"
-
 import Link from "next/link"
-import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, ArrowRight } from "lucide-react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin, ArrowRight, Heart } from "lucide-react"
 
-const footerLinks = [
-  {
-    title: "Perusahaan",
-    links: [
-      { name: "Tentang Kami", href: "/about" },
-      { name: "Karir", href: "/careers" },
-      { name: "Berita", href: "/news" },
-      { name: "Kebijakan Privasi", href: "/privacy" },
-    ],
-  },
-  {
-    title: "Produk",
-    links: [
-      { name: "Fitur", href: "/features" },
-      { name: "Harga", href: "/pricing" },
-      { name: "FAQ", href: "/faq" },
-      { name: "Testimonial", href: "/testimonials" },
-    ],
-  },
-  {
-    title: "Sumber Daya",
-    links: [
-      { name: "Blog", href: "/blog" },
-      { name: "Panduan", href: "/guides" },
-      { name: "Webinar", href: "/webinars" },
-      { name: "Bantuan", href: "/help" },
-    ],
-  },
-]
+export function Footer() {
+  const currentYear = new Date().getFullYear()
 
-const socialLinks = [
-  { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "LinkedIn", icon: Linkedin, href: "#" },
-]
-
-export default function Footer() {
   return (
-    <footer className="w-full bg-white dark:bg-gray-950 border-t border-muted py-12 md:py-16 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-72 h-72 bg-primary-light/5 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
-        <div className="absolute bottom-0 left-0 w-72 h-72 bg-secondary/5 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
-        <div className="absolute inset-0 noise-bg"></div>
-      </div>
-
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
-          <div className="lg:col-span-2">
-            <Link href="/" className="text-2xl font-bold text-gradient mb-4 inline-block">
-              Guru Pintar
-            </Link>
-            <p className="text-muted-foreground mb-6">
-              Membantu guru menciptakan pengalaman belajar yang luar biasa melalui perencanaan pembelajaran yang efektif
-              dan kolaboratif.
-            </p>
-
-            <div className="mb-6 bg-muted p-4 rounded-2xl">
-              <p className="text-sm font-medium mb-2">Berlangganan newsletter kami</p>
-              <div className="flex gap-2">
-                <div className="relative flex-grow">
-                  <Input
-                    type="email"
-                    placeholder="Email Anda"
-                    className="rounded-full bg-white dark:bg-gray-900 pr-12"
-                  />
-                  <Button size="sm" className="absolute right-1 top-1/2 -translate-y-1/2 rounded-full w-10 h-10 p-0">
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+    <footer className="bg-gradient-to-b from-background to-muted/30 dark:from-gray-950 dark:to-gray-900 border-t border-border/40 dark:border-gray-800">
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-4 py-12 md:py-16">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
+          {/* Column 1: About & Newsletter */}
+          <div className="space-y-6">
+            <div className="flex items-center">
+              <div className="relative h-10 w-10">
+                <div className="absolute inset-0 rounded-xl bg-primary opacity-20 dark:opacity-40 blur-xl"></div>
+                <div className="relative flex h-full w-full items-center justify-center rounded-xl bg-primary font-bold text-primary-foreground">
+                  GP
                 </div>
               </div>
+              <h3 className="ml-3 text-xl font-bold text-foreground dark:text-white">Guru Pintar</h3>
             </div>
 
-            <div className="flex space-x-4">
-              {socialLinks.map((link) => (
-                <motion.a
-                  key={link.name}
-                  href={link.href}
-                  aria-label={link.name}
-                  className="text-muted-foreground hover:text-primary transition-colors duration-200 bg-muted w-10 h-10 rounded-full flex items-center justify-center"
-                  whileHover={{ scale: 1.1, backgroundColor: "rgba(var(--primary), 0.1)" }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <link.icon size={20} />
-                </motion.a>
-              ))}
+            <p className="text-muted-foreground dark:text-gray-300">
+              Empowering educators with intelligent tools to create exceptional learning experiences.
+            </p>
+
+            <div className="space-y-3">
+              <h4 className="font-medium text-foreground dark:text-white">Subscribe to our newsletter</h4>
+              <div className="flex gap-2">
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="bg-background dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
+                />
+                <Button size="icon" className="dark:bg-primary dark:text-white dark:hover:bg-primary/90">
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground dark:text-gray-400">
+                Get the latest updates and resources directly to your inbox.
+              </p>
             </div>
           </div>
-          {footerLinks.map((column) => (
-            <div key={column.title}>
-              <h3 className="text-lg font-semibold mb-4 text-foreground">{column.title}</h3>
-              <ul className="space-y-2">
-                {column.links.map((link) => (
-                  <li key={link.name}>
+
+          {/* Column 2: Products */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-foreground dark:text-white">Products</h4>
+            <ul className="space-y-3">
+              {["Lesson Planner", "Syllabus Builder", "Assessment Tools", "Resource Library", "Student Analytics"].map(
+                (item) => (
+                  <li key={item}>
                     <Link
-                      href={link.href}
-                      className="text-muted-foreground hover:text-primary transition-colors duration-200 flex items-center group"
+                      href="#"
+                      className="text-muted-foreground dark:text-gray-300 hover:text-foreground dark:hover:text-white transition-colors duration-200"
                     >
-                      <span>{link.name}</span>
-                      <ArrowRight className="h-3 w-0 ml-1 opacity-0 group-hover:w-3 group-hover:opacity-100 transition-all duration-300" />
+                      {item}
                     </Link>
                   </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="border-t border-muted pt-8 mt-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center">
-              <Mail size={16} className="mr-2 text-primary" />
-              <span>info@gurupintar.com</span>
-            </div>
-            <div className="flex items-center">
-              <Phone size={16} className="mr-2 text-primary" />
-              <span>+62 123 456 7890</span>
-            </div>
-            <div className="flex items-center">
-              <MapPin size={16} className="mr-2 text-primary" />
-              <span>Jl. Pendidikan No. 123, Jakarta, Indonesia</span>
-            </div>
+                ),
+              )}
+            </ul>
           </div>
 
-          <div className="mt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-muted-foreground mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} Guru Pintar. Hak Cipta Dilindungi.
-            </p>
-            <div className="flex space-x-4">
+          {/* Column 3: Company */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-foreground dark:text-white">Company</h4>
+            <ul className="space-y-3">
+              {["About Us", "Careers", "Blog", "Press", "Partners", "Contact Us"].map((item) => (
+                <li key={item}>
+                  <Link
+                    href="#"
+                    className="text-muted-foreground dark:text-gray-300 hover:text-foreground dark:hover:text-white transition-colors duration-200"
+                  >
+                    {item}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Contact & Social */}
+          <div className="space-y-6">
+            <h4 className="text-lg font-semibold text-foreground dark:text-white">Contact</h4>
+            <ul className="space-y-3">
+              <li className="flex items-center gap-2 text-muted-foreground dark:text-gray-300">
+                <Mail className="h-4 w-4 text-primary" />
+                <span>support@gurupintar.com</span>
+              </li>
+              <li className="flex items-center gap-2 text-muted-foreground dark:text-gray-300">
+                <Phone className="h-4 w-4 text-primary" />
+                <span>+1 (555) 123-4567</span>
+              </li>
+              <li className="flex items-center gap-2 text-muted-foreground dark:text-gray-300">
+                <MapPin className="h-4 w-4 text-primary" />
+                <span>Jakarta, Indonesia</span>
+              </li>
+            </ul>
+
+            <div className="space-y-3">
+              <h4 className="font-medium text-foreground dark:text-white">Follow us</h4>
+              <div className="flex gap-4">
+                {[
+                  { icon: Facebook, label: "Facebook" },
+                  { icon: Twitter, label: "Twitter" },
+                  { icon: Instagram, label: "Instagram" },
+                  { icon: Linkedin, label: "LinkedIn" },
+                  { icon: Youtube, label: "YouTube" },
+                ].map((social) => (
+                  <Link
+                    key={social.label}
+                    href="#"
+                    aria-label={social.label}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-muted dark:bg-gray-800 text-muted-foreground dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary dark:hover:text-primary transition-colors duration-200"
+                  >
+                    <social.icon className="h-4 w-4" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom Bar */}
+      <div className="border-t border-border/40 dark:border-gray-800">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-sm text-muted-foreground dark:text-gray-400 order-2 md:order-1">
+              © {currentYear} Guru Pintar. All rights reserved.
+            </div>
+
+            <div className="flex items-center gap-1 text-sm text-muted-foreground dark:text-gray-400 order-1 md:order-2">
+              <span>Created with</span>
+              <Heart className="h-3 w-3 text-destructive fill-destructive animate-pulse-slow" />
+              <span>by</span>
               <Link
-                href="/terms"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+                href="https://github.com/devnolife"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors"
               >
-                Syarat & Ketentuan
+                devnolife
               </Link>
-              <Link
-                href="/privacy"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
-              >
-                Kebijakan Privasi
-              </Link>
-              <Link
-                href="/cookies"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
-              >
-                Kebijakan Cookie
-              </Link>
+            </div>
+
+            <div className="flex gap-6 order-3 md:order-3">
+              {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
+                <Link
+                  key={item}
+                  href="#"
+                  className="text-xs text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white transition-colors duration-200"
+                >
+                  {item}
+                </Link>
+              ))}
             </div>
           </div>
         </div>
@@ -160,4 +163,6 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default Footer
 

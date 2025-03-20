@@ -1,0 +1,56 @@
+@media print {
+  /* Hide navigation and UI elements not needed for printing */
+  nav,
+  header,
+  footer,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Ensure the document uses the full page */
+  body,
+  html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+  }
+
+  /* Format the content for printing */
+  .print-content {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Ensure text is black for better printing */
+  * {
+    color: black !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Add page breaks where needed */
+  .page-break {
+    page-break-after: always;
+  }
+
+  /* Format headings */
+  h1,
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+  /* Format tables */
+  table {
+    page-break-inside: avoid;
+  }
+
+  /* Format images */
+  img {
+    max-width: 100% !important;
+  }
+}
+

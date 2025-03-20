@@ -1,55 +1,48 @@
-"use client"
-
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
-import { getRemainingQuota } from "@/lib/accountQuotaManager"
-import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 
 interface QuotaDisplayProps {
-  schoolId: string
-  onUpgradeRequest: () => void
+  title: string
+  current: number
+  max: number
+  unit?: string
+  className?: string
 }
 
-export function QuotaDisplay({ schoolId, onUpgradeRequest }: QuotaDisplayProps) {
-  const [quota, setQuota] = useState<{ operators: number; teachers: number } | undefined>(undefined)
+export function QuotaDisplay({ title, current, max, unit = "items", className }: QuotaDisplayProps) {
+  const percentage = Math.min(100, Math.round((current / max) * 100))
+  const remaining = max - current
 
-  useState(() => {
-    const q = getRemainingQuota(schoolId)
-    setQuota(q)
-  }, [schoolId])
-
-  if (!quota) {
-    return <Card>Loading...</Card>
+  // Determine color based on usage
+  const getProgressColor = () => {
+    if (percentage >= 90) return "bg-red-500"
+    if (percentage >= 75) return "bg-amber-500"
+    return "bg-green-500"
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Account Quotas</CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium">Guru</p>
-            <p className="text-lg font-bold">{quota.teachers}</p>
-          </div>
-          <Progress value={quota.teachers} max={50} className="w-24" />
-        </div>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium">Operator</p>
-            <p className="text-lg font-bold">{quota.operators}</p>
-          </div>
-          <Progress value={quota.operators} max={2} className="w-24" />
-        </div>
-        {quota.teachers <= 0 || quota.operators <= 0 ? (
-          <Button onClick={onUpgradeRequest} variant="outline">
-            Upgrade Plan
-          </Button>
-        ) : null}
-      </CardContent>
-    </Card>
+    <div className={cn("space-y-2", className)}>
+      <div className="flex justify-between text-sm">
+        <span className="font-medium">{title}</span>
+        <span>
+          {current} / {max} {unit}
+        </span>
+      </div>
+      <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
+        <div
+          className={`h-full ${getProgressColor()} transition-all duration-300 ease-in-out`}
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+      <div className="text-xs text-muted-foreground">
+        {remaining === 0 ? (
+          <span className="text-red-500 font-medium">No {unit} remaining. Please upgrade.</span>
+        ) : (
+          <span>
+            {remaining} {unit} remaining
+          </span>
+        )}
+      </div>
+    </div>
   )
 }
 

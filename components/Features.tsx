@@ -215,7 +215,7 @@ export default function Features() {
         </motion.div>
 
         {/* Feature showcase with 3D perspective */}
-        <div className="relative mx-auto max-w-6xl perspective-1000">
+        <div className="relative mx-auto max-w-6xl perspective-1000 px-2 sm:px-4">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentFeature}
@@ -226,9 +226,74 @@ export default function Features() {
               exit="exit"
               className="grid gap-8 lg:grid-cols-2 items-center"
             >
+              {/* Feature image - Move to top on mobile */}
+              <motion.div variants={itemVariants} className="order-1 lg:order-2 perspective-1000">
+                <div
+                  className="relative aspect-video md:aspect-square rounded-3xl overflow-hidden transform-style-3d"
+                  style={{
+                    transform: `rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg)`,
+                    transition: "transform 0.1s ease-out",
+                  }}
+                >
+                  {/* Gradient background */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br from-${features[currentFeature].color}/20 via-transparent to-${features[currentFeature].color}/10 rounded-3xl`}
+                  ></div>
+
+                  {/* Main image */}
+                  <div
+                    className="relative h-full w-full p-6 transform-style-3d"
+                    style={{ transform: "translateZ(20px)" }}
+                  >
+                    <div className="h-full w-full rounded-2xl overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-xl border border-white/20 dark:border-gray-800/20">
+                      <Image
+                        src={features[currentFeature].image || "/placeholder.svg"}
+                        alt={features[currentFeature].title}
+                        fill
+                        className="object-cover p-4"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Floating elements */}
+                  <motion.div
+                    className={`absolute top-4 right-4 p-3 rounded-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg border border-white/20 dark:border-gray-800/20 transform-style-3d`}
+                    style={{ transform: "translateZ(40px)" }}
+                    animate={{
+                      y: [0, -10, 0],
+                      rotate: [0, 5, 0],
+                    }}
+                    transition={{
+                      duration: 5,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <Zap className={`h-6 w-6 text-${features[currentFeature].color}`} />
+                  </motion.div>
+
+                  <motion.div
+                    className={`absolute bottom-4 left-4 p-3 rounded-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg border border-white/20 dark:border-gray-800/20 transform-style-3d`}
+                    style={{ transform: "translateZ(40px)" }}
+                    animate={{
+                      y: [0, 10, 0],
+                      rotate: [0, -5, 0],
+                    }}
+                    transition={{
+                      duration: 5,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "easeInOut",
+                      delay: 0.5,
+                    }}
+                  >
+                    <Star className={`h-6 w-6 text-${features[currentFeature].color}`} />
+                  </motion.div>
+                </div>
+              </motion.div>
+
               {/* Feature content */}
               <motion.div variants={itemVariants} className="order-2 lg:order-1">
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   {/* Feature tag */}
                   <Badge
                     className={`px-3 py-1 bg-${features[currentFeature].color}/10 text-${features[currentFeature].color} border-0 text-xs font-semibold tracking-wider`}
@@ -301,76 +366,11 @@ export default function Features() {
                   </motion.div>
                 </div>
               </motion.div>
-
-              {/* Feature image with 3D effect */}
-              <motion.div variants={itemVariants} className="order-1 lg:order-2 perspective-1000">
-                <div
-                  className="relative aspect-square md:aspect-video lg:aspect-square rounded-3xl overflow-hidden transform-style-3d"
-                  style={{
-                    transform: `rotateY(${mousePosition.x * 5}deg) rotateX(${-mousePosition.y * 5}deg)`,
-                    transition: "transform 0.1s ease-out",
-                  }}
-                >
-                  {/* Gradient background */}
-                  <div
-                    className={`absolute inset-0 bg-gradient-to-br from-${features[currentFeature].color}/20 via-transparent to-${features[currentFeature].color}/10 rounded-3xl`}
-                  ></div>
-
-                  {/* Main image */}
-                  <div
-                    className="relative h-full w-full p-6 transform-style-3d"
-                    style={{ transform: "translateZ(20px)" }}
-                  >
-                    <div className="h-full w-full rounded-2xl overflow-hidden bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-xl border border-white/20 dark:border-gray-800/20">
-                      <Image
-                        src={features[currentFeature].image || "/placeholder.svg"}
-                        alt={features[currentFeature].title}
-                        fill
-                        className="object-cover p-4"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Floating elements */}
-                  <motion.div
-                    className={`absolute top-4 right-4 p-3 rounded-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg border border-white/20 dark:border-gray-800/20 transform-style-3d`}
-                    style={{ transform: "translateZ(40px)" }}
-                    animate={{
-                      y: [0, -10, 0],
-                      rotate: [0, 5, 0],
-                    }}
-                    transition={{
-                      duration: 5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <Zap className={`h-6 w-6 text-${features[currentFeature].color}`} />
-                  </motion.div>
-
-                  <motion.div
-                    className={`absolute bottom-4 left-4 p-3 rounded-xl bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-lg border border-white/20 dark:border-gray-800/20 transform-style-3d`}
-                    style={{ transform: "translateZ(40px)" }}
-                    animate={{
-                      y: [0, 10, 0],
-                      rotate: [0, -5, 0],
-                    }}
-                    transition={{
-                      duration: 5,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "easeInOut",
-                      delay: 0.5,
-                    }}
-                  >
-                    <Star className={`h-6 w-6 text-${features[currentFeature].color}`} />
-                  </motion.div>
-                </div>
-              </motion.div>
             </motion.div>
           </AnimatePresence>
 
           {/* Navigation controls */}
-          <div className="absolute left-0 right-0 bottom-0 md:bottom-auto md:top-1/2 flex justify-between transform md:-translate-y-1/2 px-4 md:-mx-12 z-10">
+          <div className="absolute left-0 right-0 bottom-0 md:bottom-auto md:top-1/2 flex justify-between transform md:-translate-y-1/2 px-2 md:-mx-12 z-10">
             <Button
               variant="outline"
               size="icon"
@@ -416,7 +416,7 @@ export default function Features() {
         </div>
 
         {/* Feature quick navigation */}
-        <div className="mt-12 flex flex-wrap justify-center gap-3">
+        <div className="mt-8 md:mt-12 flex flex-wrap justify-center gap-2 md:gap-3 px-2">
           {features.map((feature, index) => (
             <motion.button
               key={index}
@@ -425,7 +425,7 @@ export default function Features() {
                 setCurrentFeature(index)
               }}
               className={cn(
-                "px-4 py-2 rounded-full transition-all duration-300 flex items-center gap-2",
+                "px-3 py-1.5 md:px-4 md:py-2 rounded-full transition-all duration-300 flex items-center gap-1 md:gap-2 text-xs md:text-sm",
                 index === currentFeature
                   ? `bg-${feature.color}/10 text-${feature.color} font-medium`
                   : "bg-white/50 dark:bg-gray-900/50 hover:bg-white/80 dark:hover:bg-gray-900/80",
@@ -439,25 +439,13 @@ export default function Features() {
                 const FeatureIcon = feature.icon
                 return (
                   <FeatureIcon
-                    className={`h-4 w-4 ${index === currentFeature ? `text-${feature.color}` : "text-muted-foreground"}`}
+                    className={`h-3 w-3 md:h-4 md:w-4 ${index === currentFeature ? `text-${feature.color}` : "text-muted-foreground"}`}
                   />
                 )
               })()}
-              <span className={`${index === currentFeature ? "" : "text-muted-foreground"} text-sm`}>
+              <span className={`${index === currentFeature ? "" : "text-muted-foreground"}`}>
                 {feature.title.split(" ")[0]}
               </span>
-
-              {/* Show tooltip on hover */}
-              {hoverState.isHovering && hoverState.index === index && index !== currentFeature && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white dark:bg-gray-900 shadow-lg rounded-lg p-2 text-xs whitespace-nowrap z-20"
-                >
-                  {feature.title}
-                </motion.div>
-              )}
             </motion.button>
           ))}
         </div>

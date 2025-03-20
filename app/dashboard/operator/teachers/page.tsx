@@ -1,123 +1,159 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState, Suspense, useEffect } from "react"
+import { Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Search, UserPlus } from "lucide-react"
-import { QuotaDisplay } from "@/components/QuotaDisplay"
-import { canAddTeacher, addTeacher } from "@/lib/accountQuotaManager"
-import { useToast } from "@/components/ui/use-toast"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { TeachersList } from "@/components/teachers/TeachersList"
+import { TeachersListSkeleton } from "@/components/teachers/TeachersListSkeleton"
+import { AddTeacherForm } from "@/components/teachers/AddTeacherForm"
+import { useToast } from "@/hooks/use-toast"
+import { getTeacherQuota, getRemainingQuota, useQuota } from "@/lib/accountQuotaManager"
+import { PaymentModal } from "@/components/payments/PaymentModal"
 
-const teachers = [
-  { id: 1, name: "Alice Johnson", email: "alice@example.com", subject: "Mathematics", classes: 5 },
-  { id: 2, name: "Bob Smith", email: "bob@example.com", subject: "Science", classes: 4 },
-  { id: 3, name: "Carol Williams", email: "carol@example.com", subject: "English", classes: 6 },
+// Pricing plans for account quota
+const quotaPlans = [
+  { id: 1, name: "10 Teacher Accounts", count: 10, price: 500000 },
+  { id: 2, name: "25 Teacher Accounts", count: 25, price: 1000000 },
+  { id: 3, name: "50 Teacher Accounts", count: 50, price: 1800000 },
+  { id: 4, name: "100 Teacher Accounts", count: 100, price: 3000000 },
 ]
 
 export default function TeachersPage() {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [isAddTeacherDialogOpen, setIsAddTeacherDialogOpen] = useState(false)
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState(null)
   const { toast } = useToast()
 
-  const filteredTeachers = teachers.filter(
-    (teacher) =>
-      teacher.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      teacher.subject.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+  const schoolId = "school1" // This would typically come from the logged-in user's context
+  const maxQuota = getTeacherQuota(schoolId)
+  const remainingQuota = getRemainingQuota(schoolId)
 
-  const handleAddTeacher = () => {
-    const schoolId = "school1" // This would typically come from the logged-in user's context
-    if (canAddTeacher(schoolId)) {
-      if (addTeacher(schoolId)) {
+  // State to track if quota should be used
+  const [quotaUsed, setQuotaUsed] = useState(0)
+
+  // Call useQuota when quotaUsed changes
+  useEffect(() => {
+    if (quotaUsed > 0) {
+      setQuotaUsed(0) // Reset immediately after setting quotaUsed
+    }
+  }, [quotaUsed])
+
+  useQuota(schoolId, quotaUsed) // Always call the hook
+
+  const handleAddTeacherSubmit = async (data) => {
+    setIsSubmitting(true)
+
+    try {
+      // Check if we have enough quota
+      if (remainingQuota <= 0) {
+        // Find the smallest plan that provides at least one account
+        const recommendedPlan = quotaPlans[0]
+        setSelectedPlan(recommendedPlan)
+        setIsAddTeacherDialogOpen(false)
+        setIsPaymentModalOpen(true)
+
         toast({
-          title: "Teacher Added",
-          description: "A new teacher account has been successfully created.",
-        })
-      } else {
-        toast({
-          title: "Error",
-          description: "Failed to add teacher. Please try again.",
+          title: "Quota Exceeded",
+          description: "You've reached your teacher account limit. Please purchase additional quota.",
           variant: "destructive",
         })
+        return
       }
-    } else {
+
+      // Simulate API call to create teacher
+      await new Promise((resolve) => setTimeout(resolve, 1500))
+
+      // Use one quota slot
+      setQuotaUsed(1)
+
       toast({
-        title: "Quota Exceeded",
-        description: "You have reached the maximum number of teacher accounts. Please upgrade your plan.",
+        title: "Teacher Account Created",
+        description: `Successfully created account for ${data.fullName}`,
+      })
+
+      setIsAddTeacherDialogOpen(false)
+    } catch (error) {
+      console.error("Error creating teacher:", error)
+      toast({
+        title: "Error Creating Teacher",
+        description: "There was a problem creating the teacher account. Please try again.",
         variant: "destructive",
       })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
-  const handleUpgradeRequest = () => {
-    // This would typically open a modal or redirect to an upgrade page
+  const handleSuccessfulPayment = (plan) => {
+    // In a real app, this would update the quota in the database
     toast({
-      title: "Upgrade Requested",
-      description: "An administrator will contact you about upgrading your plan.",
+      title: "Payment Successful",
+      description: `Your quota has been increased by ${plan.count} teacher accounts.`,
     })
+
+    setIsPaymentModalOpen(false)
+    setIsAddTeacherDialogOpen(true)
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Manage Teachers</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="md:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Teacher List</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <Search className="text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Search teachers..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="max-w-sm"
-                  />
-                </div>
-                <Button onClick={handleAddTeacher}>
-                  <UserPlus className="mr-2 h-4 w-4" />
-                  Add Teacher
-                </Button>
-              </div>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Classes</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredTeachers.map((teacher) => (
-                    <TableRow key={teacher.id}>
-                      <TableCell>{teacher.name}</TableCell>
-                      <TableCell>{teacher.email}</TableCell>
-                      <TableCell>{teacher.subject}</TableCell>
-                      <TableCell>{teacher.classes}</TableCell>
-                      <TableCell>
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </CardContent>
-          </Card>
-        </div>
+    <div className="container mx-auto py-6 space-y-8">
+      <div className="flex justify-between items-center">
         <div>
-          <QuotaDisplay schoolId="school1" onUpgradeRequest={handleUpgradeRequest} />
+          <h1 className="text-3xl font-bold tracking-tight">Teachers Management</h1>
+          <p className="text-muted-foreground">Manage teacher accounts, quotas, and document generation.</p>
         </div>
+        <Dialog open={isAddTeacherDialogOpen} onOpenChange={setIsAddTeacherDialogOpen}>
+          <DialogTrigger asChild>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Add Teacher
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Add New Teacher</DialogTitle>
+              <DialogDescription>
+                Fill in the details to create a new teacher account.
+                {remainingQuota <= 3 && remainingQuota > 0 && (
+                  <div className="mt-2 text-amber-500 font-medium">
+                    Warning: You only have {remainingQuota} teacher account{remainingQuota !== 1 ? "s" : ""} remaining.
+                  </div>
+                )}
+                {remainingQuota <= 0 && (
+                  <div className="mt-2 text-red-500 font-medium">
+                    You've reached your teacher account limit. Adding a new teacher will require purchasing additional
+                    quota.
+                  </div>
+                )}
+              </DialogDescription>
+            </DialogHeader>
+            <AddTeacherForm onSubmit={handleAddTeacherSubmit} isSubmitting={isSubmitting} />
+          </DialogContent>
+        </Dialog>
       </div>
+
+      <Suspense fallback={<TeachersListSkeleton />}>
+        <TeachersList />
+      </Suspense>
+
+      {/* Payment Modal for quota upgrade */}
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        plans={quotaPlans}
+        selectedPlan={selectedPlan}
+        onSelectPlan={setSelectedPlan}
+        onSuccessfulPayment={handleSuccessfulPayment}
+      />
     </div>
   )
 }
