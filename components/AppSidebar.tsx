@@ -304,7 +304,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
           </ScrollArea>
         </SidebarContent>
 
-        <SidebarFooter className="border-t border-border/10 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
+        {/* <SidebarFooter className="border-t border-border/10 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
           <div className="flex items-center gap-3 mb-4 p-2 rounded-xl hover:bg-muted/30 transition-all duration-300 cursor-pointer">
             <Avatar className="h-10 w-10 border-2 border-primary/20 transition-all duration-300 hover:border-primary">
               <AvatarImage src="/placeholder.svg" alt="User" />
@@ -371,12 +371,11 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
               <TooltipContent>Settings</TooltipContent>
             </Tooltip>
           </div>
-        </SidebarFooter>
+        </SidebarFooter> */}
 
         <SidebarRail />
       </Sidebar>
 
-      {/* Logout Confirmation Dialog */}
       <AlertDialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
         <AlertDialogContent className="max-w-md rounded-xl">
           <AlertDialogHeader>

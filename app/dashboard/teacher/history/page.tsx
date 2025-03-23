@@ -30,7 +30,7 @@ export default function LessonPlanHistoryPage() {
   const grades = Array.from(new Set(FAKE_RPP_DATA.map((rpp) => rpp.grade)))
 
   return (
-    <div>
+    <div className="space-y-8">
       <div className="flex flex-col md:flex-row items-start justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
