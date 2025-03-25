@@ -17,6 +17,7 @@ export default function Home() {
       <RadialGradientBackground />
       <Navbar />
       <GradientLanding />
+
       <Features />
       <HowItWorks />
       <Benefits />

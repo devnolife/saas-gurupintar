@@ -9,9 +9,9 @@ interface BaseLayoutProps {
 
 export function BaseLayout({ children, sidebar, className }: BaseLayoutProps) {
   return (
-    <div className={cn("flex min-h-screen h-screen bg-gray-100", className)}>
+    <div className={cn("flex h-screen bg-gray-100", className)}>
       <aside className="w-64 bg-white border-r border-gray-200 overflow-y-auto">{sidebar}</aside>
-      <main className="flex-1 overflow-y-auto p-8 min-h-screen">{children}</main>
+      <main className="flex-1 overflow-y-auto p-8">{children}</main>
     </div>
   )
 }

@@ -8,10 +8,24 @@ import { FAKE_RPP_DATA } from "@/app/data/fakeRPPData"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
-import { BookOpen, Clock, Download, FileText, Save, Share2, Sparkles, Zap, ChevronRight } from "lucide-react"
+import {
+  BookOpen,
+  Download,
+  FileText,
+  Save,
+  Share2,
+  Sparkles,
+  Zap,
+  ChevronRight,
+  Plus,
+  History,
+  Star,
+  BarChart3,
+  Calendar,
+} from "lucide-react"
 import { SavedRPPList } from "@/components/SavedRPPList"
 import { toast } from "@/hooks/use-toast"
-import { PageWrapper } from "@/components/PageWrapper"
+import { Badge } from "@/components/ui/badge"
 
 // Function to generate RPP
 const generateRPP = async (formData: any): Promise<any> => {
@@ -193,30 +207,38 @@ export default function TeacherDashboardPage() {
   }
 
   return (
-    <PageWrapper>
-      <motion.div initial="hidden" animate="visible" variants={containerVariants}>
-        <motion.div variants={itemVariants} className="flex flex-col md:flex-row items-start justify-between gap-4 mb-8">
+    <div className="bg-gradient-soft dark:bg-gradient-soft-dark min-h-screen">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}
+        className="container mx-auto py-8 px-4 sm:px-6"
+      >
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-col md:flex-row items-start justify-between gap-4 mb-8"
+        >
           <div>
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-light">
               Teacher Dashboard
             </h1>
             <p className="text-muted-foreground mt-1">Create and manage your lesson plans with AI assistance</p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" className="gap-2">
-              <Clock className="h-4 w-4" />
-              Recent Plans
+          <div className="flex gap-2 mt-4 md:mt-0">
+            <Button variant="outline" className="gap-2 shadow-sm">
+              <History className="h-4 w-4" />
+              <span className="hidden sm:inline">Recent</span> Plans
             </Button>
-            <Button className="gap-2 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+            <Button className="gap-2 bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-md">
               <Sparkles className="h-4 w-4" />
-              New AI Plan
+              <span className="hidden sm:inline">New</span> AI Plan
             </Button>
           </div>
         </motion.div>
 
-        <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <motion.div variants={containerVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <motion.div variants={itemVariants}>
-            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/20 border-blue-200 dark:border-blue-800 overflow-hidden group hover:shadow-md transition-all duration-300">
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950/40 dark:to-blue-900/20 border-blue-200 dark:border-blue-800 overflow-hidden group hover:shadow-lg transition-all duration-300 h-full">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-blue-700 dark:text-blue-400">
                   <BookOpen className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
@@ -240,7 +262,7 @@ export default function TeacherDashboardPage() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/40 dark:to-purple-900/20 border-purple-200 dark:border-purple-800 overflow-hidden group hover:shadow-md transition-all duration-300">
+            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/40 dark:to-purple-900/20 border-purple-200 dark:border-purple-800 overflow-hidden group hover:shadow-lg transition-all duration-300 h-full">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-purple-700 dark:text-purple-400">
                   <FileText className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
@@ -263,7 +285,7 @@ export default function TeacherDashboardPage() {
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/40 dark:to-green-900/20 border-green-200 dark:border-green-800 overflow-hidden group hover:shadow-md transition-all duration-300">
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/40 dark:to-green-900/20 border-green-200 dark:border-green-800 overflow-hidden group hover:shadow-lg transition-all duration-300 h-full">
               <CardHeader className="pb-2">
                 <CardTitle className="flex items-center gap-2 text-green-700 dark:text-green-400">
                   <Zap className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
@@ -284,31 +306,108 @@ export default function TeacherDashboardPage() {
               </CardContent>
             </Card>
           </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <Card className="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-950/40 dark:to-amber-900/20 border-amber-200 dark:border-amber-800 overflow-hidden group hover:shadow-lg transition-all duration-300 h-full">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                  <Calendar className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
+                  Schedule
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">3</div>
+                <p className="text-sm text-muted-foreground">Upcoming classes</p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="mt-2 p-0 h-auto text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300"
+                >
+                  <span>View schedule</span>
+                  <ChevronRight className="h-4 w-4 ml-1" />
+                </Button>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mb-6">
+          <Card className="bg-gradient-to-r from-primary/5 to-transparent border-primary/20 overflow-hidden">
+            <CardContent className="p-6">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="bg-primary/10 p-3 rounded-full">
+                    <Star className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Premium Features Available</h3>
+                    <p className="text-sm text-muted-foreground">Upgrade to access advanced AI lesson planning tools</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 px-3 py-1">
+                    <BarChart3 className="h-3.5 w-3.5 mr-1" />
+                    7-day trial
+                  </Badge>
+                  <Button size="sm" className="bg-primary hover:bg-primary-dark">
+                    Upgrade Now
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </motion.div>
 
         <motion.div variants={itemVariants}>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full max-w-md grid-cols-3 mb-6 bg-primary/5 p-1">
-              <TabsTrigger
-                value="create"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
-                Create Plan
-              </TabsTrigger>
-              <TabsTrigger
-                value="preview"
-                disabled={!generatedRPP}
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
-                Preview
-              </TabsTrigger>
-              <TabsTrigger
-                value="saved"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
-              >
-                Saved Plans
-              </TabsTrigger>
-            </TabsList>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
+              <TabsList className="w-full max-w-md mb-4 sm:mb-0 bg-background/80 backdrop-blur-sm border p-1 rounded-xl">
+                <TabsTrigger
+                  value="create"
+                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Plan
+                </TabsTrigger>
+                <TabsTrigger
+                  value="preview"
+                  disabled={!generatedRPP}
+                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  Preview
+                </TabsTrigger>
+                <TabsTrigger
+                  value="saved"
+                  className="rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Saved Plans
+                </TabsTrigger>
+              </TabsList>
+
+              {activeTab === "preview" && generatedRPP && (
+                <div className="flex gap-2 mt-4 sm:mt-0">
+                  <Button variant="outline" size="sm" className="gap-2 shadow-sm">
+                    <Download className="h-4 w-4" />
+                    Export
+                  </Button>
+                  <Button variant="outline" size="sm" className="gap-2 shadow-sm">
+                    <Share2 className="h-4 w-4" />
+                    Share
+                  </Button>
+                  <Button
+                    size="sm"
+                    className="gap-2 bg-primary hover:bg-primary-dark shadow-sm"
+                    onClick={handleSaveRPP}
+                    disabled={isSaving}
+                  >
+                    <Save className="h-4 w-4" />
+                    {isSaving ? "Saving..." : "Save Plan"}
+                  </Button>
+                </div>
+              )}
+            </div>
 
             <TabsContent value="create" className="mt-0">
               <motion.div
@@ -316,6 +415,7 @@ export default function TeacherDashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
+                className="bg-background/60 backdrop-blur-sm rounded-xl p-1 shadow-lg"
               >
                 <RPPForm
                   formData={formData}
@@ -334,21 +434,8 @@ export default function TeacherDashboardPage() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3 }}
+                  className="bg-background/60 backdrop-blur-sm rounded-xl p-6 shadow-lg"
                 >
-                  <div className="mb-4 flex justify-end gap-2">
-                    <Button variant="outline" className="gap-2">
-                      <Download className="h-4 w-4" />
-                      Export
-                    </Button>
-                    <Button variant="outline" className="gap-2">
-                      <Share2 className="h-4 w-4" />
-                      Share
-                    </Button>
-                    <Button className="gap-2" onClick={handleSaveRPP} disabled={isSaving}>
-                      <Save className="h-4 w-4" />
-                      {isSaving ? "Saving..." : "Save Plan"}
-                    </Button>
-                  </div>
                   <RPPPreview generatedRPP={generatedRPP} isGenerating={isGenerating} onUpdateRPP={handleUpdateRPP} />
                 </motion.div>
               )}
@@ -360,6 +447,7 @@ export default function TeacherDashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
+                className="bg-background/60 backdrop-blur-sm rounded-xl p-6 shadow-lg"
               >
                 <SavedRPPList savedRPPList={savedRPPs} />
               </motion.div>
@@ -367,7 +455,7 @@ export default function TeacherDashboardPage() {
           </Tabs>
         </motion.div>
       </motion.div>
-    </PageWrapper>
+    </div>
   )
 }
 

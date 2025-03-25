@@ -1,56 +1,96 @@
 @media print {
-  /* Hide navigation and UI elements not needed for printing */
-  nav,
-  header,
-  footer,
-  button,
-  .no-print {
-    display: none !important;
+  @page {
+    margin: 1.5cm;
   }
 
-  /* Ensure the document uses the full page */
-  body,
-  html {
-    width: 100%;
-    margin: 0;
-    padding: 0;
+  body {
+    font-family: serif;
+    font-size: 12pt;
+    line-height: 1.5;
     background: white;
+    color: black;
   }
 
-  /* Format the content for printing */
-  .print-content {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* Ensure text is black for better printing */
-  * {
-    color: black !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-
-  /* Add page breaks where needed */
-  .page-break {
-    page-break-after: always;
-  }
-
-  /* Format headings */
   h1,
   h2,
-  h3 {
+  h3,
+  h4,
+  h5,
+  h6 {
     page-break-after: avoid;
-  }
-
-  /* Format tables */
-  table {
     page-break-inside: avoid;
   }
 
-  /* Format images */
+  h1 {
+    font-size: 18pt;
+    margin-bottom: 0.5cm;
+  }
+
+  h2 {
+    font-size: 16pt;
+    margin-top: 1cm;
+    margin-bottom: 0.3cm;
+  }
+
+  p,
+  ul,
+  ol,
+  dl {
+    page-break-inside: avoid;
+    margin-bottom: 0.3cm;
+  }
+
+  ul,
+  ol {
+    padding-left: 1cm;
+  }
+
+  table {
+    page-break-inside: avoid;
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.5cm 0;
+  }
+
+  th,
+  td {
+    border: 1px solid #ddd;
+    padding: 0.2cm;
+    text-align: left;
+  }
+
   img {
     max-width: 100% !important;
+  }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
+
+  .no-print,
+  .no-print * {
+    display: none !important;
+  }
+
+  header,
+  footer,
+  nav,
+  button,
+  .tabs,
+  .card {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
   }
 }
 

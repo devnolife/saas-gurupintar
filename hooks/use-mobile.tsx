@@ -42,8 +42,5 @@ export function useMobile(): boolean {
   return useMediaQuery("(max-width: 768px)")
 }
 
-// For backwards compatibility, export useMobile as useIsMobile as well
-export const useIsMobile = useMobile
-
 export default useMobile
 

@@ -53,7 +53,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-// Di bagian awal file, standardisasi struktur data untuk semua role
+// Flattened navigation items for each role (removed subItems)
 const roleData = {
   admin: {
     navItems: [
@@ -69,8 +69,8 @@ const roleData = {
       { title: "Settings", url: "/dashboard/admin/settings", icon: Settings2 },
     ],
     projects: [
-      { title: "User Analytics", url: "#", icon: PieChart },
-      { title: "School Performance", url: "#", icon: GalleryVerticalEnd },
+      { name: "User Analytics", url: "#", icon: PieChart },
+      { name: "School Performance", url: "#", icon: GalleryVerticalEnd },
     ],
   },
   operator: {
@@ -116,24 +116,10 @@ const roleData = {
       { title: "Kalender Sekolah", url: "#", icon: Calendar },
     ],
   },
-  student: {
-    navItems: [
-      { title: "Dashboard", url: "/dashboard/student", icon: LayoutDashboard },
-      { title: "Kelas", url: "/dashboard/student/classes", icon: BookOpen },
-      { title: "Tugas", url: "/dashboard/student/assignments", icon: FileText },
-      { title: "Jadwal", url: "/dashboard/student/schedule", icon: Calendar },
-      { title: "Nilai", url: "/dashboard/student/grades", icon: GalleryVerticalEnd },
-      { title: "Pengaturan", url: "/dashboard/student/settings", icon: Settings2 },
-    ],
-    projects: [
-      { title: "Tugas Terbaru", url: "#", icon: FileText },
-      { title: "Jadwal Ujian", url: "#", icon: Calendar },
-    ],
-  },
 }
 
 interface AppSidebarProps extends React.ComponentProps<typeof Sidebar> {
-  role: "admin" | "operator" | "teacher" | "headmaster" | "student"
+  role: "admin" | "operator" | "teacher" | "headmaster"
 }
 
 export function AppSidebar({ role, ...props }: AppSidebarProps) {
@@ -216,7 +202,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
         </SidebarHeader>
 
         <SidebarContent className="px-4 py-2">
-          <ScrollArea className="h-[calc(100vh-15rem)] min-h-[400px] sidebar-scroll-area">
+          <ScrollArea className="h-[calc(100vh-15rem)] sidebar-scroll-area">
             <div className="space-y-6">
               <div>
                 <div className="px-4 py-2">
@@ -273,12 +259,12 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                 <div>
                   <div className="px-4 py-2">
                     <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">
-                      Projects
+                      Recent Projects
                     </h3>
                   </div>
                   <SidebarMenu>
                     {data.projects.map((project) => (
-                      <SidebarMenuItem key={project.title}>
+                      <SidebarMenuItem key={project.title || project.name}>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -288,11 +274,13 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                               <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-muted/30 group-hover:bg-primary/10 transition-all">
                                 <project.icon className="h-4.5 w-4.5 text-muted-foreground group-hover:text-primary transition-all" />
                               </div>
-                              <span className="transition-all duration-300 flex-1">{project.title}</span>
+                              <span className="transition-all duration-300 flex-1">
+                                {project.title || project.name}
+                              </span>
                             </Link>
                           </TooltipTrigger>
                           <TooltipContent side="right" className="font-medium">
-                            {project.title}
+                            {project.title || project.name}
                           </TooltipContent>
                         </Tooltip>
                       </SidebarMenuItem>
@@ -304,7 +292,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
           </ScrollArea>
         </SidebarContent>
 
-        {/* <SidebarFooter className="border-t border-border/10 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
+        <SidebarFooter className="border-t border-border/10 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm">
           <div className="flex items-center gap-3 mb-4 p-2 rounded-xl hover:bg-muted/30 transition-all duration-300 cursor-pointer">
             <Avatar className="h-10 w-10 border-2 border-primary/20 transition-all duration-300 hover:border-primary">
               <AvatarImage src="/placeholder.svg" alt="User" />
@@ -371,11 +359,12 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
               <TooltipContent>Settings</TooltipContent>
             </Tooltip>
           </div>
-        </SidebarFooter> */}
+        </SidebarFooter>
 
         <SidebarRail />
       </Sidebar>
 
+      {/* Logout Confirmation Dialog */}
       <AlertDialog open={logoutDialogOpen} onOpenChange={setLogoutDialogOpen}>
         <AlertDialogContent className="max-w-md rounded-xl">
           <AlertDialogHeader>
