@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, type React } from "react"
+import { useState, type ChangeEvent, type FormEvent, type ReactNode } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -57,9 +57,9 @@ interface RPPFormData {
 
 interface RPPFormProps {
   formData: RPPFormData
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+  handleInputChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   handleSelectChange: (value: string, field: string) => void
-  handleSubmit: (e: React.FormEvent) => void
+  handleSubmit: (e: FormEvent) => void
   isGenerating: boolean
 }
 
@@ -121,7 +121,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
     }
   }
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
@@ -162,7 +162,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
 
   const renderStepIndicator = () => {
     return (
-      <div className="flex items-center justify-between mb-8 w-full max-w-3xl mx-auto">
+      <div className="flex items-center justify-between mb-12 w-full max-w-5xl mx-auto">
         {formSteps.map((step, index) => {
           const isCompleted = completedSteps.includes(index)
           const isCurrent = currentStep === index
@@ -171,23 +171,23 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
             <div key={index} className="flex flex-col items-center relative">
               <div
                 className={`
-                  w-10 h-10 rounded-full flex items-center justify-center z-10
-                  transition-all duration-300
-                  ${isCurrent ? "ring-2 ring-offset-2 ring-primary" : ""}
+                  w-16 h-16 rounded-full flex items-center justify-center z-10
+                  transition-all duration-300 cursor-pointer
+                  ${isCurrent ? "ring-4 ring-offset-4 ring-primary" : ""}
                   ${isCompleted ? step.bgColor : "bg-gray-100 dark:bg-gray-800"}
                 `}
                 onClick={() => setCurrentStep(index)}
               >
                 {isCompleted ? (
-                  <CheckCircle className={`h-5 w-5 ${step.color}`} />
+                  <CheckCircle className={`h-8 w-8 ${step.color}`} />
                 ) : (
-                  <step.icon className={`h-5 w-5 ${isCurrent ? "text-primary" : "text-gray-400"}`} />
+                  <step.icon className={`h-8 w-8 ${isCurrent ? "text-primary" : "text-gray-400"}`} />
                 )}
               </div>
 
               <span
                 className={`
-                text-xs font-medium mt-2 text-center hidden md:block
+                text-base font-medium mt-3 text-center hidden md:block
                 ${isCurrent ? "text-primary font-semibold" : isCompleted ? step.color : "text-gray-500"}
               `}
               >
@@ -196,7 +196,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
 
               {/* Connector line */}
               {index < formSteps.length - 1 && (
-                <div className="absolute top-5 left-10 w-[calc(100%-20px)] h-[2px] -translate-y-1/2 z-0">
+                <div className="absolute top-8 left-16 w-[calc(100%-32px)] h-[4px] -translate-y-1/2 z-0">
                   <div
                     className={`
                     h-full bg-gray-200 dark:bg-gray-700
@@ -212,23 +212,23 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
     )
   }
 
-  const renderFieldWithTooltip = (label: string, id: string, tooltipText: string, component: React.ReactNode) => {
+  const renderFieldWithTooltip = (label: string, id: string, tooltipText: string, component: ReactNode) => {
     return (
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <Label htmlFor={id} className="text-base font-medium">
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Label htmlFor={id} className="text-xl font-medium">
             {label}
           </Label>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-5 w-5 rounded-full p-0">
-                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full p-0">
+                  <HelpCircle className="h-5 w-5 text-muted-foreground" />
                   <span className="sr-only">Help</span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent className="max-w-xs">
-                <p className="text-sm">{tooltipText}</p>
+                <p className="text-base">{tooltipText}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -242,19 +242,19 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
     switch (currentStep) {
       case 0:
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-8">
             {renderFieldWithTooltip(
               "Mata Pelajaran",
               "subject",
               "Masukkan nama mata pelajaran yang akan diajarkan",
               <div className="relative">
-                <Book className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary/70" />
+                <Book className="absolute left-5 top-1/2 transform -translate-y-1/2 h-6 w-6 text-primary/70" />
                 <Input
                   id="subject"
                   name="subject"
                   value={formData.subject}
                   onChange={handleInputChange}
-                  className="pl-10 h-12 text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-14 h-16 text-xl rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                   required
                   placeholder="Contoh: Matematika"
                 />
@@ -266,14 +266,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "grade",
               "Pilih kelas yang akan diajarkan",
               <div className="relative">
-                <GraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary/70 z-10" />
+                <GraduationCap className="absolute left-5 top-1/2 transform -translate-y-1/2 h-6 w-6 text-primary/70 z-10" />
                 <Select value={formData.grade} onValueChange={(value) => handleSelectChange(value, "grade")}>
-                  <SelectTrigger className="w-full pl-10 h-12 text-base rounded-lg border-gray-300 dark:border-gray-700">
+                  <SelectTrigger className="w-full pl-14 h-16 text-xl rounded-lg border-gray-300 dark:border-gray-700">
                     <SelectValue placeholder="Pilih kelas" />
                   </SelectTrigger>
                   <SelectContent>
                     {[1, 2, 3, 4, 5, 6].map((g) => (
-                      <SelectItem key={g} value={g.toString()}>
+                      <SelectItem key={g} value={g.toString()} className="text-lg">
                         Kelas {g}
                       </SelectItem>
                     ))}
@@ -287,13 +287,13 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "duration",
               "Masukkan durasi pembelajaran dalam format jumlah pertemuan x menit",
               <div className="relative">
-                <Timer className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-primary/70" />
+                <Timer className="absolute left-5 top-1/2 transform -translate-y-1/2 h-6 w-6 text-primary/70" />
                 <Input
                   id="duration"
                   name="duration"
                   value={formData.duration}
                   onChange={handleInputChange}
-                  className="pl-10 h-12 text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-14 h-16 text-xl rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                   required
                   placeholder="Misal: 2x35 menit"
                 />
@@ -305,14 +305,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "identitasModule",
               "Masukkan informasi tentang penyusun, instansi, dan informasi identitas lainnya",
               <div className="relative">
-                <Newspaper className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <Newspaper className="absolute left-5 top-4 h-6 w-6 text-primary/70" />
                 <Textarea
                   id="identitasModule"
                   name="identitasModule"
                   value={formData.identitasModule}
                   onChange={handleInputChange}
                   placeholder="Penyusun, Instansi, dsb."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-14 min-h-[160px] resize-none text-xl rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -320,20 +320,20 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
         )
       case 1:
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-8">
             {renderFieldWithTooltip(
               "Kompetensi Awal",
               "kompetensiAwal",
               "Deskripsikan kemampuan awal yang diharapkan sudah dimiliki siswa",
               <div className="relative">
-                <CheckCircle2 className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <CheckCircle2 className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="kompetensiAwal"
                   name="kompetensiAwal"
                   value={formData.kompetensiAwal}
                   onChange={handleInputChange}
                   placeholder="Kemampuan awal siswa..."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -343,18 +343,18 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "profilPelajarPancasila",
               "Deskripsikan profil pelajar yang diharapkan sesuai dengan nilai-nilai Pancasila",
               <div className="relative">
-                <Star className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <Star className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="profilPelajarPancasila"
                   name="profilPelajarPancasila"
                   value={formData.profilPelajarPancasila}
                   onChange={handleInputChange}
                   placeholder="Beriman, Mandiri, dsb."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-4">
                   <Badge
-                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer"
+                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer text-base px-4 py-2 rounded-md"
                     onClick={() => {
                       const value =
                         formData.profilPelajarPancasila +
@@ -366,7 +366,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Beriman dan Bertakwa
                   </Badge>
                   <Badge
-                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer"
+                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer text-base px-4 py-2 rounded-md"
                     onClick={() => {
                       const value =
                         formData.profilPelajarPancasila + (formData.profilPelajarPancasila ? ", " : "") + "Mandiri"
@@ -376,7 +376,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Mandiri
                   </Badge>
                   <Badge
-                    className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 cursor-pointer"
+                    className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 cursor-pointer text-base px-4 py-2 rounded-md"
                     onClick={() => {
                       const value =
                         formData.profilPelajarPancasila +
@@ -394,24 +394,24 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
         )
       case 2:
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-8">
             {renderFieldWithTooltip(
               "Sarana & Prasarana",
               "saranaPrasarana",
               "Deskripsikan sarana dan prasarana yang dibutuhkan untuk pembelajaran",
               <div className="relative">
-                <Wrench className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <Wrench className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="saranaPrasarana"
                   name="saranaPrasarana"
                   value={formData.saranaPrasarana}
                   onChange={handleInputChange}
                   placeholder="Buku, papan tulis, dsb."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-2 flex flex-wrap gap-3">
                   <Badge
-                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer"
+                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value = formData.saranaPrasarana + (formData.saranaPrasarana ? ", " : "") + "Buku Teks"
                       handleInputChange({ target: { name: "saranaPrasarana", value } } as any)
@@ -420,7 +420,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Buku Teks
                   </Badge>
                   <Badge
-                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer"
+                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value = formData.saranaPrasarana + (formData.saranaPrasarana ? ", " : "") + "Papan Tulis"
                       handleInputChange({ target: { name: "saranaPrasarana", value } } as any)
@@ -429,7 +429,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Papan Tulis
                   </Badge>
                   <Badge
-                    className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 cursor-pointer"
+                    className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value = formData.saranaPrasarana + (formData.saranaPrasarana ? ", " : "") + "Proyektor"
                       handleInputChange({ target: { name: "saranaPrasarana", value } } as any)
@@ -446,14 +446,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "targetPesertaDidik",
               "Deskripsikan target peserta didik, termasuk jumlah dan karakteristik",
               <div className="relative">
-                <Users className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <Users className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="targetPesertaDidik"
                   name="targetPesertaDidik"
                   value={formData.targetPesertaDidik}
                   onChange={handleInputChange}
                   placeholder="Misal: 20 siswa"
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -463,18 +463,18 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "modelPembelajaran",
               "Deskripsikan model pembelajaran yang akan digunakan",
               <div className="relative">
-                <ScreenShare className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <ScreenShare className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="modelPembelajaran"
                   name="modelPembelajaran"
                   value={formData.modelPembelajaran}
                   onChange={handleInputChange}
                   placeholder="Tatap muka, diskusi, dsb."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-2 flex flex-wrap gap-3">
                   <Badge
-                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer"
+                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value =
                         formData.modelPembelajaran +
@@ -486,7 +486,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Pembelajaran Berbasis Proyek
                   </Badge>
                   <Badge
-                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer"
+                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value =
                         formData.modelPembelajaran + (formData.modelPembelajaran ? ", " : "") + "Diskusi Kelompok"
@@ -502,20 +502,20 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
         )
       case 3:
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-8">
             {renderFieldWithTooltip(
               "Tujuan Pembelajaran",
               "learningObjectives",
               "Deskripsikan tujuan pembelajaran yang ingin dicapai, pisahkan dengan baris baru",
               <div className="relative">
-                <TargetIcon className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <TargetIcon className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="learningObjectives"
                   name="learningObjectives"
                   value={formData.learningObjectives}
                   onChange={handleInputChange}
                   placeholder="Pisahkan dengan baris baru"
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -525,18 +525,18 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "assessment",
               "Deskripsikan metode penilaian yang akan digunakan",
               <div className="relative">
-                <ListChecks className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <ListChecks className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="assessment"
                   name="assessment"
                   value={formData.assessment}
                   onChange={handleInputChange}
                   placeholder="Deskripsi penilaian"
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-2 flex flex-wrap gap-3">
                   <Badge
-                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer"
+                    className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 hover:bg-blue-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value = formData.assessment + (formData.assessment ? ", " : "") + "Tes Tertulis"
                       handleInputChange({ target: { name: "assessment", value } } as any)
@@ -545,7 +545,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Tes Tertulis
                   </Badge>
                   <Badge
-                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer"
+                    className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value = formData.assessment + (formData.assessment ? ", " : "") + "Observasi"
                       handleInputChange({ target: { name: "assessment", value } } as any)
@@ -554,7 +554,7 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                     + Observasi
                   </Badge>
                   <Badge
-                    className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 cursor-pointer"
+                    className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-300 hover:bg-amber-200 cursor-pointer text-sm px-3 py-1.5"
                     onClick={() => {
                       const value = formData.assessment + (formData.assessment ? ", " : "") + "Portofolio"
                       handleInputChange({ target: { name: "assessment", value } } as any)
@@ -569,20 +569,20 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
         )
       case 4:
         return (
-          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" exit="exit" className="space-y-8">
             {renderFieldWithTooltip(
               "Refleksi Guru",
               "refleksiGuru",
               "Deskripsikan refleksi dari guru tentang proses pembelajaran",
               <div className="relative">
-                <Edit className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <Edit className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="refleksiGuru"
                   name="refleksiGuru"
                   value={formData.refleksiGuru}
                   onChange={handleInputChange}
                   placeholder="Refleksi dari guru..."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -592,14 +592,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "refleksiPesertaDidik",
               "Deskripsikan refleksi dari peserta didik tentang proses pembelajaran",
               <div className="relative">
-                <Edit2 className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <Edit2 className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="refleksiPesertaDidik"
                   name="refleksiPesertaDidik"
                   value={formData.refleksiPesertaDidik}
                   onChange={handleInputChange}
                   placeholder="Refleksi dari peserta didik..."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -609,14 +609,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "pengayaanRemedial",
               "Deskripsikan rencana pengayaan dan remedial",
               <div className="relative">
-                <RefreshCcw className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <RefreshCcw className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="pengayaanRemedial"
                   name="pengayaanRemedial"
                   value={formData.pengayaanRemedial}
                   onChange={handleInputChange}
                   placeholder="Rencana pengayaan dan remedial..."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -626,14 +626,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "bahanBacaan",
               "Deskripsikan bahan bacaan yang digunakan",
               <div className="relative">
-                <BookOpen className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <BookOpen className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="bahanBacaan"
                   name="bahanBacaan"
                   value={formData.bahanBacaan}
                   onChange={handleInputChange}
                   placeholder="Daftar bahan bacaan..."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -643,14 +643,14 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
               "glosarium",
               "Deskripsikan istilah-istilah penting dalam pembelajaran",
               <div className="relative">
-                <BookOpenCheck className="absolute left-3 top-3 h-4 w-4 text-primary/70" />
+                <BookOpenCheck className="absolute left-4 top-3 h-5 w-5 text-primary/70" />
                 <Textarea
                   id="glosarium"
                   name="glosarium"
                   value={formData.glosarium}
                   onChange={handleInputChange}
                   placeholder="Daftar istilah penting..."
-                  className="pl-10 min-h-[120px] resize-none text-base rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
+                  className="pl-12 min-h-[140px] resize-none text-lg rounded-lg border-gray-300 dark:border-gray-700 focus:ring-primary focus:border-primary"
                 />
               </div>,
             )}
@@ -662,42 +662,42 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
   }
 
   return (
-    <Card className="w-full max-w-4xl mx-auto overflow-hidden border-0 shadow-lg bg-white dark:bg-gray-900">
+    <Card className="w-full max-w-6xl mx-auto overflow-hidden border-0 shadow-lg bg-white dark:bg-gray-900">
       <CardContent className="p-0">
-        <div className="bg-gradient-to-r from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="bg-gradient-to-r from-primary/10 to-primary/5 dark:from-primary/20 dark:to-primary/10 p-10">
+          <div className="flex items-center justify-between mb-8">
             <div>
-              <h3 className="text-xl font-semibold text-primary">{formSteps[currentStep].title}</h3>
-              <p className="text-muted-foreground">{formSteps[currentStep].description}</p>
+              <h3 className="text-3xl font-semibold text-primary">{formSteps[currentStep].title}</h3>
+              <p className="text-xl text-muted-foreground">{formSteps[currentStep].description}</p>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+              <Badge variant="outline" className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-4 py-2 text-lg">
                 Langkah {currentStep + 1} dari {formSteps.length}
               </Badge>
             </div>
           </div>
-          <Progress value={progressPercentage} className="h-2" />
+          <Progress value={progressPercentage} className="h-4" />
         </div>
 
-        <div className="p-6">
+        <div className="p-10">
           {renderStepIndicator()}
 
-          <form onSubmit={handleFormSubmit} className="space-y-6">
+          <form onSubmit={handleFormSubmit} className="space-y-10">
             <AnimatePresence mode="wait">
-              <div key={currentStep} className="min-h-[400px]">
+              <div key={currentStep} className="min-h-[500px]">
                 {renderStepContent()}
               </div>
             </AnimatePresence>
 
-            <div className="flex justify-between pt-4 mt-8 border-t">
+            <div className="flex justify-between pt-8 mt-12 border-t">
               <Button
                 type="button"
                 variant="outline"
                 onClick={goToPreviousStep}
                 disabled={currentStep === 0}
-                className="gap-2 shadow-sm"
+                className="gap-3 shadow-sm text-lg px-8 py-6 h-auto"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeft className="h-6 w-6" />
                 Sebelumnya
               </Button>
 
@@ -705,25 +705,25 @@ export function RPPForm({ formData, handleInputChange, handleSelectChange, handl
                 <Button
                   type="button"
                   onClick={goToNextStep}
-                  className="gap-2 bg-primary hover:bg-primary-dark shadow-sm"
+                  className="gap-3 bg-primary hover:bg-primary-dark shadow-sm text-lg px-8 py-6 h-auto"
                 >
                   Selanjutnya
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="h-6 w-6" />
                 </Button>
               ) : (
                 <Button
                   type="submit"
                   disabled={isGenerating || isSubmitting}
-                  className="gap-2 bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-md"
+                  className="gap-3 bg-gradient-to-r from-primary to-primary-light hover:from-primary-dark hover:to-primary shadow-md text-lg px-8 py-6 h-auto"
                 >
                   {isGenerating || isSubmitting ? (
                     <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="h-6 w-6 animate-spin" />
                       Generating RPP...
                     </>
                   ) : (
                     <>
-                      <Sparkles className="h-4 w-4" />
+                      <Sparkles className="h-6 w-6" />
                       Generate RPP
                     </>
                   )}
