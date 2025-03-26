@@ -18,24 +18,8 @@ import { useToast } from "@/hooks/use-toast"
 import { getTeacherQuota, getRemainingQuota, useQuota } from "@/lib/accountQuotaManager"
 import { PaymentModal } from "@/components/payments/PaymentModal"
 
-// Define interface for teacher form data
-interface TeacherFormData {
-  fullName: string;
-  email: string;
-  subject?: string;
-  [key: string]: any; // For any additional fields
-}
-
-// Define interface for quota plan
-interface QuotaPlan {
-  id: number;
-  name: string;
-  count: number;
-  price: number;
-}
-
 // Pricing plans for account quota
-const quotaPlans: QuotaPlan[] = [
+const quotaPlans = [
   { id: 1, name: "10 Teacher Accounts", count: 10, price: 500000 },
   { id: 2, name: "25 Teacher Accounts", count: 25, price: 1000000 },
   { id: 3, name: "50 Teacher Accounts", count: 50, price: 1800000 },
@@ -46,7 +30,7 @@ export default function TeachersPage() {
   const [isAddTeacherDialogOpen, setIsAddTeacherDialogOpen] = useState(false)
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState<QuotaPlan | null>(null)
+  const [selectedPlan, setSelectedPlan] = useState(null)
   const { toast } = useToast()
 
   const schoolId = "school1" // This would typically come from the logged-in user's context
@@ -65,7 +49,7 @@ export default function TeachersPage() {
 
   useQuota(schoolId, quotaUsed) // Always call the hook
 
-  const handleAddTeacherSubmit = async (data: TeacherFormData) => {
+  const handleAddTeacherSubmit = async (data) => {
     setIsSubmitting(true)
 
     try {
@@ -109,7 +93,7 @@ export default function TeachersPage() {
     }
   }
 
-  const handleSuccessfulPayment = (plan: QuotaPlan) => {
+  const handleSuccessfulPayment = (plan) => {
     // In a real app, this would update the quota in the database
     toast({
       title: "Payment Successful",

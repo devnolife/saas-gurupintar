@@ -49,3 +49,5 @@ export function clearUserSession(): void {
   }
 }
 
+export const authOptions = {}
+

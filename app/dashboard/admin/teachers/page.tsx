@@ -169,7 +169,7 @@ const teacherFormSchema = z.object({
   bio: z.string().optional(),
 })
 
-const getStatusBadge = (status: "Active" | "Pending Payment" | "Pending Approval" | "Inactive" | string) => {
+const getStatusBadge = (status) => {
   switch (status) {
     case "Active":
       return (
@@ -203,8 +203,9 @@ const getStatusBadge = (status: "Active" | "Pending Payment" | "Pending Approval
       return <Badge>{status}</Badge>
   }
 }
+
 // Teacher Details Component
-function TeacherDetails({ teacher }: { teacher: Teacher }) {
+function TeacherDetails({ teacher }) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-6 items-start">

@@ -1,0 +1,428 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Base User model
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String
+  role          Role      @default(TEACHER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastActive    DateTime?
+  avatar        String?
+  phone         String?
+  address       String?
+  bio           String?
+  status        UserStatus @default(ACTIVE)
+  
+  // Relations based on role
+  admin         Admin?
+  operator      Operator?
+  teacher       Teacher?
+  headmaster    Headmaster?
+  student       Student?
+
+  // Common relations
+  createdRPPs   RPP[]     @relation("CreatedBy")
+  createdEvents Event[]   @relation("EventCreator")
+  attendances   Attendance[]
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  OPERATOR
+  TEACHER
+  HEADMASTER
+  STUDENT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  PENDING
+  SUSPENDED
+}
+
+// Admin model
+model Admin {
+  id            String    @id @default(cuid())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  permissions   String[]
+  
+  @@map("admins")
+}
+
+// Operator model
+model Operator {
+  id            String    @id @default(cuid())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  region        String?
+  company       String?
+  position      String?
+  department    String?
+  
+  // Relations
+  school        School?   @relation(fields: [schoolId], references: [id])
+  schoolId      String?
+  subscription  Subscription?
+  
+  @@map("operators")
+}
+
+// Teacher model
+model Teacher {
+  id            String    @id @default(cuid())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  subject       String?
+  qualification String?
+  experience    Int?
+  joinDate      DateTime  @default(now())
+  
+  // Relations
+  school        School?   @relation(fields: [schoolId], references: [id])
+  schoolId      String?
+  classes       Class[]
+  rpps          RPP[]
+  syllabus      Syllabus[]
+  
+  @@map("teachers")
+}
+
+// Headmaster model
+model Headmaster {
+  id            String    @id @default(cuid())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  
+  // Relations
+  school        School    @relation(fields: [schoolId], references: [id])
+  schoolId      String
+  
+  @@map("headmasters")
+}
+
+// Student model
+model Student {
+  id            String    @id @default(cuid())
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String    @unique
+  grade         String?
+  class         String?
+  age           Int?
+  gender        Gender?
+  parentName    String?
+  enrollmentDate DateTime @default(now())
+  
+  // Relations
+  school        School    @relation(fields: [schoolId], references: [id])
+  schoolId      String
+  classes       Class[]
+  attendances   Attendance[]
+  
+  @@map("students")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+// School model
+model School {
+  id            String    @id @default(cuid())
+  name          String
+  address       String?
+  city          String?
+  province      String?
+  postalCode    String?
+  phone         String?
+  email         String?
+  website       String?
+  principalName String?
+  foundedYear   Int?
+  type          SchoolType @default(PUBLIC)
+  accreditation String?
+  status        SchoolStatus @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  operators     Operator[]
+  teachers      Teacher[]
+  headmasters   Headmaster[]
+  students      Student[]
+  events        Event[]
+  achievements  Achievement[]
+  classes       Class[]
+  
+  @@map("schools")
+}
+
+enum SchoolType {
+  PUBLIC
+  PRIVATE
+}
+
+enum SchoolStatus {
+  ACTIVE
+  INACTIVE
+}
+
+// RPP (Lesson Plan) model
+model RPP {
+  id                  String    @id @default(cuid())
+  title               String
+  subject             String
+  grade               String
+  duration            String?
+  identitasModule     String?   @db.Text
+  kompetensiAwal      String?   @db.Text
+  profilPelajarPancasila String? @db.Text
+  saranaPrasarana     String?   @db.Text
+  targetPesertaDidik  String?   @db.Text
+  modelPembelajaran   String?
+  learningObjectives  String[]
+  assessment          String?   @db.Text
+  refleksiGuru        String?   @db.Text
+  refleksiPesertaDidik String?  @db.Text
+  pengayaanRemedial   String?   @db.Text
+  bahanBacaan         String?   @db.Text
+  glosarium           String?   @db.Text
+  status              RPPStatus @default(DRAFT)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  
+  // Relations
+  creator             User      @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId           String
+  teacher             Teacher   @relation(fields: [teacherId], references: [id])
+  teacherId           String
+  
+  @@map("rpps")
+}
+
+enum RPPStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// Syllabus model
+model Syllabus {
+  id            String    @id @default(cuid())
+  title         String
+  subject       String
+  grade         String
+  description   String?   @db.Text
+  objectives    String[]
+  topics        Json?     // Array of topics with subtopics and duration
+  resources     Json?     // Array of resources
+  assessmentMethods String[]
+  status        SyllabusStatus @default(DRAFT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  teacher       Teacher   @relation(fields: [teacherId], references: [id])
+  teacherId     String
+  
+  @@map("syllabi")
+}
+
+enum SyllabusStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+// Class model
+model Class {
+  id            String    @id @default(cuid())
+  name          String
+  grade         String
+  academicYear  String
+  
+  // Relations
+  school        School    @relation(fields: [schoolId], references: [id])
+  schoolId      String
+  teachers      Teacher[]
+  students      Student[]
+  
+  @@map("classes")
+}
+
+// Attendance model
+model Attendance {
+  id            String    @id @default(cuid())
+  date          DateTime
+  status        AttendanceStatus
+  location      String?
+  notes         String?
+  createdAt     DateTime  @default(now())
+  
+  // Relations
+  user          User      @relation(fields: [userId], references: [id])
+  userId        String
+  student       Student?  @relation(fields: [studentId], references: [id])
+  studentId     String?
+  
+  @@map("attendances")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  SICK
+  EXCUSED
+}
+
+// Event model
+model Event {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?   @db.Text
+  startDate     DateTime
+  endDate       DateTime
+  location      String?
+  organizer     String?
+  type          EventType
+  status        EventStatus @default(UPCOMING)
+  participants  String[]
+  imageUrl      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  creator       User      @relation("EventCreator", fields: [creatorId], references: [id])
+  creatorId     String
+  school        School    @relation(fields: [schoolId], references: [id])
+  schoolId      String
+  
+  @@map("events")
+}
+
+enum EventType {
+  ACADEMIC
+  SPORT
+  ART
+  SCHOOL
+  MEETING
+  HOLIDAY
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+// Achievement model
+model Achievement {
+  id            String    @id @default(cuid())
+  title         String
+  level         AchievementLevel
+  date          DateTime
+  organizer     String?
+  category      AchievementCategory
+  participants  String[]
+  coach         String?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  school        School    @relation(fields: [schoolId], references: [id])
+  schoolId      String
+  
+  @@map("achievements")
+}
+
+enum AchievementLevel {
+  KABUPATEN
+  PROVINSI
+  NASIONAL
+  INTERNASIONAL
+}
+
+enum AchievementCategory {
+  AKADEMIK
+  OLAHRAGA
+  SENI
+  SEKOLAH
+  PENDIDIKAN
+  LITERASI
+}
+
+// Subscription model
+model Subscription {
+  id            String    @id @default(cuid())
+  tier          SubscriptionTier
+  name          String
+  price         Float
+  features      String[]
+  purchaseDate  DateTime
+  expiryDate    DateTime
+  status        SubscriptionStatus @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  operator      Operator  @relation(fields: [operatorId], references: [id])
+  operatorId    String    @unique
+  
+  @@map("subscriptions")
+}
+
+enum SubscriptionTier {
+  BASIC
+  STANDARD
+  PREMIUM
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  EXPIRED
+  CANCELLED
+  PENDING
+}
+
+// Transaction model
+model Transaction {
+  id            String    @id @default(cuid())
+  amount        Float
+  description   String?
+  paymentMethod String?
+  status        TransactionStatus @default(PENDING)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@map("transactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
