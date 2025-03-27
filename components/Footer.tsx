@@ -7,16 +7,16 @@ export function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-gradient-to-b from-background to-muted/30 dark:from-gray-950 dark:to-gray-900 border-t border-border/40 dark:border-gray-800">
+    <footer className="border-t bg-gradient-to-b from-background to-muted/30 dark:from-gray-950 dark:to-gray-900 border-border/40 dark:border-gray-800">
       {/* Main Footer Content */}
-      <div className="container mx-auto px-4 py-12 md:py-16">
+      <div className="container px-4 py-12 mx-auto md:py-16">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-4">
           {/* Column 1: About & Newsletter */}
           <div className="space-y-6">
             <div className="flex items-center">
-              <div className="relative h-10 w-10">
+              <div className="relative w-10 h-10">
                 <div className="absolute inset-0 rounded-xl bg-primary opacity-20 dark:opacity-40 blur-xl"></div>
-                <div className="relative flex h-full w-full items-center justify-center rounded-xl bg-primary font-bold text-primary-foreground">
+                <div className="relative flex items-center justify-center w-full h-full font-bold rounded-xl bg-primary text-primary-foreground">
                   GP
                 </div>
               </div>
@@ -36,7 +36,7 @@ export function Footer() {
                   className="bg-background dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:placeholder:text-gray-400"
                 />
                 <Button size="icon" className="dark:bg-primary dark:text-white dark:hover:bg-primary/90">
-                  <ArrowRight className="h-4 w-4" />
+                  <ArrowRight className="w-4 h-4" />
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground dark:text-gray-400">
@@ -54,7 +54,7 @@ export function Footer() {
                   <li key={item}>
                     <Link
                       href="#"
-                      className="text-muted-foreground dark:text-gray-300 hover:text-foreground dark:hover:text-white transition-colors duration-200"
+                      className="transition-colors duration-200 text-muted-foreground dark:text-gray-300 hover:text-foreground dark:hover:text-white"
                     >
                       {item}
                     </Link>
@@ -72,7 +72,7 @@ export function Footer() {
                 <li key={item}>
                   <Link
                     href="#"
-                    className="text-muted-foreground dark:text-gray-300 hover:text-foreground dark:hover:text-white transition-colors duration-200"
+                    className="transition-colors duration-200 text-muted-foreground dark:text-gray-300 hover:text-foreground dark:hover:text-white"
                   >
                     {item}
                   </Link>
@@ -86,16 +86,16 @@ export function Footer() {
             <h4 className="text-lg font-semibold text-foreground dark:text-white">Contact</h4>
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-muted-foreground dark:text-gray-300">
-                <Mail className="h-4 w-4 text-primary" />
+                <Mail className="w-4 h-4 text-primary" />
                 <span>support@gurupintar.com</span>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground dark:text-gray-300">
-                <Phone className="h-4 w-4 text-primary" />
+                <Phone className="w-4 h-4 text-primary" />
                 <span>+1 (555) 123-4567</span>
               </li>
               <li className="flex items-center gap-2 text-muted-foreground dark:text-gray-300">
-                <MapPin className="h-4 w-4 text-primary" />
-                <span>Jakarta, Indonesia</span>
+                <MapPin className="w-4 h-4 text-primary" />
+                <span>Makassar, Indonesia</span>
               </li>
             </ul>
 
@@ -113,9 +113,9 @@ export function Footer() {
                     key={social.label}
                     href="#"
                     aria-label={social.label}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-muted dark:bg-gray-800 text-muted-foreground dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary dark:hover:text-primary transition-colors duration-200"
+                    className="flex items-center justify-center transition-colors duration-200 rounded-full h-9 w-9 bg-muted dark:bg-gray-800 text-muted-foreground dark:text-gray-300 hover:bg-primary/10 dark:hover:bg-primary/20 hover:text-primary dark:hover:text-primary"
                   >
-                    <social.icon className="h-4 w-4" />
+                    <social.icon className="w-4 h-4" />
                   </Link>
                 ))}
               </div>
@@ -126,32 +126,32 @@ export function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-border/40 dark:border-gray-800">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-muted-foreground dark:text-gray-400 order-2 md:order-1">
+        <div className="container px-4 py-6 mx-auto">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
+            <div className="order-2 text-sm text-muted-foreground dark:text-gray-400 md:order-1">
               © {currentYear} Guru Pintar. All rights reserved.
             </div>
 
-            <div className="flex items-center gap-1 text-sm text-muted-foreground dark:text-gray-400 order-1 md:order-2">
+            <div className="flex items-center order-1 gap-1 text-sm text-muted-foreground dark:text-gray-400 md:order-2">
               <span>Created with</span>
-              <Heart className="h-3 w-3 text-destructive fill-destructive animate-pulse-slow" />
+              <Heart className="w-3 h-3 text-destructive fill-destructive animate-pulse-slow" />
               <span>by</span>
               <Link
                 href="https://github.com/devnolife"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium hover:text-primary dark:text-gray-300 dark:hover:text-primary transition-colors"
+                className="font-medium transition-colors hover:text-primary dark:text-gray-300 dark:hover:text-primary"
               >
-                devnolife
+                devnolife & dhia.ai
               </Link>
             </div>
 
-            <div className="flex gap-6 order-3 md:order-3">
+            <div className="flex order-3 gap-6 md:order-3">
               {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
                 <Link
                   key={item}
                   href="#"
-                  className="text-xs text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white transition-colors duration-200"
+                  className="text-xs transition-colors duration-200 text-muted-foreground dark:text-gray-400 hover:text-foreground dark:hover:text-white"
                 >
                   {item}
                 </Link>
