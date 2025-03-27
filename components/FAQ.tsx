@@ -395,8 +395,6 @@ export default function FAQ() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               className="rounded-full bg-gradient-primary relative overflow-hidden group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10 flex items-center">
                 <MessageCircle className="mr-2 h-5 w-5" />
@@ -408,8 +406,6 @@ export default function FAQ() {
             <Button
               variant="outline"
               className="rounded-full border-primary/20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
             >
               Lihat Knowledge Base
             </Button>

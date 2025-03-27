@@ -99,7 +99,7 @@ export default function Features() {
 
   // Mouse parallax effect
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: e.clientX / window.innerWidth - 0.5,
         y: e.clientY / window.innerHeight - 0.5,
@@ -140,9 +140,8 @@ export default function Features() {
       },
     },
   }
-
   const itemVariants = {
-    hidden: (direction) => ({
+    hidden: (direction: number) => ({
       x: direction >= 0 ? 100 : -100,
       opacity: 0,
       scale: 0.8,
@@ -157,7 +156,7 @@ export default function Features() {
         damping: 15,
       },
     },
-    exit: (direction) => ({
+    exit: (direction: number) => ({
       x: direction >= 0 ? -100 : 100,
       opacity: 0,
       scale: 0.8,
@@ -432,7 +431,7 @@ export default function Features() {
               )}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onMouseEnter={() => setHoverState({ isHovering: true, index })}
+              onMouseEnter={() => setHoverState({ isHovering: true, index: null })}
               onMouseLeave={() => setHoverState({ isHovering: false, index: null })}
             >
               {(() => {
