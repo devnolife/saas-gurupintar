@@ -127,12 +127,12 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-border/40 dark:border-gray-800">
         <div className="container px-4 py-6 mx-auto">
-          <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
-            <div className="order-2 text-sm text-muted-foreground dark:text-gray-400 md:order-1">
+          <div className="flex flex-col items-center justify-between gap-4 text-center md:flex-row">
+            <div className="w-full text-sm text-muted-foreground dark:text-gray-400">
               © {currentYear} Guru Pintar. All rights reserved.
             </div>
 
-            <div className="flex items-center order-1 gap-1 text-sm text-muted-foreground dark:text-gray-400 md:order-2">
+            <div className="flex items-center justify-center w-full gap-1 text-sm text-muted-foreground dark:text-gray-400">
               <span>Created with</span>
               <Heart className="w-3 h-3 text-destructive fill-destructive animate-pulse-slow" />
               <span>by</span>
@@ -142,11 +142,11 @@ export function Footer() {
                 rel="noopener noreferrer"
                 className="font-medium transition-colors hover:text-primary dark:text-gray-300 dark:hover:text-primary"
               >
-                devnolife & dhia.ai
+                devnolife & dhf.ai
               </Link>
             </div>
 
-            <div className="flex order-3 gap-6 md:order-3">
+            <div className="flex justify-center w-full gap-6">
               {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
                 <Link
                   key={item}
