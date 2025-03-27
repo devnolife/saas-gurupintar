@@ -3,7 +3,7 @@ import { generateRPP } from "../ai/rppGenerator"
 
 export const resolvers = {
   Query: {
-    getRpp: async (_, { id }) => {
+    getRpp: async (_: any, { id }: { id: string }) => {
       return await prisma.rPP.findUnique({
         where: { id },
       })
@@ -13,9 +13,8 @@ export const resolvers = {
     },
   },
   Mutation: {
-    createRpp: async (_, { input }) => {
+    createRpp: async (_: any, { input }: { input: any }) => {
       try {
-        // Transform input to match the AI generator's expected format
         const generatorInput = {
           satuan_pendidikan: input.satuanPendidikan,
           mata_pelajaran: input.mataPelajaran,
@@ -34,48 +33,50 @@ export const resolvers = {
           metode_pembelajaran: input.metodePembelajaran || [],
         }
 
-        // Generate the RPP document using AI
         const generatedRPP = await generateRPP(generatorInput)
 
         // Save the generated RPP to the database
         const savedRPP = await prisma.rPP.create({
           data: {
-            satuan_pendidikan: input.satuanPendidikan,
-            mataPelajaran: input.mataPelajaran,
-            kelas_semester: input.kelas,
-            alokasi_waktu: input.alokasi_waktu,
-            materi_pokok: input.topik,
-            tujuan_pembelajaran: generatedRPP.tujuan_pembelajaran,
-            profil_pelajar_pancasila: generatedRPP.profil_pelajar_pancasila,
-            materi_pembelajaran: generatedRPP.materi_pembelajaran,
-            alur_kegiatan_pembelajaran: generatedRPP.alur_kegiatan_pembelajaran,
-            asesmen_pembelajaran: generatedRPP.asesmen_pembelajaran,
-            sumber_dan_media_pembelajaran: generatedRPP.sumber_dan_media_pembelajaran,
-            refleksi_guru: generatedRPP.refleksi_guru,
-            // Link to the teacher who created it (assuming you have auth context)
+            title: input.topik,
+            subject: input.mataPelajaran,
+            grade: input.kelas,
+            duration: input.alokasi_waktu,
+            kompetensiAwal: input.kompetensiAwal || "",
+            profilPelajarPancasila: generatedRPP.profil_pelajar_pancasila,
+            modelPembelajaran: input.modelPembelajaran || "",
+            learningObjectives: generatedRPP.tujuan_pembelajaran,
+            assessment: JSON.stringify(generatedRPP.asesmen_pembelajaran),
+            refleksiGuru: JSON.stringify(generatedRPP.refleksi_guru),
+            creatorId: "current-teacher-id", // This should come from auth context
             teacherId: "current-teacher-id", // This should come from auth context
           },
         })
 
         return savedRPP
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error creating RPP:", error)
-        throw new Error(`Failed to create RPP: ${error.message}`)
+        if (error instanceof Error) {
+          throw new Error(`Failed to create RPP: ${error.message}`)
+        }
+        throw new Error('Failed to create RPP: Unknown error occurred')
       }
     },
-    updateRpp: async (_, { id, input }) => {
-      // Implementation for updating an RPP
+    updateRpp: async (_: any, { id, input }: { id: string, input: any }) => {
       return await prisma.rPP.update({
         where: { id },
         data: {
-          // Update fields as needed
-          satuan_pendidikan: input.satuanPendidikan,
-          mataPelajaran: input.mataPelajaran,
-          // Add other fields as needed
+          title: input.topik,
+          subject: input.mataPelajaran,
+          grade: input.kelas,
+          duration: input.alokasi_waktu,
+          kompetensiAwal: input.kompetensiAwal,
+          profilPelajarPancasila: input.profilPelajarPancasila,
+          modelPembelajaran: input.modelPembelajaran,
         },
       })
     },
-    deleteRpp: async (_, { id }) => {
+    deleteRpp: async (_: unknown, { id }: { id: string }) => {
       await prisma.rPP.delete({
         where: { id },
       })
