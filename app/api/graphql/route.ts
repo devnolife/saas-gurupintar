@@ -1,14 +1,12 @@
 import { ApolloServer } from "@apollo/server"
 import { startServerAndCreateNextHandler } from "@as-integrations/next"
 import { typeDefs } from "@/lib/api/graphql/schema"
-import { resolvers } from "@/lib/api/graphql/resolvers"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/lib/auth"
 
 // Create Apollo Server
 const server = new ApolloServer({
   typeDefs,
-  resolvers,
 })
 
 // Create handler for Next.js API route
