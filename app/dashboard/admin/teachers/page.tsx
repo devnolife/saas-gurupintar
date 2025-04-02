@@ -60,8 +60,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Separator } from "@/components/ui/separator"
 import { useRouter } from "next/navigation"
 
+// Add interface definitions after the imports
+interface Teacher {
+  id: number;
+  name: string;
+  email: string;
+  subject: string;
+  status: string;
+  school: string;
+  lastActive: string;
+  students: number;
+  completedLessons: number;
+  joinDate: string;
+  avatar: string;
+  phone: string;
+  address: string;
+  bio: string;
+}
+
 // Mock data - in a real application, this would come from an API
-const initialTeachers = [
+const initialTeachers: Teacher[] = [
   {
     id: 1,
     name: "Alice Johnson",
@@ -170,7 +188,7 @@ const teacherFormSchema = z.object({
   bio: z.string().optional(),
 })
 
-const getStatusBadge = (status) => {
+const getStatusBadge = (status: "Active" | "Pending Payment" | "Pending Approval" | "Inactive" | string) => {
   switch (status) {
     case "Active":
       return (
@@ -206,7 +224,7 @@ const getStatusBadge = (status) => {
 }
 
 // Teacher Details Component
-function TeacherDetails({ teacher }) {
+function TeacherDetails({ teacher }: { teacher: Teacher }) {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row gap-6 items-start">
@@ -216,7 +234,7 @@ function TeacherDetails({ teacher }) {
             <AvatarFallback className="text-2xl">
               {teacher.name
                 .split(" ")
-                .map((n) => n[0])
+                .map((n: string) => n[0])
                 .join("")}
             </AvatarFallback>
           </Avatar>
@@ -316,7 +334,7 @@ function TeacherDetails({ teacher }) {
 }
 
 // Teacher Edit Form Component
-function TeacherEditForm({ teacher, onSubmit }) {
+function TeacherEditForm({ teacher, onSubmit }: { teacher: Teacher; onSubmit: (data: any) => void }) {
   const form = useForm({
     resolver: zodResolver(teacherFormSchema),
     defaultValues: {
@@ -330,7 +348,7 @@ function TeacherEditForm({ teacher, onSubmit }) {
     },
   })
 
-  function handleSubmit(data) {
+  function handleSubmit(data: any) {
     onSubmit(data)
   }
 
@@ -448,32 +466,40 @@ function TeacherEditForm({ teacher, onSubmit }) {
   )
 }
 
+// Add a type for the sort config to avoid string indexing issues
+interface SortConfig {
+  key: keyof Teacher;
+  direction: "ascending" | "descending";
+}
+
 export default function TeachersPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("all")
   const [statusFilter, setStatusFilter] = useState("all")
-  const [selectedTeacher, setSelectedTeacher] = useState(null)
+  const [selectedTeacher, setSelectedTeacher] = useState<Teacher | null>(null)
   const [isEditMode, setIsEditMode] = useState(false)
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
-  const [sortConfig, setSortConfig] = useState({ key: "name", direction: "asc" })
-  const [teachers, setTeachers] = useState(initialTeachers)
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: "name", direction: "ascending" })
+  const [teachers, setTeachers] = useState<Teacher[]>(initialTeachers)
+  const [isLoading, setIsLoading] = useState(false)
+  const [showFilters, setShowFilters] = useState(false)
   const router = useRouter()
 
   // Get unique subjects for filter
-  const subjects = Array.from(new Set(teachers.map((teacher) => teacher.subject)))
+  const subjects: string[] = Array.from(new Set(teachers.map((teacher) => teacher.subject)))
 
   // Handle sorting
-  const requestSort = (key) => {
-    let direction = "ascending"
+  const requestSort = (key: keyof Teacher) => {
+    let direction: "ascending" | "descending" = "ascending"
     if (sortConfig.key === key && sortConfig.direction === "ascending") {
       direction = "descending"
     }
     setSortConfig({ key, direction })
   }
 
-  // Apply filters and sorting
+  // Fix useEffect to properly filter teachers
   useEffect(() => {
-    let filtered = [...teachers]
+    let filtered = [...initialTeachers]
 
     // Apply search filter
     if (searchTerm) {
@@ -496,30 +522,38 @@ export default function TeachersPage() {
       filtered = filtered.filter((teacher) => teacher.subject === roleFilter)
     }
 
-    // Apply sorting
+    // Apply sorting based on key type
     filtered.sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === "ascending" ? -1 : 1
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
+      
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortConfig.direction === "ascending" 
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      } else {
+        // For numeric values
+        const aNum = Number(aValue);
+        const bNum = Number(bValue);
+        return sortConfig.direction === "ascending"
+          ? aNum - bNum
+          : bNum - aNum;
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === "ascending" ? 1 : -1
-      }
-      return 0
-    })
+    });
 
     setTeachers(filtered)
-  }, [teachers, searchTerm, statusFilter, roleFilter, sortConfig])
+  }, [searchTerm, statusFilter, roleFilter, sortConfig])
 
-  const handleAddTeacher = () => {
-    // This would typically submit the form data to an API
-  }
-
-  const handleActivateTeacher = (id) => {
+  const handleActivateTeacher = (id: number) => {
     setTeachers(teachers.map((teacher) => (teacher.id === id ? { ...teacher, status: "Active" } : teacher)))
   }
 
   const handleRefresh = () => {
     // Simulate API refresh
+    setIsLoading(true)
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
   }
 
   const resetFilters = () => {
@@ -530,7 +564,7 @@ export default function TeachersPage() {
   }
 
   // Function to open teacher details
-  const openTeacherDetails = (teacher) => {
+  const openTeacherDetails = (teacher: Teacher) => {
     setSelectedTeacher(teacher)
     setIsDetailsOpen(true)
     setIsEditMode(false)
@@ -542,12 +576,14 @@ export default function TeachersPage() {
   }
 
   // Function to handle teacher update
-  const handleUpdateTeacher = (data) => {
+  const handleUpdateTeacher = (data: any) => {
     // In a real app, you would call an API here
-    setTeachers(teachers.map((t) => (t.id === selectedTeacher.id ? { ...t, ...data } : t)))
-    setIsEditMode(false)
-    // Update the selected teacher with new data
-    setSelectedTeacher({ ...selectedTeacher, ...data })
+    if (selectedTeacher) {
+      setTeachers(teachers.map((t: Teacher) => (t.id === selectedTeacher.id ? { ...t, ...data } : t)))
+      setIsEditMode(false)
+      // Update the selected teacher with new data
+      setSelectedTeacher({ ...selectedTeacher, ...data } as Teacher)
+    }
   }
 
   // Function to close the details dialog
@@ -578,14 +614,14 @@ export default function TeachersPage() {
       <Card>
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex w-full md:w-96 items-center space-x-2">
+            <div className="flex w-full md:w-96 items-center space-x-2 relative">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search teachers..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="flex-1"
+                className="flex-1 pl-8"
                 type="search"
-                leftIcon={<Search className="h-4 w-4 text-muted-foreground" />}
               />
             </div>
             
@@ -676,52 +712,10 @@ export default function TeachersPage() {
                   <Filter className="h-4 w-4" />
                 </Button>
 
-                <Dialog open={addTeacherOpen} onOpenChange={setAddTeacherOpen}>
-                  <DialogTrigger asChild>
-                    <Button>
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Add Teacher
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[525px]">
-                    <DialogHeader>
-                      <DialogTitle>Add New Teacher</DialogTitle>
-                      <DialogDescription>Enter the details of the new teacher account.</DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <label htmlFor="name" className="text-right">
-                          Name
-                        </label>
-                        <Input id="name" className="col-span-3" />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <label htmlFor="email" className="text-right">
-                          Email
-                        </label>
-                        <Input id="email" type="email" className="col-span-3" />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <label htmlFor="subject" className="text-right">
-                          Subject
-                        </label>
-                        <Input id="subject" className="col-span-3" />
-                      </div>
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <label htmlFor="school" className="text-right">
-                          School
-                        </label>
-                        <Input id="school" className="col-span-3" />
-                      </div>
-                    </div>
-                    <DialogFooter>
-                      <Button variant="outline" onClick={() => setAddTeacherOpen(false)}>
-                        Cancel
-                      </Button>
-                      <Button onClick={handleAddTeacher}>Add Teacher</Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
+                <Button onClick={() => router.push("/dashboard/admin/teachers/create")}>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Add Teacher
+                </Button>
               </div>
             </div>
 
@@ -889,7 +883,7 @@ export default function TeachersPage() {
                                     <AvatarFallback>
                                       {teacher.name
                                         .split(" ")
-                                        .map((n) => n[0])
+                                        .map((n: string) => n[0])
                                         .join("")}
                                     </AvatarFallback>
                                   </Avatar>

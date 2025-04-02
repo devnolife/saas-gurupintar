@@ -246,7 +246,7 @@ export default function LoginPage() {
 
       {/* Footer */}
       <footer className="py-6 px-4 sm:px-6 lg:px-8 text-center text-sm text-muted-foreground">
-        <p>© 2024 Guru Pintar. All rights reserved.</p>
+        <p>© 2025 Guru Pintar. All rights reserved.</p>
       </footer>
     </div>
   )
