@@ -327,67 +327,8 @@ export default function GradientLanding() {
           </motion.div>
         </div>
 
-        {/* Trusted by section with enhanced styling */}
-        <motion.div
-          style={{ y: y2 }}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 1.2, duration: 0.5 }}
-          className="mt-24 text-center"
-        >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
-            transition={{ delay: 1.3, duration: 0.5 }}
-            className="text-sm text-muted-foreground mb-6 font-medium"
-          >
-            Dipercaya oleh institusi pendidikan terkemuka:
-          </motion.p>
-
-          <div className="relative overflow-hidden">
-            <motion.div
-              className="flex flex-wrap items-center justify-center gap-8 grayscale hover:grayscale-0 transition-all duration-500"
-              initial={{ opacity: 0 }}
-              animate={isInView ? { opacity: 0.8 } : {}}
-              transition={{ delay: 1.4, duration: 0.5 }}
-              whileHover={{ opacity: 1 }}
-            >
-              {[1, 2, 3, 4, 5].map((i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 1.4 + i * 0.1, duration: 0.5 }}
-                  whileHover={{ scale: 1.1 }}
-                  className="relative"
-                >
-                  <Image
-                    src="/placeholder.svg"
-                    alt={`Logo ${i}`}
-                    width={120}
-                    height={40}
-                    className="h-8 w-auto transition-all duration-300"
-                  />
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
 
-      {/* Enhanced wave separator */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-white dark:bg-gray-950">
-        <svg className="absolute bottom-0 w-full h-20" preserveAspectRatio="none" viewBox="0 0 1440 74">
-          <motion.path
-            initial={{ opacity: 0, pathLength: 0 }}
-            animate={isInView ? { opacity: 1, pathLength: 1 } : {}}
-            transition={{ duration: 1.5, delay: 0.5 }}
-            d="M0,0 C240,70 480,70 720,40 C960,10 1200,10 1440,40 L1440,74 L0,74 Z"
-            fill="currentColor"
-            className="text-white dark:text-gray-950"
-          />
-        </svg>
-      </div>
 
       {/* Add CSS for custom patterns and effects */}
       <style jsx>{`

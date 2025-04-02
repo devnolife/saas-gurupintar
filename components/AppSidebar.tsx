@@ -88,7 +88,7 @@ const roleData = {
   teacher: {
     navItems: [
       { title: "Dashboard", url: "/dashboard/teacher/dashboard", icon: LayoutDashboard },
-      { title: "Generate RPP", url: "/dashboard/teacher", icon: FileText },
+      { title: "Generate RPP", url: "/dashboard/teacher/generate/rpp", icon: FileText },
       { title: "Generate Silabus", url: "/dashboard/teacher/syllabus", icon: FileText },
       { title: "History", url: "/dashboard/teacher/history", icon: FileText },
       { title: "Lessons", url: "/dashboard/teacher/lessons", icon: BookOpen },
@@ -264,7 +264,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                   </div>
                   <SidebarMenu>
                     {data.projects.map((project) => (
-                      <SidebarMenuItem key={project.title || project.name}>
+                      <SidebarMenuItem key={project?.name}>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link

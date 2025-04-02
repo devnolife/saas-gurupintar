@@ -9,13 +9,11 @@ const server = new ApolloServer({
   typeDefs,
 })
 
-// Create handler for Next.js API route
 const handler = startServerAndCreateNextHandler(server, {
   context: async (req) => {
     // Get the user session for authentication
     const session = await getServerSession(authOptions)
 
-    // Return context object with session
     return {
       session,
       req,

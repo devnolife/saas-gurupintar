@@ -100,6 +100,7 @@ model Teacher {
   classes       Class[]
   rpps          RPP[]
   syllabus      Syllabus[]
+  subscription  TeacherSubscription?
   
   @@map("teachers")
 }
@@ -113,6 +114,7 @@ model Headmaster {
   // Relations
   school        School    @relation(fields: [schoolId], references: [id])
   schoolId      String
+  subscription  HeadmasterSubscription?
   
   @@map("headmasters")
 }
@@ -372,7 +374,7 @@ enum AchievementCategory {
   LITERASI
 }
 
-// Subscription model
+// Subscription model (for Operators)
 model Subscription {
   id            String    @id @default(cuid())
   tier          SubscriptionTier
@@ -385,11 +387,78 @@ model Subscription {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   
+  // Menu configuration
+  menuItems     Json?     // Stores the menu items configuration
+  
   // Relations
   operator      Operator  @relation(fields: [operatorId], references: [id])
   operatorId    String    @unique
   
   @@map("subscriptions")
+}
+
+// Teacher Subscription model
+model TeacherSubscription {
+  id            String    @id @default(cuid())
+  tier          SubscriptionTier
+  name          String
+  price         Float
+  features      TeacherFeature[] // Available features for the teacher
+  purchaseDate  DateTime
+  expiryDate    DateTime
+  status        SubscriptionStatus @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Menu configuration
+  menuItems     Json?     // Stores the menu items configuration
+  
+  // Relations
+  teacher       Teacher   @relation(fields: [teacherId], references: [id])
+  teacherId     String    @unique
+  
+  @@map("teacher_subscriptions")
+}
+
+// Headmaster Subscription model
+model HeadmasterSubscription {
+  id            String    @id @default(cuid())
+  tier          SubscriptionTier
+  name          String
+  price         Float
+  features      HeadmasterFeature[] // Available features for the headmaster
+  purchaseDate  DateTime
+  expiryDate    DateTime
+  status        SubscriptionStatus @default(ACTIVE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Menu configuration
+  menuItems     Json?     // Stores the menu items configuration
+  
+  // Relations
+  headmaster    Headmaster @relation(fields: [headmasterId], references: [id])
+  headmasterId  String    @unique
+  
+  @@map("headmaster_subscriptions")
+}
+
+// Feature enums for each role
+enum TeacherFeature {
+  RPP_EXAM         // Default: RPP and Exam Creation
+  ATTENDANCE       // Attendance System
+  DAILY_REPORTS    // Daily Activity Reports
+  STUDENT_PROGRESS // Student Progress Tracking
+  EXAM_ANALYTICS   // Exam Results Analytics
+}
+
+enum HeadmasterFeature {
+  SCHOOL_OVERVIEW  // School Overview Dashboard
+  TEACHER_MANAGEMENT // Teacher Management
+  STUDENT_MANAGEMENT // Student Management
+  FINANCES         // School Finances
+  PERFORMANCE_ANALYTICS // School Performance Analytics
+  CURRICULUM_MANAGEMENT // Curriculum Management
 }
 
 enum SubscriptionTier {
@@ -424,5 +493,18 @@ enum TransactionStatus {
   COMPLETED
   FAILED
   REFUNDED
+}
+
+// SidebarMenu model to store menu configurations for different roles
+model SidebarMenu {
+  id            String    @id @default(cuid())
+  role          Role      // Which role this menu is for
+  tier          SubscriptionTier // Which subscription tier this menu is for
+  menuConfig    Json      // JSON configuration for the sidebar menu
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  @@unique([role, tier])
+  @@map("sidebar_menus")
 }
 
