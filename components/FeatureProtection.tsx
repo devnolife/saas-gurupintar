@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Button } from "@/components/ui/button"
 import { TeacherFeature, hasFeatureAccess } from "@/lib/teacherFeatureManager"
 import { ShieldAlert, PackageOpen } from "lucide-react"
+import { useSession } from 'next-auth/react'
 
 interface FeatureProtectionProps {
   feature: TeacherFeature
@@ -23,6 +24,7 @@ export function FeatureProtection({
   const [hasAccess, setHasAccess] = useState<boolean | null>(null)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     // In a real app, this would fetch from an API
@@ -41,11 +43,11 @@ export function FeatureProtection({
     checkAccess()
   }, [teacherId, feature])
 
-  if (loading) {
+  if (status === 'loading') {
     return <div className="p-8 flex justify-center">Loading...</div>
   }
 
-  if (hasAccess) {
+  if (session && hasAccess) {
     return <>{children}</>
   }
 
