@@ -1,12 +1,32 @@
+"use client"
+
 import type React from "react"
+import { useAuth } from "@/hooks/use-auth"
 import { BaseLayout } from "./BaseLayout"
-import { AdminSidebar } from "./AdminSidebar"
+import { DynamicSidebar } from "./DynamicSidebar"
+import { useMenuItems } from "@/hooks/use-menu-items"
 
 interface AdminLayoutProps {
   children: React.ReactNode
 }
 
 export function AdminLayout({ children }: AdminLayoutProps) {
-  return <BaseLayout sidebar={<AdminSidebar />}>{children}</BaseLayout>
+  const { logout } = useAuth()
+  const { menuItems, isLoading } = useMenuItems("admin")
+
+  return (
+    <BaseLayout
+      sidebar={
+        <DynamicSidebar
+          title="Admin Dashboard"
+          menuItems={menuItems}
+          isLoading={isLoading}
+          onLogout={logout}
+        />
+      }
+    >
+      {children}
+    </BaseLayout>
+  )
 }
 

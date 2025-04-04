@@ -11,7 +11,7 @@ interface MockApiContextType {
 
 const MockApiContext = createContext<MockApiContextType>({
   isInitialized: false,
-  resetDatabase: () => {},
+  resetDatabase: () => { },
 })
 
 // Provider component

@@ -1,17 +1,19 @@
 import type React from "react"
-import { cn } from "@/lib/utils"
 
 interface BaseLayoutProps {
-  children: React.ReactNode
   sidebar: React.ReactNode
-  className?: string
+  children: React.ReactNode
 }
 
-export function BaseLayout({ children, sidebar, className }: BaseLayoutProps) {
+export function BaseLayout({ sidebar, children }: BaseLayoutProps) {
   return (
-    <div className={cn("flex h-screen bg-gray-100", className)}>
-      <aside className="w-64 bg-white border-r border-gray-200 overflow-y-auto">{sidebar}</aside>
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+    <div className="flex h-screen overflow-hidden">
+      <div className="w-64 h-screen overflow-y-auto border-r border-gray-200">
+        {sidebar}
+      </div>
+      <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        {children}
+      </main>
     </div>
   )
 }

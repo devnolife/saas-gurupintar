@@ -35,7 +35,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  // Don't perform any redirects until the component is mounted
   useEffect(() => {
     if (!mounted) return
 

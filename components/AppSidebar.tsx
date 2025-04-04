@@ -69,8 +69,8 @@ const roleData = {
       { title: "Settings", url: "/dashboard/admin/settings", icon: Settings2 },
     ],
     projects: [
-      { name: "User Analytics", url: "#", icon: PieChart },
-      { name: "School Performance", url: "#", icon: GalleryVerticalEnd },
+      { title: "User Analytics", url: "#", icon: PieChart },
+      { title: "School Performance", url: "#", icon: GalleryVerticalEnd },
     ],
   },
   operator: {
@@ -264,7 +264,7 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                   </div>
                   <SidebarMenu>
                     {data.projects.map((project) => (
-                      <SidebarMenuItem key={project?.name}>
+                      <SidebarMenuItem key={project.title}>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Link
@@ -275,12 +275,12 @@ export function AppSidebar({ role, ...props }: AppSidebarProps) {
                                 <project.icon className="h-4.5 w-4.5 text-muted-foreground group-hover:text-primary transition-all" />
                               </div>
                               <span className="transition-all duration-300 flex-1">
-                                {project.title || project.name}
+                                {project.title}
                               </span>
                             </Link>
                           </TooltipTrigger>
                           <TooltipContent side="right" className="font-medium">
-                            {project.title || project.name}
+                            {project.title}
                           </TooltipContent>
                         </Tooltip>
                       </SidebarMenuItem>
