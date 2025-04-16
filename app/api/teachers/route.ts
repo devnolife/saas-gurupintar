@@ -106,6 +106,11 @@ export async function POST(request: NextRequest) {
 
     // Create user and teacher in a transaction
     const teacher = await prisma.$transaction(async (tx) => {
+      // Map status string to UserStatus enum
+      let userStatus = "ACTIVE";
+      if (body.status === "pending") userStatus = "PENDING";
+      if (body.status === "inactive") userStatus = "INACTIVE";
+
       // Create user
       const user = await tx.user.create({
         data: {
@@ -117,6 +122,7 @@ export async function POST(request: NextRequest) {
           address: body.address,
           bio: body.bio,
           avatar: body.avatar,
+          status: userStatus,
         },
       })
 

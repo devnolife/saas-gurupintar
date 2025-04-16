@@ -20,6 +20,8 @@ type TeacherFormData = {
   subjects: string
   education: string
   experience?: string
+  schoolId: string
+  accountStatus: string
   [key: string]: any // Allow other properties from the form
 }
 
@@ -30,7 +32,7 @@ export default function CreateTeacherPage() {
 
   const handleCreateTeacher = async (data: TeacherFormData) => {
     setIsSubmitting(true)
-    
+
     try {
       // Prepare the data for the API
       const teacherData = {
@@ -44,6 +46,10 @@ export default function CreateTeacherPage() {
         subject: data.subjects,
         qualification: data.education,
         experience: data.experience,
+        // School information
+        schoolId: data.schoolId,
+        // Status information
+        status: data.accountStatus,
         // Avatar will be added later in a real implementation
       }
 
@@ -116,4 +122,4 @@ export default function CreateTeacherPage() {
       </Card>
     </div>
   )
-} 
+}

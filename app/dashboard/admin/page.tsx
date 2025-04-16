@@ -24,6 +24,10 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  AreaChart,
+  Area,
+  ReferenceLine,
+  TooltipProps,
 } from "recharts"
 import {
   School,
@@ -38,6 +42,8 @@ import {
   Mail,
   Trash2,
   Edit,
+  UserPlus,
+  Clock,
 } from "lucide-react"
 import { DashboardCard } from "@/components/DashboardCard"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -61,6 +67,16 @@ const documentData = [
   { month: "Jun", lesson_plans: 180, reports: 45, assessments: 120 },
 ]
 
+// Pre-registered users data
+const preRegisteredData = [
+  { month: "Jan", teachers: 12, operators: 5, headmasters: 2 },
+  { month: "Feb", teachers: 15, operators: 6, headmasters: 3 },
+  { month: "Mar", teachers: 22, operators: 8, headmasters: 4 },
+  { month: "Apr", teachers: 18, operators: 7, headmasters: 3 },
+  { month: "May", teachers: 25, operators: 10, headmasters: 5 },
+  { month: "Jun", teachers: 28, operators: 12, headmasters: 6 },
+]
+
 // Mock data for recent activities
 const recentActivities = [
   { id: 1, user: "John Doe", action: "Created a new lesson plan", timestamp: "2023-07-10 09:30" },
@@ -69,6 +85,35 @@ const recentActivities = [
   { id: 4, user: "Sarah Williams", action: "Updated school information", timestamp: "2023-07-07 16:15" },
   { id: 5, user: "David Brown", action: "Submitted assessment results", timestamp: "2023-07-06 10:05" },
 ]
+
+// Mock data for pre-registered users
+const pendingUsersList = [
+  { id: 1, name: "Ahmad Fauzi", email: "ahmad@school.edu", role: "Teacher", status: "Pending Approval", createdAt: "2023-07-10" },
+  { id: 2, name: "Siti Rahmi", email: "siti@school.edu", role: "Operator", status: "Pending Approval", createdAt: "2023-07-09" },
+  { id: 3, name: "Budi Santoso", email: "budi@school.edu", role: "Teacher", status: "Pending Approval", createdAt: "2023-07-09" },
+  { id: 4, name: "Dewi Lestari", email: "dewi@school.edu", role: "Headmaster", status: "Documentation Required", createdAt: "2023-07-08" },
+  { id: 5, name: "Eko Prasetyo", email: "eko@school.edu", role: "Teacher", status: "Pending Approval", createdAt: "2023-07-07" },
+]
+
+// Custom tooltip for charts
+const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="p-4 border shadow-lg custom-tooltip bg-background border-border rounded-xl">
+        <p className="mb-2 font-medium">{label}</p>
+        {payload.map((entry, index) => (
+          <div key={`item-${index}`} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
+            <span className="font-medium">{entry.name}: </span>
+            <span>{entry.value}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
 
 export default function AdminDashboardPage() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -80,60 +125,60 @@ export default function AdminDashboardPage() {
   )
 
   return (
-    <div className="space-y-8 w-full p-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="w-full p-6 space-y-8">
+      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div>
-          <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">
+          <h1 className="text-3xl font-bold text-transparent bg-gradient-to-r from-primary to-primary-light bg-clip-text">
             Dashboard Admin
           </h1>
           <p className="text-muted-foreground">Selamat datang kembali, lihat statistik dan aktivitas terbaru</p>
         </div>
-        <Button className="gap-2 rounded-full bg-gradient-to-r from-primary to-primary-light hover:opacity-90 transition-opacity">
-          <Download className="h-4 w-4" /> Unduh Laporan
+        <Button className="gap-2 transition-opacity rounded-full bg-gradient-to-r from-primary to-primary-light hover:opacity-90">
+          <Download className="w-4 h-4" /> Unduh Laporan
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         <DashboardCard
           title="Total Pengguna"
-          value="2,834"
-          description="+89 dari bulan lalu"
+          value="5"
+          description="+3 dari bulan lalu"
           icon={Users}
           trend={{ value: 3.2, isPositive: true }}
           colorScheme="primary"
         />
         <DashboardCard
           title="Total Sekolah"
-          value="482"
-          description="+12 dari bulan lalu"
+          value="13"
+          description="+10 dari bulan lalu"
           icon={School}
           trend={{ value: 2.5, isPositive: true }}
           colorScheme="secondary"
         />
         <DashboardCard
-          title="Total Dokumen"
-          value="12,543"
-          description="+1,234 dari bulan lalu"
-          icon={FileText}
-          trend={{ value: 9.8, isPositive: true }}
+          title="Pre-Registered"
+          value="48"
+          description="+10 dari minggu lalu"
+          icon={UserPlus}
+          trend={{ value: 17.4, isPositive: true }}
           colorScheme="accent"
         />
         <DashboardCard
           title="Pendapatan"
-          value="Rp 45.6M"
-          description="-2.3% dari bulan lalu"
+          value="Rp 850.000"
+          description="Dari total 5 Pengguna"
           icon={CreditCard}
-          trend={{ value: 2.3, isPositive: false }}
+          trend={{ value: 2.3, isPositive: true }}
           colorScheme="warning"
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2 border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <Card className="overflow-hidden bg-white border-none shadow-md lg:col-span-2 dark:bg-gray-900 rounded-2xl">
           <Tabs defaultValue="users">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-xl font-bold">Analisis Aktivitas</CardTitle>
-              <TabsList className="bg-muted/50 rounded-full p-1">
+              <TabsList className="p-1 rounded-full bg-muted/50">
                 <TabsTrigger
                   value="users"
                   className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
@@ -146,104 +191,288 @@ export default function AdminDashboardPage() {
                 >
                   Dokumen
                 </TabsTrigger>
+                <TabsTrigger
+                  value="preregistered"
+                  className="rounded-full data-[state=active]:bg-primary data-[state=active]:text-white"
+                >
+                  Pre-Registered
+                </TabsTrigger>
               </TabsList>
             </CardHeader>
             <CardContent>
               <TabsContent value="users" className="mt-0">
                 <ResponsiveContainer width="100%" height={350}>
-                  <LineChart data={userActivityData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                    <XAxis dataKey="month" stroke="var(--muted-foreground)" />
-                    <YAxis stroke="var(--muted-foreground)" />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "var(--background)",
-                        border: "1px solid var(--border)",
-                        borderRadius: "0.5rem",
+                  <AreaChart data={userActivityData}>
+                    <defs>
+                      <linearGradient id="teachersGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0.1} />
+                      </linearGradient>
+                      <linearGradient id="studentsGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--secondary)" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="var(--secondary)" stopOpacity={0.1} />
+                      </linearGradient>
+                      <linearGradient id="adminsGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--accent)" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="var(--accent)" stopOpacity={0.1} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.3} />
+                    <XAxis
+                      dataKey="month"
+                      stroke="var(--muted-foreground)"
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                      padding={{ left: 20, right: 20 }}
+                    />
+                    <YAxis
+                      stroke="var(--muted-foreground)"
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                      width={40}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{
+                        paddingTop: "10px",
+                        fontSize: "12px"
                       }}
                     />
-                    <Legend />
-                    <Line
+                    <Area
                       type="monotone"
                       dataKey="teachers"
+                      name="Guru"
                       stroke="var(--primary)"
-                      activeDot={{ r: 8 }}
                       strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#teachersGradient)"
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }}
                     />
-                    <Line type="monotone" dataKey="students" stroke="var(--secondary)" strokeWidth={2} />
-                    <Line type="monotone" dataKey="admins" stroke="var(--accent)" strokeWidth={2} />
-                  </LineChart>
+                    <Area
+                      type="monotone"
+                      dataKey="students"
+                      name="Siswa"
+                      stroke="var(--secondary)"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#studentsGradient)"
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="admins"
+                      name="Admin"
+                      stroke="var(--accent)"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#adminsGradient)"
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }}
+                    />
+                  </AreaChart>
                 </ResponsiveContainer>
               </TabsContent>
               <TabsContent value="documents" className="mt-0">
                 <ResponsiveContainer width="100%" height={350}>
-                  <BarChart data={documentData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                    <XAxis dataKey="month" stroke="var(--muted-foreground)" />
-                    <YAxis stroke="var(--muted-foreground)" />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "var(--background)",
-                        border: "1px solid var(--border)",
-                        borderRadius: "0.5rem",
+                  <BarChart data={documentData} barGap={8} barSize={20}>
+                    <defs>
+                      <linearGradient id="lessonPlansGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--primary)" stopOpacity={1} />
+                        <stop offset="100%" stopColor="var(--primary)" stopOpacity={0.6} />
+                      </linearGradient>
+                      <linearGradient id="reportsGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--secondary)" stopOpacity={1} />
+                        <stop offset="100%" stopColor="var(--secondary)" stopOpacity={0.6} />
+                      </linearGradient>
+                      <linearGradient id="assessmentsGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="var(--accent)" stopOpacity={1} />
+                        <stop offset="100%" stopColor="var(--accent)" stopOpacity={0.6} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.3} vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      stroke="var(--muted-foreground)"
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                      padding={{ left: 20, right: 20 }}
+                    />
+                    <YAxis
+                      stroke="var(--muted-foreground)"
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                      width={40}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{
+                        paddingTop: "10px",
+                        fontSize: "12px"
                       }}
                     />
-                    <Legend />
-                    <Bar dataKey="lesson_plans" fill="var(--primary)" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="reports" fill="var(--secondary)" radius={[4, 4, 0, 0]} />
-                    <Bar dataKey="assessments" fill="var(--accent)" radius={[4, 4, 0, 0]} />
+                    <Bar
+                      dataKey="lesson_plans"
+                      name="RPP"
+                      radius={[4, 4, 0, 0]}
+                      fill="url(#lessonPlansGradient)"
+                      animationDuration={1500}
+                    />
+                    <Bar
+                      dataKey="reports"
+                      name="Laporan"
+                      radius={[4, 4, 0, 0]}
+                      fill="url(#reportsGradient)"
+                      animationDuration={1500}
+                      animationBegin={300}
+                    />
+                    <Bar
+                      dataKey="assessments"
+                      name="Penilaian"
+                      radius={[4, 4, 0, 0]}
+                      fill="url(#assessmentsGradient)"
+                      animationDuration={1500}
+                      animationBegin={600}
+                    />
                   </BarChart>
+                </ResponsiveContainer>
+              </TabsContent>
+              <TabsContent value="preregistered" className="mt-0">
+                <ResponsiveContainer width="100%" height={350}>
+                  <AreaChart data={preRegisteredData}>
+                    <defs>
+                      <linearGradient id="preregTeachersGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--primary)" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="var(--primary)" stopOpacity={0.1} />
+                      </linearGradient>
+                      <linearGradient id="preregOperatorsGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#22c55e" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#22c55e" stopOpacity={0.1} />
+                      </linearGradient>
+                      <linearGradient id="preregHeadmastersGradient" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8} />
+                        <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.1} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" opacity={0.3} />
+                    <XAxis
+                      dataKey="month"
+                      stroke="var(--muted-foreground)"
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                      padding={{ left: 20, right: 20 }}
+                    />
+                    <YAxis
+                      stroke="var(--muted-foreground)"
+                      fontSize={12}
+                      axisLine={false}
+                      tickLine={false}
+                      width={40}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{
+                        paddingTop: "10px",
+                        fontSize: "12px"
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="teachers"
+                      name="Guru"
+                      stroke="var(--primary)"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#preregTeachersGradient)"
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="operators"
+                      name="Operator"
+                      stroke="#22c55e"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#preregOperatorsGradient)"
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="headmasters"
+                      name="Kepala Sekolah"
+                      stroke="#f59e0b"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#preregHeadmastersGradient)"
+                      activeDot={{ r: 6, strokeWidth: 2, stroke: "#fff" }}
+                    />
+                    <ReferenceLine
+                      y={20}
+                      label="Target"
+                      stroke="#ef4444"
+                      strokeDasharray="3 3"
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
                 </ResponsiveContainer>
               </TabsContent>
             </CardContent>
           </Tabs>
         </Card>
 
-        <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
-          <CardHeader>
-            <CardTitle className="text-xl font-bold">Kalender Aktivitas</CardTitle>
+        <Card className="overflow-hidden bg-white border-none shadow-md dark:bg-gray-900 rounded-2xl">
+          <CardHeader className="flex items-center justify-between pb-2">
+            <CardTitle className="text-xl font-bold">Pre-Registered Users</CardTitle>
+            <Button variant="outline" size="sm" className="w-auto gap-1 rounded-full h-9">
+              <Clock className="w-4 h-4" />
+              View All
+            </Button>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <div key={i} className="flex items-start gap-3">
-                  <div className="flex flex-col items-center">
-                    <div className="text-sm font-medium text-muted-foreground">
-                      {["Sen", "Sel", "Rab", "Kam", "Jum"][i]}
-                    </div>
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary font-medium">
-                      {i + 10}
+            <div className="space-y-4">
+              {pendingUsersList.slice(0, 4).map((user) => (
+                <div key={user.id} className="flex items-center gap-4 p-3 transition-colors duration-300 border rounded-xl border-muted hover:border-primary/20 hover:bg-primary/5">
+                  <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 font-medium rounded-full bg-primary/10 text-primary">
+                    {user.name.split(' ').map(n => n[0]).join('')}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium truncate">{user.name}</h4>
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                      <span>{user.role}</span>
+                      <span className="w-1 h-1 rounded-full bg-muted-foreground"></span>
+                      <span>{user.email}</span>
                     </div>
                   </div>
-                  <div className="flex-1 rounded-xl border p-3 hover:border-primary/20 hover:bg-primary/5 transition-colors duration-300 cursor-pointer">
-                    <div className="font-medium">
-                      {
-                        [
-                          "Rapat Koordinasi Sekolah",
-                          "Pelatihan Guru Baru",
-                          "Evaluasi Kurikulum",
-                          "Pertemuan dengan Kepala Sekolah",
-                          "Pengembangan Sistem",
-                        ][i]
-                      }
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      {["09:00 - 10:30", "13:00 - 15:00", "10:00 - 12:00", "14:00 - 15:30", "09:30 - 11:00"][i]}
-                    </div>
+                  <div className="px-2 py-1 text-xs font-medium rounded-full bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400">
+                    {user.status}
                   </div>
                 </div>
               ))}
+              <div className="flex justify-center pt-2">
+                <Button variant="ghost" size="sm" className="text-primary hover:text-primary-dark hover:bg-primary/10">
+                  Show all pending users
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
 
-      <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
-        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <Card className="overflow-hidden bg-white border-none shadow-md dark:bg-gray-900 rounded-2xl">
+        <CardHeader className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
           <CardTitle className="text-xl font-bold">Aktivitas Terbaru</CardTitle>
-          <div className="flex flex-col sm:flex-row items-center gap-2">
+          <div className="flex flex-col items-center gap-2 sm:flex-row">
             <div className="relative w-full sm:w-auto">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="absolute w-4 h-4 -translate-y-1/2 left-3 top-1/2 text-muted-foreground" />
               <Input
                 type="text"
                 placeholder="Cari aktivitas..."
@@ -252,14 +481,14 @@ export default function AdminDashboardPage() {
                 className="pl-9 h-9 w-full sm:w-[200px] rounded-full border-muted bg-muted/50"
               />
             </div>
-            <Button variant="outline" size="sm" className="h-9 rounded-full w-full sm:w-auto">
-              <Activity className="mr-2 h-4 w-4" />
+            <Button variant="outline" size="sm" className="w-full rounded-full h-9 sm:w-auto">
+              <Activity className="w-4 h-4 mr-2" />
               Filter
             </Button>
           </div>
         </CardHeader>
         <CardContent>
-          <div className="rounded-xl border overflow-hidden">
+          <div className="overflow-hidden border rounded-xl">
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50 hover:bg-muted/50">
@@ -281,26 +510,26 @@ export default function AdminDashboardPage() {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-full"
+                            className="w-8 h-8 p-0 transition-opacity rounded-full opacity-0 group-hover:opacity-100"
                           >
                             <span className="sr-only">Open menu</span>
-                            <MoreVertical className="h-4 w-4" />
+                            <MoreVertical className="w-4 h-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-[180px] rounded-xl">
                           <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                           <DropdownMenuSeparator />
                           <DropdownMenuItem className="rounded-lg cursor-pointer">
-                            <Edit className="mr-2 h-4 w-4" />
+                            <Edit className="w-4 h-4 mr-2" />
                             Lihat detail
                           </DropdownMenuItem>
                           <DropdownMenuItem className="rounded-lg cursor-pointer">
-                            <Mail className="mr-2 h-4 w-4" />
+                            <Mail className="w-4 h-4 mr-2" />
                             Kirim notifikasi
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem className="text-destructive focus:text-destructive rounded-lg cursor-pointer">
-                            <Trash2 className="mr-2 h-4 w-4" />
+                          <DropdownMenuItem className="rounded-lg cursor-pointer text-destructive focus:text-destructive">
+                            <Trash2 className="w-4 h-4 mr-2" />
                             Hapus log
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -314,8 +543,8 @@ export default function AdminDashboardPage() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <Card className="overflow-hidden bg-white border-none shadow-md dark:bg-gray-900 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-xl font-bold">Statistik Pengguna</CardTitle>
           </CardHeader>
@@ -326,9 +555,9 @@ export default function AdminDashboardPage() {
                   <div className="text-sm font-medium">Guru</div>
                   <div className="text-sm text-muted-foreground">82 / 100</div>
                 </div>
-                <div className="h-3 rounded-full bg-muted overflow-hidden">
+                <div className="h-3 overflow-hidden rounded-full bg-muted">
                   <div
-                    className="h-full bg-gradient-to-r from-primary to-primary-light rounded-full"
+                    className="h-full rounded-full bg-gradient-to-r from-primary to-primary-light"
                     style={{ width: "82%" }}
                   ></div>
                 </div>
@@ -338,9 +567,9 @@ export default function AdminDashboardPage() {
                   <div className="text-sm font-medium">Operator</div>
                   <div className="text-sm text-muted-foreground">24 / 30</div>
                 </div>
-                <div className="h-3 rounded-full bg-muted overflow-hidden">
+                <div className="h-3 overflow-hidden rounded-full bg-muted">
                   <div
-                    className="h-full bg-gradient-to-r from-secondary to-secondary-light rounded-full"
+                    className="h-full rounded-full bg-gradient-to-r from-secondary to-secondary-light"
                     style={{ width: "80%" }}
                   ></div>
                 </div>
@@ -350,9 +579,9 @@ export default function AdminDashboardPage() {
                   <div className="text-sm font-medium">Admin</div>
                   <div className="text-sm text-muted-foreground">5 / 10</div>
                 </div>
-                <div className="h-3 rounded-full bg-muted overflow-hidden">
+                <div className="h-3 overflow-hidden rounded-full bg-muted">
                   <div
-                    className="h-full bg-gradient-to-r from-accent to-accent-light rounded-full"
+                    className="h-full rounded-full bg-gradient-to-r from-accent to-accent-light"
                     style={{ width: "50%" }}
                   ></div>
                 </div>
@@ -361,26 +590,26 @@ export default function AdminDashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-md bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
+        <Card className="overflow-hidden bg-white border-none shadow-md dark:bg-gray-900 rounded-2xl">
           <CardHeader>
             <CardTitle className="text-xl font-bold">Tindakan Cepat</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary/80 to-primary hover:opacity-90 transition-opacity">
-                <Users className="h-6 w-6" />
+              <Button className="flex flex-col items-center justify-center h-auto gap-2 py-4 transition-opacity rounded-xl bg-gradient-to-br from-primary/80 to-primary hover:opacity-90">
+                <Users className="w-6 h-6" />
                 <span>Tambah Pengguna</span>
               </Button>
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-secondary/80 to-secondary hover:opacity-90 transition-opacity">
-                <School className="h-6 w-6" />
+              <Button className="flex flex-col items-center justify-center h-auto gap-2 py-4 transition-opacity rounded-xl bg-gradient-to-br from-secondary/80 to-secondary hover:opacity-90">
+                <School className="w-6 h-6" />
                 <span>Tambah Sekolah</span>
               </Button>
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-accent/80 to-accent hover:opacity-90 transition-opacity">
-                <FileText className="h-6 w-6" />
+              <Button className="flex flex-col items-center justify-center h-auto gap-2 py-4 transition-opacity rounded-xl bg-gradient-to-br from-accent/80 to-accent hover:opacity-90">
+                <FileText className="w-6 h-6" />
                 <span>Buat Laporan</span>
               </Button>
-              <Button className="h-auto py-4 flex flex-col items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-primary/80 to-primary hover:opacity-90 transition-opacity">
-                <TrendingUp className="h-6 w-6" />
+              <Button className="flex flex-col items-center justify-center h-auto gap-2 py-4 transition-opacity rounded-xl bg-gradient-to-br from-primary/80 to-primary hover:opacity-90">
+                <TrendingUp className="w-6 h-6" />
                 <span>Lihat Analitik</span>
               </Button>
             </div>

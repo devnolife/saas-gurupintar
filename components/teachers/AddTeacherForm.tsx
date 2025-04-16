@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -18,6 +18,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+
+// Define a type for School data
+type School = {
+  id: string
+  name: string
+  city?: string
+  province?: string
+  type?: string
+}
 
 const teacherFormSchema = z.object({
   // Personal Information
@@ -38,12 +47,10 @@ const teacherFormSchema = z.object({
   experience: z.string().optional(),
 
   // School Information
-  schoolName: z.string().min(2, { message: "School name must be at least 2 characters." }),
-  schoolAddress: z.string().min(5, { message: "School address must be at least 5 characters." }),
+  schoolId: z.string({ required_error: "Please select a school." }),
   schoolType: z.enum(["SD", "SMP", "SMA", "SMK", "Other"], { required_error: "Please select a school type." }),
 
   // Account Settings
-  username: z.string().min(4, { message: "Username must be at least 4 characters." }),
   password: z.string().min(8, { message: "Password must be at least 8 characters." }),
   initialQuota: z.number().min(0, { message: "Initial quota must be a positive number." }).default(10),
   accountStatus: z
@@ -66,6 +73,28 @@ interface AddTeacherFormProps {
 
 export function AddTeacherForm({ onSubmit, isSubmitting = false }: AddTeacherFormProps) {
   const [activeTab, setActiveTab] = useState("personal")
+  const [schools, setSchools] = useState<School[]>([])
+  const [loadingSchools, setLoadingSchools] = useState(false)
+
+  // Fetch schools when component mounts
+  useEffect(() => {
+    async function fetchSchools() {
+      setLoadingSchools(true)
+      try {
+        const response = await fetch('/api/schools?limit=100&status=ACTIVE')
+        const data = await response.json()
+        if (data.schools) {
+          setSchools(data.schools)
+        }
+      } catch (error) {
+        console.error('Error fetching schools:', error)
+      } finally {
+        setLoadingSchools(false)
+      }
+    }
+
+    fetchSchools()
+  }, [])
 
   const defaultValues: Partial<TeacherFormValues> = {
     initialQuota: 10,
@@ -359,19 +388,44 @@ export function AddTeacherForm({ onSubmit, isSubmitting = false }: AddTeacherFor
             <Card>
               <CardHeader>
                 <CardTitle>School Information</CardTitle>
-                <CardDescription>Enter details about the teacher's school.</CardDescription>
+                <CardDescription>Select the school where the teacher will be assigned.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="schoolName"
+                    name="schoolId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>School Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="SMA Negeri 1 Jakarta" {...field} />
-                        </FormControl>
+                        <FormLabel>School</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select a school" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {loadingSchools ? (
+                              <SelectItem value="loading" disabled>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Loading schools...
+                              </SelectItem>
+                            ) : schools.length > 0 ? (
+                              schools.map((school) => (
+                                <SelectItem key={school.id} value={school.id}>
+                                  {school.name} {school.city ? `- ${school.city}` : ''}
+                                </SelectItem>
+                              ))
+                            ) : (
+                              <SelectItem value="none" disabled>
+                                No schools available
+                              </SelectItem>
+                            )}
+                          </SelectContent>
+                        </Select>
+                        <FormDescription>
+                          The school where the teacher will be assigned
+                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -401,20 +455,6 @@ export function AddTeacherForm({ onSubmit, isSubmitting = false }: AddTeacherFor
                       </FormItem>
                     )}
                   />
-
-                  <FormField
-                    control={form.control}
-                    name="schoolAddress"
-                    render={({ field }) => (
-                      <FormItem className="md:col-span-2">
-                        <FormLabel>School Address</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Enter school address" className="resize-none" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
                 </div>
               </CardContent>
             </Card>
@@ -440,21 +480,6 @@ export function AddTeacherForm({ onSubmit, isSubmitting = false }: AddTeacherFor
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="username"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Username</FormLabel>
-                        <FormControl>
-                          <Input placeholder="johndoe" {...field} />
-                        </FormControl>
-                        <FormDescription>This will be used for login</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
                     name="password"
                     render={({ field }) => (
                       <FormItem>
@@ -462,7 +487,7 @@ export function AddTeacherForm({ onSubmit, isSubmitting = false }: AddTeacherFor
                         <FormControl>
                           <Input type="password" placeholder="••••••••" {...field} />
                         </FormControl>
-                        <FormDescription>Minimum 8 characters</FormDescription>
+                        <FormDescription>Minimum 8 characters. Email will be used for login.</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -506,6 +531,7 @@ export function AddTeacherForm({ onSubmit, isSubmitting = false }: AddTeacherFor
                             <SelectItem value="inactive">Inactive</SelectItem>
                           </SelectContent>
                         </Select>
+                        <FormDescription>Initial status of the teacher account</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}

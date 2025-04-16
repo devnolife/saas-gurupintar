@@ -16,6 +16,16 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  webpack: (config) => {
+    config.watchOptions = {
+      aggregateTimeout: 300,
+      poll: 1000,
+    };
+    config.infrastructureLogging = {
+      level: "error",
+    };
+    return config;
+  },
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
